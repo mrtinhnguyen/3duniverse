@@ -10,14 +10,14 @@ export function temperatureColor(event) {
 }
 
 export const weather = {
-  id: 'weather', label: '天气', color: '#83bded', enabled: true, ttl: 15 * 60_000,
+  id: 'weather', label: 'Thời tiết', color: '#83bded', enabled: true, ttl: 15 * 60_000,
   load: async options => (await loadWeather(options)).map(event => {
     const appearance = weatherAppearance(event);
     return {
     ...event,
-    description: `${event.description} 云团轮廓、雨丝与雷暴电弧为依据采样天气生成的示意效果，不是卫星云图或逐次闪电观测。`,
-    metrics: [...event.metrics, ...(appearance.rainRate === null ? [] : [{ label: '时段平均雨率', value: `${appearance.rainRate.toFixed(2)} mm/h` }]),
-      ...(appearance.thunder ? [{ label: '雷暴光效周期（示意）', value: `约 ${appearance.flashPeriod.toFixed(1)} 秒，不代表实况雷击频率` }] : [])],
+    description: `${event.description} Hình dạng mây, vệt mưa và tia chớp dông là hiệu ứng minh họa dựng từ dữ liệu thời tiết lấy mẫu, không phải ảnh mây vệ tinh hay quan sát từng tia sét.`,
+    metrics: [...event.metrics, ...(appearance.rainRate === null ? [] : [{ label: 'Cường độ mưa trung bình trong khoảng', value: `${appearance.rainRate.toFixed(2)} mm/h` }]),
+      ...(appearance.thunder ? [{ label: 'Chu kỳ chớp dông (minh họa)', value: `Khoảng ${appearance.flashPeriod.toFixed(1)} giây, không phải tần suất sét thực tế` }] : [])],
     };
   }),
   createView: () => createWeatherView({ colorFor: temperatureColor }),

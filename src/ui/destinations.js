@@ -2,9 +2,11 @@ import { data } from '../universe/catalog.js';
 
 /** Match common name and catalog-number formatting without changing the list. */
 export function filterDestinations(items, query = '') {
-  const normalize = value => String(value || '').normalize('NFKC').toLowerCase().replace(/[\s\-‐‑–—·]/g, '');
+  // Fold Vietnamese diacritics so "bac cuc" finds "Bắc Cực".
+  const normalize = value => String(value || '').normalize('NFKC').toLowerCase()
+    .normalize('NFD').replace(/[̀-ͯ]/g, '').replace(/đ/g, 'd').replace(/[\s\-‐‑–—·]/g, '');
   const needle = normalize(query);
-  return needle ? items.filter(body => [body.cn, body.en, body.id, body.index]
+  return needle ? items.filter(body => [body.vi, body.en, body.id, body.index]
     .some(value => normalize(value).includes(needle))) : items;
 }
 
@@ -12,25 +14,25 @@ export function filterDestinations(items, query = '') {
 export function destinationContext(state, world) {
   const selected = world.getData(state.selected);
   if (state.stage === 'local-group' || (state.flight && selected?.kind === 'group')) {
-    return { key: 'local-group', title: world.getData('local-group').cn, items: world.galaxyDefinitions,
-      overviewId: 'galaxy', overviewLabel: '回银河系' };
+    return { key: 'local-group', title: world.getData('local-group').vi, items: world.galaxyDefinitions,
+      overviewId: 'galaxy', overviewLabel: 'Quay về Ngân Hà' };
   }
   if (state.activeGalaxyId !== 'galaxy') {
     const galaxy = world.getData(state.activeGalaxyId);
     const members = [...world.bodies.values()].filter(body => body.parentGalaxy === state.activeGalaxyId);
-    return { key: state.activeGalaxyId, title: world.getData(state.activeGalaxyId).cn,
+    return { key: state.activeGalaxyId, title: world.getData(state.activeGalaxyId).vi,
       items: members.length ? members : [galaxy],
-      overviewId: state.activeGalaxyId, overviewLabel: '星系全景' };
+      overviewId: state.activeGalaxyId, overviewLabel: 'Toàn cảnh thiên hà' };
   }
   if (state.stage === 'galaxy' || state.activeSystemId !== 'solar') {
     const members = [...world.bodies.values()].filter(body => body.parentGalaxy === 'galaxy');
-    return { key: 'galaxy', title: '银河目的地',
+    return { key: 'galaxy', title: 'Điểm đến trong Ngân Hà',
       items: [world.getData('solar'), ...members.filter(body => body.kind === 'spacecraft'),
         ...members.filter(body => body.kind === 'planet'),
         ...members.filter(body => body.kind !== 'spacecraft' && body.kind !== 'planet')],
-      overviewId: 'galaxy', overviewLabel: '银河全景' };
+      overviewId: 'galaxy', overviewLabel: 'Toàn cảnh Ngân Hà' };
   }
-  return { key: 'solar', title: '太阳系', items: [...data, world.getData('jwst'), world.getData('voyager-1')].filter(Boolean), overviewId: 'solar', overviewLabel: '全景' };
+  return { key: 'solar', title: 'Hệ Mặt Trời', items: [...data, world.getData('jwst'), world.getData('voyager-1')].filter(Boolean), overviewId: 'solar', overviewLabel: 'Toàn cảnh' };
 }
 
 function thumbnail(body, assets) {
@@ -75,15 +77,15 @@ export function createDestinations({ world, navigation, assets }) {
       const button = document.createElement('button');
       button.className = 'planet-button';
       button.dataset.id = body.id;
-      button.title = '前往' + body.cn;
+      button.title = 'Đi đến ' + body.vi;
       const name = document.createElement('span');
       name.className = 'destination-name';
-      name.textContent = body.id === 'jwst' ? '韦布 JWST' : body.cn;
+      name.textContent = body.id === 'jwst' ? 'Webb JWST' : body.vi;
       button.append(thumbnail(body, assets), name);
       if (body.modelStatus === 'illustration' || body.modelStatus === 'candidate') {
         const badge = document.createElement('small');
         badge.className = 'destination-status';
-        badge.textContent = body.modelStatus === 'illustration' ? '示意' : '候选';
+        badge.textContent = body.modelStatus === 'illustration' ? 'Minh họa' : 'Ứng viên';
         button.append(badge);
       }
       button.onclick = () => navigation.flyTo(body.id);
@@ -96,7 +98,7 @@ export function createDestinations({ world, navigation, assets }) {
       const empty = document.createElement('p');
       empty.className = 'destination-empty';
       empty.setAttribute('role', 'status');
-      empty.textContent = '没有匹配的天体，试试其他名称或编号';
+      empty.textContent = 'Không có thiên thể phù hợp, hãy thử tên hoặc số hiệu khác';
       buttons.push(empty);
     }
     $('planet-list').replaceChildren(...buttons);
@@ -123,7 +125,7 @@ export function createDestinations({ world, navigation, assets }) {
     const deep = state.activeGalaxyId !== 'galaxy' || state.activeSystemId !== 'solar' || state.stage === 'galaxy';
     $('deep-space-actions').hidden = !deep || state.stage === 'local-group';
     $('galaxy-return').hidden = state.stage === 'galaxy';
-    $('galaxy-return').textContent = '↖ ' + world.getData(state.activeGalaxyId).cn;
+    $('galaxy-return').textContent = '↖ ' + world.getData(state.activeGalaxyId).vi;
     $('system-overview').hidden = state.stage === 'galaxy'
       || world.getData(state.activeSystemId)?.kind !== 'star'
       || ![...world.bodies.values()].some(body => body.parentStarId === state.activeSystemId);

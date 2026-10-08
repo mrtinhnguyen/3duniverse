@@ -31,7 +31,7 @@ test('Voyager has a complete local spacecraft silhouette that fits its navigatio
     assert.equal(mesh.material.map, null, 'model should not need remote textures or a DOM');
   }
   assert.equal(voyagerDefinition.modelStatus, 'confirmed');
-  assert.match(voyagerDefinition.modelNote, /不代表实时/);
+  assert.match(voyagerDefinition.modelNote, /thời gian thực/);
   voyager.dispose();
 });
 

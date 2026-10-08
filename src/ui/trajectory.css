@@ -26,7 +26,7 @@ body.trajectory-active #toggle-orbits,body.trajectory-active #toggle-labels{opac
 .trajectory-explanation{flex-shrink:0}
 .trajectory-explanation summary{padding:1px 0;color:#a1b9bf;font-size:10px;line-height:1.5;cursor:pointer;list-style:none;white-space:nowrap}
 .trajectory-explanation summary::-webkit-details-marker{display:none}
-.trajectory-explanation summary:after{content:'＋';margin-left:6px;color:#81aaa3}
+.trajectory-explanation summary:after{content:'+';margin-left:6px;color:#81aaa3}
 .trajectory-explanation[open] summary:after{content:'−'}
 .trajectory-explanation-content{position:absolute;right:0;bottom:calc(100% + 12px);width:min(390px,100%);padding:16px 18px;border:1px solid #91bbb43d;border-radius:8px;background:#0c1b25fa;box-shadow:0 12px 35px #0004;color:#a7bdc8;z-index:2}
 .trajectory-explanation-content p{margin:0 0 12px;font-size:11px;line-height:1.9}

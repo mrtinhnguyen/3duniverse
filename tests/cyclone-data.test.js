@@ -30,7 +30,7 @@ test('cyclone winds preserve measurement units and distinguish observation from 
   assert.equal(eonet.trackData.forecast.length, 0);
   assert.equal(eonet.trackData.status, 'history-only');
   assert.equal(eonet.trackData.history.at(-1).windSpeedKmh, 148.16);
-  assert.ok(eonet.metrics.some(item => item.label === '最近记录风速' && item.value.includes('km/h')));
+  assert.ok(eonet.metrics.some(item => item.label === 'Tốc độ gió ghi nhận gần nhất' && item.value.includes('km/h')));
 });
 
 test('GDACS advisory timestamps use UTC and reject impossible calendar dates', () => {
@@ -75,8 +75,8 @@ test('malformed, unknown-status, foreign-storm and outdated-advisory points do n
   assert.equal(parseGdacsTimeline(noCurrent, { eventId: 1001317 }).issuedAt, null);
   assert.deepEqual(parseGdacsTimeline(noCurrent, { eventId: 1001317 }).forecast, []);
   assert.equal(parseGdacsTimeline(noCurrent, { eventId: 1001317 }).status, 'history-only');
-  assert.match(parseGdacsTimeline(noCurrent, { eventId: 1001317 }).message, /缺少明确/);
-  assert.throws(() => parseGdacsTimeline({ events: [] }), /格式/);
+  assert.match(parseGdacsTimeline(noCurrent, { eventId: 1001317 }).message, /số hiệu bản tin rõ ràng/);
+  assert.throws(() => parseGdacsTimeline({ events: [] }), /định dạng/);
 });
 
 test('multiple advisory forecasts require an explicit current observation and matching advisory number', async () => {
@@ -107,7 +107,7 @@ test('historical-only advisories never produce extrapolated points, including lo
   const result = parseGdacsTimeline(data, { eventId: 1001317 });
   assert.equal(result.status, 'history-only');
   assert.deepEqual(result.forecast, []);
-  assert.match(result.message, /未提供预测/);
+  assert.match(result.message, /không cung cấp đường đi dự báo/);
   const empty = parseGdacsTimeline({ channel: { item: [] } });
   assert.equal(empty.status, 'unavailable');
   assert.equal(empty.current, null);
@@ -144,7 +144,7 @@ test('missing published timelines are explicit and untrusted URLs or mismatched 
     assert.deepEqual(result.forecast, []);
   }
   details.properties.episodeid = 17;
-  assert.throws(() => gdacsTimelineResource(details, selected), /不匹配/);
+  assert.throws(() => gdacsTimelineResource(details, selected), /không khớp/);
   assert.equal(gdacsEpisodeUrl({ gdacs: { eventId: '1&foo=3', episodeId: 18 } }), null);
   const eonet = parseEonet(await fixture('eonet-severeStorms'), 'severeStorms')[0];
   const result = await loadCycloneTrack(eonet, { fetchImpl: () => assert.fail('EONET does not publish a forecast endpoint') });

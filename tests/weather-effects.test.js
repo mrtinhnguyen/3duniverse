@@ -153,7 +153,7 @@ test('simulated rain regimes are explicit and cloud/arc GPU timing parameters st
   const events = await loadSimulatedLightning(), appearances = appearancesFor(events, true);
   assert.deepEqual(appearances.map(item => item.rainRate), [.6, 4, 16, 1.5, 8, 32]);
   assert.equal(new Set(appearances.map(item => item.flashPeriod)).size, events.length);
-  assert.ok(events.every(event => event.metrics.some(metric => metric.label === '模拟雨率') && event.metrics.some(metric => metric.value.includes('非实况雷击频率'))));
+  assert.ok(events.every(event => event.metrics.some(metric => metric.label === 'Cường độ mưa mô phỏng') && event.metrics.some(metric => metric.value.includes('không phải tần suất sét thực tế'))));
   const view = lightning.createView();
   for (const event of events) {
     view.setEvents([event]);
@@ -199,7 +199,7 @@ test('reduced motion freezes noise, rain and lightning while keeping static stor
   const view = lightning.createView();
   const events = await loadSimulatedLightning();
   assert.equal(events.length, 6);
-  assert.ok(events.every(event => event.simulated && event.time === null && event.source === '模拟数据'));
+  assert.ok(events.every(event => event.simulated && event.time === null && event.source === 'Dữ liệu mô phỏng'));
   view.setEvents(events);
   assert.equal(view.group.userData.thunderstorms, 6);
   assert.ok(cloudMeshes(view.group).some(mesh => mesh.visible && mesh.geometry.getAttribute('position').count > 0));

@@ -1,0 +1,8 @@
+# Rebuilt on Vercel from src/ + assets/ + public/
+index.html
+dist/
+demo.mp4
+demo-preview.jpg
+docs/
+publications/
+tests/

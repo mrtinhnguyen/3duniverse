@@ -12,7 +12,7 @@ export async function loadDetailTextures(assets, renderer, width) {
   const loaded = [];
   try {
     for (const name of ['earth-day-8k', 'earth-night-8k']) {
-      if (!assets[name]) throw new Error('高清地球纹理不可用');
+      if (!assets[name]) throw new Error('Không có kết cấu Trái Đất độ phân giải cao');
       const texture = await loader.loadAsync(assets[name]);
       loaded.push(texture);
       // Downsample only the GPU upload for phones; preserve original source files.
@@ -21,7 +21,7 @@ export async function loadDetailTextures(assets, renderer, width) {
         canvas.width = width;
         canvas.height = width / 2;
         const context = canvas.getContext('2d');
-        if (!context) throw new Error('无法准备高清地球纹理');
+        if (!context) throw new Error('Không thể chuẩn bị kết cấu Trái Đất độ phân giải cao');
         context.imageSmoothingEnabled = true;
         context.imageSmoothingQuality = 'high';
         context.drawImage(texture.image, 0, 0, canvas.width, canvas.height);

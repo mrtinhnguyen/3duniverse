@@ -84,7 +84,7 @@ test('observed destinations selected from their own dock open complete confirmed
     const entry = filterDestinations(dock.items, definition.id).find(body => body.id === definition.id);
     assert.ok(entry, `${definition.id} is selectable from its own context`);
     assert.equal(entry.modelStatus, 'confirmed');
-    for (const field of ['cn', 'en', 'index', 'type', 'stat1', 'diameter', 'stat2', 'value2', 'desc', 'sourceLabel', 'appearance']) {
+    for (const field of ['vi', 'en', 'index', 'type', 'stat1', 'diameter', 'stat2', 'value2', 'desc', 'sourceLabel', 'appearance']) {
       assert.ok(typeof entry[field] === 'string' && entry[field].trim(), `${entry.id} has ${field}`);
     }
     assert.equal(typeof entry.unit1, 'string');
@@ -181,14 +181,14 @@ test('destination search tolerates names and catalog formatting while staying in
   arrive('galaxy');
   const milkyWayItems = destinationContext(navigation.getState(), world).items;
   const originalStars = milkyWayItems.slice();
-  for (const query of ['北极', 'POLARIS', 'ｐｏｌａｒｉｓ']) {
+  for (const query of ['Bắc Cực', 'bac cuc', 'POLARIS', 'ｐｏｌａｒｉｓ']) {
     assert.deepEqual(filterDestinations(milkyWayItems, query).map(body => body.id), ['polaris']);
   }
   for (const query of ['barnard-star', 'BARNARD STAR', 'ｂａｒｎａｒｄ－ｓｔａｒ', 'GJ 699']) {
     assert.deepEqual(filterDestinations(milkyWayItems, query).map(body => body.id), ['barnard-star']);
   }
   assert.deepEqual(filterDestinations(milkyWayItems, 'M87'), [], 'galaxy search cannot leak into the Milky Way dock');
-  assert.deepEqual(filterDestinations(milkyWayItems, '不存在的天体'), []);
+  assert.deepEqual(filterDestinations(milkyWayItems, 'thiên thể không tồn tại'), []);
   assert.deepEqual(filterDestinations(milkyWayItems, ''), originalStars, 'clearing restores original order');
   assert.deepEqual(milkyWayItems, originalStars, 'search does not mutate input items');
 
@@ -201,7 +201,7 @@ test('destination search tolerates names and catalog formatting while staying in
   for (const query of ['NGC 5128', 'ｎｇｃ　５１２８', 'centaurus-a', 'CENTAURUS A']) {
     assert.deepEqual(filterDestinations(atlasItems, query).map(body => body.id), ['centaurus-a']);
   }
-  assert.deepEqual(filterDestinations(atlasItems, '北极'), [], 'star search cannot leak into the atlas');
+  assert.deepEqual(filterDestinations(atlasItems, 'Bắc Cực'), [], 'star search cannot leak into the atlas');
   assert.deepEqual(filterDestinations(atlasItems, '  '), originalAtlas, 'blank search restores the atlas');
   assert.deepEqual(atlasItems, originalAtlas, 'catalog ordering remains untouched');
 });

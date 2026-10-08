@@ -1,10 +1,6 @@
 # ORBIT · Universe Explorer Recreation Prompt
 
 > This prompt describes the finished ORBIT experience. It is not a verbatim transcript of the original development conversation. Copy it into an AI coding tool to build your own version.
->
-> Live demo: https://ryh842487118-bot.github.io/orbit/
->
-> Source code: https://github.com/ryh842487118-bot/orbit
 
 ---
 
@@ -53,13 +49,13 @@ Provide three scale shortcuts: Near-Earth Orbit / Solar System / Milky Way.
 
 ### Top Right
 
-Provide a GitHub source link, a fullscreen button, and an instructions button. Make the GitHub URL configurable and open it in a new tab.
+Provide a settings button, a fullscreen button, and an instructions button.
 
 ### Left Information Panel
 
 Update the panel according to the current target, including:
 
-- Chinese and English celestial names.
+- Vietnamese and English celestial names.
 - Classification and a brief description.
 - Relevant facts, such as diameter and orbital period.
 
@@ -120,7 +116,7 @@ The built `index.html` should embed the necessary scripts and textures. Users mu
 
 Use textures with suitable permissions and retain attribution and licenses. Show loading progress and provide a clear message if initialization fails.
 
-Write Chinese and English README files covering controls, local usage, rebuilding, asset attribution, and configurable live-demo and GitHub links.
+Write Vietnamese and English README files covering controls, local usage, rebuilding, and asset attribution.
 
 Do not include advertising, visitor analytics, or other external reporting services by default.
 

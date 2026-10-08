@@ -43,7 +43,7 @@ export function safeUrl(value, fallback = null) {
 export function metric(label, value, unit = '', digits = 1) {
   const numeric = number(value);
   return numeric === null ? null : {
-    label, value: `${numeric.toLocaleString('zh-CN', { maximumFractionDigits: digits })}${unit ? ` ${unit}` : ''}`,
+    label, value: `${numeric.toLocaleString('vi-VN', { maximumFractionDigits: digits })}${unit ? ` ${unit}` : ''}`,
   };
 }
 
@@ -57,7 +57,7 @@ export function uniqueEvents(events) {
 
 export function featureCollection(payload, source) {
   if (payload?.type !== 'FeatureCollection' || !Array.isArray(payload.features)) {
-    throw new Error(`${source} 返回了无法识别的数据格式`);
+    throw new Error(`${source} trả về định dạng dữ liệu không thể nhận dạng`);
   }
   return payload.features;
 }

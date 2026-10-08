@@ -1,77 +1,77 @@
-# 深空目录与资料来源
+# Danh mục không gian sâu và nguồn tư liệu
 
-核对日期：2026-09-08。目录文件：`src/universe/deep-space-catalog.js`。
+Ngày đối chiếu: 2026-09-08. Tệp danh mục: `src/universe/deep-space-catalog.js`.
 
-本次增加 M32、M110 / NGC 205 和巴纳德星系 / NGC 6822 三座邻近星系，连同原有银河、仙女座、三角座和大小麦哲伦星云，共开放八座星系。本次另增加八颗真实恒星与五个黑洞目的地；深空目录现在共有十六个真实恒星或恒星系统、五个黑洞、四颗已确认的银河系巨行星，以及原有四颗明确标注的虚构巨行星。原有太阳不计入这十六个深空恒星节点。
+Lần này bổ sung ba thiên hà lân cận M32, M110 / NGC 205 và Thiên hà Barnard / NGC 6822; cùng với Ngân Hà, Tiên Nữ, Tam Giác và Đám mây Magellan Lớn, Nhỏ sẵn có, tổng cộng mở tám thiên hà. Lần này còn bổ sung tám ngôi sao thật và năm điểm đến hố đen; danh mục không gian sâu hiện có mười sáu ngôi sao hoặc hệ sao thật, năm hố đen, bốn hành tinh khổng lồ đã xác nhận ngoài Hệ Mặt Trời trong Ngân Hà, cùng bốn hành tinh khổng lồ hư cấu được đánh dấu rõ ràng sẵn có. Mặt Trời sẵn có không được tính vào mười sáu nút sao không gian sâu này.
 
-## 事实与画面之间的界限
+## Ranh giới giữa sự thật và hình ảnh
 
-- `modelStatus: confirmed` 仅表示天体或系统真实存在，不表示纹理、配色、大小、位置或运行轨道来自实测影像。
-- `modelStatus: illustration` 的四颗行星在中文名称、类型及介绍中均注明“示意”或“虚构”。它们不是候选发现，也不是已确认的河外行星。其 `sourceUrl` 提供背景恒星资料，`sourceLabel` 明确说明不能用该来源证明行星存在。
-- 四颗虚构行星分别放在 AF And、罗马诺之星、R136a1、HD 5980 的展示节点附近，供飞行和导航使用；这种配对不构成科学上的宿主关系或稳定轨道声明。
-- HR 8799 b、c、d、e 是真实的已确认气态巨行星。目录质量和公转周期采用下面 NASA 面向公众目录的近似值，不混用不同研究模型。质量估计并非精确测量值，后续文献可能给出不同估计。
-- 全部 `position` 为绝对场景坐标，`r`、`radius`、`viewDistance`、`orbitRadius`、`orbitalPeriod` 和 `phase` 均为展示参数。动画周期以演示秒计，和面板中显示的真实公转年数无换算关系。
-- 星系之间的距离、方向、倾角、旋臂数量和天体内部位置均作了构图调整；本版不是天体测量星图。八座星系是开放目的地数量，不是本星系群的成员总数，也不是按实测距离排序的“最近八座”。本星系群面板的开放数量由 `galaxyDefinitions.length + 1` 动态生成。
-- 恒星与行星纹理均为程序化艺术表面。恒星半径压缩在 4.5–35 个场景单位，巨行星在 3.4–4.4 个单位；视觉尺寸不可用来比较真实直径或质量。
-- HD 5980 是多星系统，此处以单个发光物体代表整个系统，不是把它科学上归为单星。
-- 南门二 A、B、比邻星和天狼星 A、B 分别提供单独目的地。两组系统的成员间距经放大，当前节点不模拟真实双星或三星轨道；本次没有为新增恒星附加行星。
-- 黑洞的 `modelStatus: confirmed` 指天体的存在；黑色阴影、吸积盘颜色、亮环、倾角与动态纹理均为概念演示，不是光学照片或广义相对论光线追踪结果，也不宣称五个黑洞都具有同样的活跃吸积状态。显示半径 18–45 个单位经过独立压缩，不能据此比较黑洞质量。
-- `diskOuterRadius` 是黑洞显示半径 `r` 的倍数，`visualRadius = r * diskOuterRadius` 用于容纳整个显示盘，`diskTilt` 是 XYZ 欧拉角（弧度）。这些数值均为场景参数。
-- 黑洞外观参考采用近侧视薄盘、上下连续弯曲光带、黑色暗核和暖色层叠纹理。侧视光带是跟随盘面投影的程序化示意场，高仰角逐渐过渡到三维盘面；不是由黑洞质量推算的精确透镜图像。M33 X-7 与 LMC X-1 的暖色同样仅为艺术配色。
-- 人马座 A*、M31 和 M32 黑洞放在各自星系的场景中心；M33 X-7 和 LMC X-1 是星系内的恒星级双星黑洞，位置避开核区，`parentGalaxy` / `parentId` 只记录所在星系，不表示位于星系中心。没有为 M110、小麦哲伦星云或 NGC 6822 凭空配置中央黑洞。
+- `modelStatus: confirmed` chỉ có nghĩa thiên thể hoặc hệ đó tồn tại thật, không có nghĩa kết cấu, màu sắc, kích thước, vị trí hay quỹ đạo vận hành lấy từ ảnh đo thực.
+- Bốn hành tinh `modelStatus: illustration` đều được ghi "minh họa" hoặc "hư cấu" trong tên, loại và phần giới thiệu. Chúng không phải phát hiện ứng viên, cũng không phải hành tinh ngoài thiên hà đã được xác nhận. `sourceUrl` của chúng cung cấp tư liệu về ngôi sao nền, còn `sourceLabel` nói rõ không thể dùng nguồn đó để chứng minh hành tinh tồn tại.
+- Bốn hành tinh hư cấu lần lượt được đặt gần các nút hiển thị của AF And, Sao Romano, R136a1, HD 5980 để phục vụ bay và điều hướng; việc ghép cặp này không cấu thành tuyên bố khoa học về quan hệ sao chủ hay quỹ đạo ổn định.
+- HR 8799 b, c, d, e là các hành tinh khí khổng lồ đã được xác nhận thật. Khối lượng và chu kỳ quỹ đạo trong danh mục dùng giá trị gần đúng từ danh mục dành cho công chúng của NASA ở bên dưới, không trộn các mô hình nghiên cứu khác nhau. Ước tính khối lượng không phải phép đo chính xác, các tài liệu sau này có thể đưa ra ước tính khác.
+- Mọi `position` là tọa độ cảnh tuyệt đối; `r`, `radius`, `viewDistance`, `orbitRadius`, `orbitalPeriod` và `phase` đều là tham số hiển thị. Chu kỳ hoạt ảnh tính bằng giây minh họa, không có quan hệ quy đổi với số năm quỹ đạo thật hiển thị trong bảng.
+- Khoảng cách, hướng, góc nghiêng, số nhánh xoắn ốc giữa các thiên hà và vị trí các thiên thể bên trong đều đã được điều chỉnh bố cục; phiên bản này không phải bản đồ sao đo đạc thiên văn. Tám thiên hà là số điểm đến được mở, không phải tổng số thành viên của Nhóm Địa Phương, cũng không phải "tám thiên hà gần nhất" xếp theo khoảng cách đo thực. Số lượng mở trong bảng Nhóm Địa Phương được sinh động bằng `galaxyDefinitions.length + 1`.
+- Kết cấu của sao và hành tinh đều là bề mặt nghệ thuật sinh bằng chương trình. Bán kính sao được nén trong khoảng 4.5–35 đơn vị cảnh, hành tinh khổng lồ trong 3.4–4.4 đơn vị; kích thước hình ảnh không thể dùng để so sánh đường kính hay khối lượng thật.
+- HD 5980 là hệ nhiều sao, ở đây dùng một vật thể phát sáng duy nhất đại diện cho cả hệ, không phải xếp nó thành sao đơn về mặt khoa học.
+- Alpha Centauri A, B, Proxima Centauri và Sirius A, B có điểm đến riêng. Khoảng cách giữa các thành viên trong hai hệ đã được phóng đại, các nút hiện tại không mô phỏng quỹ đạo sao đôi hay sao ba thật; lần này không gắn hành tinh cho các ngôi sao mới thêm.
+- `modelStatus: confirmed` của hố đen chỉ sự tồn tại của thiên thể; bóng đen, màu đĩa bồi tụ, vòng sáng, góc nghiêng và kết cấu động đều là minh họa khái niệm, không phải ảnh quang học hay kết quả dò tia theo thuyết tương đối rộng, cũng không khẳng định cả năm hố đen đều có trạng thái bồi tụ hoạt động như nhau. Bán kính hiển thị 18–45 đơn vị được nén riêng, không thể dùng để so sánh khối lượng hố đen.
+- `diskOuterRadius` là bội số của bán kính hiển thị `r` của hố đen; `visualRadius = r * diskOuterRadius` dùng để chứa toàn bộ đĩa hiển thị; `diskTilt` là góc Euler XYZ (radian). Các giá trị này đều là tham số cảnh.
+- Tham chiếu ngoại hình hố đen dùng đĩa mỏng nhìn gần từ cạnh, dải sáng cong liên tục phía trên và dưới, lõi tối màu đen và kết cấu nhiều lớp tông ấm. Dải sáng nhìn từ cạnh là trường minh họa theo chương trình bám theo hình chiếu mặt đĩa, ở góc ngẩng cao chuyển dần sang mặt đĩa ba chiều; không phải ảnh thấu kính chính xác suy từ khối lượng hố đen. Tông ấm của M33 X-7 và LMC X-1 cũng chỉ là phối màu nghệ thuật.
+- Hố đen Sagittarius A*, M31 và M32 được đặt ở tâm cảnh của thiên hà tương ứng; M33 X-7 và LMC X-1 là hố đen sao đôi cấp sao trong thiên hà, vị trí tránh vùng lõi; `parentGalaxy` / `parentId` chỉ ghi thiên hà chứa nó, không có nghĩa nằm ở tâm thiên hà. Không tự tạo hố đen trung tâm cho M110, Đám mây Magellan Nhỏ hay NGC 6822.
 
-## 星系来源
+## Nguồn về thiên hà
 
-| 对象 | 采用的事实 | 一手来源 |
+| Đối tượng | Sự thật được dùng | Nguồn gốc |
 | --- | --- | --- |
-| 本星系群 | 银河、M31、M33 等属于同一个邻近星系群 | [NASA Imagine the Universe — Local Group](https://imagine.gsfc.nasa.gov/features/cosmic/local_group_info.html) |
-| 仙女座 M31 | 邻近大型螺旋星系，距离约 250 万光年 | [NASA/JPL — Andromeda](https://www.jpl.nasa.gov/images/pia15416-andromeda/) |
-| 三角座 M33 | 螺旋星系，距离约 300 万光年，本星系群主要成员 | [NASA — The Triangulum Galaxy](https://www.nasa.gov/image-article/triangulum-galaxy-3/)，[NASA Hubble — Messier 33](https://science.nasa.gov/mission/hubble/science/explore-the-night-sky/hubble-messier-catalog/messier-33/) |
-| 大麦哲伦星云 | 不规则矮星系，距离约 16 万光年 | [NASA Earth Observatory — The Galaxy Next Door](https://science.nasa.gov/earth/earth-observatory/the-galaxy-next-door/) |
-| 小麦哲伦星云 | 银河附近的矮星系，距离约 20 万光年 | [NASA — Little Galaxy Explored](https://science.nasa.gov/photojournal/little-galaxy-explored/)，[NASA — Nearby Massive Star Cluster](https://science.nasa.gov/missions/hubble/nearby-massive-star-cluster-yields-insights-into-early-universe/) |
-| M32 | 仙女座的紧凑椭圆卫星星系，距离约 250 万光年；采用集中、平滑的暖色椭圆模型 | [NASA Hubble — Messier 32](https://science.nasa.gov/mission/hubble/science/explore-the-night-sky/hubble-messier-catalog/messier-32/) |
-| M110 / NGC 205 | 仙女座的矮椭圆卫星星系，本星系群成员，距离约 270 万光年；中心有年轻蓝星的证据 | [NASA Hubble — Messier 110](https://science.nasa.gov/mission/hubble/science/explore-the-night-sky/hubble-messier-catalog/messier-110/)，[NASA — M110: Satellite of the Andromeda Galaxy](https://science.nasa.gov/image-article/apod-2008-september-9-m110-satellite-of-the-andromeda-galaxy/) |
-| 巴纳德星系 / NGC 6822 | 距离约 160 万光年的本星系群不规则矮星系，恒星重元素含量较低，可研究邻近低金属丰度环境 | [ESA Euclid — Euclid’s view of irregular galaxy NGC 6822](https://www.esa.int/Science_Exploration/Space_Science/Euclid/Euclid_s_view_of_irregular_galaxy_NGC_6822) |
+| Nhóm Địa Phương | Ngân Hà, M31, M33 v.v. thuộc cùng một nhóm thiên hà lân cận | [NASA Imagine the Universe — Local Group](https://imagine.gsfc.nasa.gov/features/cosmic/local_group_info.html) |
+| Tiên Nữ M31 | Thiên hà xoắn ốc lớn lân cận, cách khoảng 2,5 triệu năm ánh sáng | [NASA/JPL — Andromeda](https://www.jpl.nasa.gov/images/pia15416-andromeda/) |
+| Tam Giác M33 | Thiên hà xoắn ốc, cách khoảng 3 triệu năm ánh sáng, thành viên chính của Nhóm Địa Phương | [NASA — The Triangulum Galaxy](https://www.nasa.gov/image-article/triangulum-galaxy-3/), [NASA Hubble — Messier 33](https://science.nasa.gov/mission/hubble/science/explore-the-night-sky/hubble-messier-catalog/messier-33/) |
+| Đám mây Magellan Lớn | Thiên hà lùn không đều, cách khoảng 160.000 năm ánh sáng | [NASA Earth Observatory — The Galaxy Next Door](https://science.nasa.gov/earth/earth-observatory/the-galaxy-next-door/) |
+| Đám mây Magellan Nhỏ | Thiên hà lùn gần Ngân Hà, cách khoảng 200.000 năm ánh sáng | [NASA — Little Galaxy Explored](https://science.nasa.gov/photojournal/little-galaxy-explored/), [NASA — Nearby Massive Star Cluster](https://science.nasa.gov/missions/hubble/nearby-massive-star-cluster-yields-insights-into-early-universe/) |
+| M32 | Thiên hà vệ tinh elip đặc của Tiên Nữ, cách khoảng 2,5 triệu năm ánh sáng; dùng mô hình elip tông ấm tập trung, mịn | [NASA Hubble — Messier 32](https://science.nasa.gov/mission/hubble/science/explore-the-night-sky/hubble-messier-catalog/messier-32/) |
+| M110 / NGC 205 | Thiên hà vệ tinh elip lùn của Tiên Nữ, thành viên Nhóm Địa Phương, cách khoảng 2,7 triệu năm ánh sáng; có bằng chứng về sao xanh trẻ ở trung tâm | [NASA Hubble — Messier 110](https://science.nasa.gov/mission/hubble/science/explore-the-night-sky/hubble-messier-catalog/messier-110/), [NASA — M110: Satellite of the Andromeda Galaxy](https://science.nasa.gov/image-article/apod-2008-september-9-m110-satellite-of-the-andromeda-galaxy/) |
+| Thiên hà Barnard / NGC 6822 | Thiên hà lùn không đều của Nhóm Địa Phương, cách khoảng 1,6 triệu năm ánh sáng; hàm lượng nguyên tố nặng trong sao thấp, có thể dùng nghiên cứu môi trường độ kim loại thấp lân cận | [ESA Euclid — Euclid’s view of irregular galaxy NGC 6822](https://www.esa.int/Science_Exploration/Space_Science/Euclid/Euclid_s_view_of_irregular_galaxy_NGC_6822) |
 
-## 恒星来源
+## Nguồn về sao
 
-| 对象 | 采用的事实与处理方式 | 一手来源 |
+| Đối tượng | Sự thật được dùng và cách xử lý | Nguồn gốc |
 | --- | --- | --- |
-| 比邻星 | 距离约 4.25 光年、除太阳外最近的恒星；南门二系统的红矮星成员，存在强烈耀斑 | [NASA — Our Nearest Celestial Neighbor? An Exotic 3-Star System](https://science.nasa.gov/exoplanets/other-stars-other-worlds/our-nearest-celestial-neighbor-an-exotic-3-star-system/) |
-| 南门二 A | 近邻三星系统中类似太阳的成员，与 B 互相绕行；比邻星是远方成员 | [NASA Chandra — Alpha Centauri: A Triple Star System about 4 Light Years from Earth](https://www.nasa.gov/image-article/alpha-centauri-triple-star-system-about-4-light-years-from-earth/) |
-| 南门二 B | 橙色恒星，比太阳稍冷且质量稍小；通过星震研究内部性质 | [ESO — Allo, Allo? A Star is Ringing](https://www.hq.eso.org/public/news/eso0542/) |
-| 天狼星 A | 地球夜空中最亮的恒星，距地球约 8.6 光年，与 B 构成约 50 年周期的双星 | [NASA Hubble — The Dog Star, Sirius, and its Tiny Companion](https://science.nasa.gov/asset/hubble/the-dog-star-sirius-and-its-tiny-companion/) |
-| 天狼星 B | 距地球约 8.6 光年；大小接近地球、质量接近太阳的白矮星 | [NASA Hubble — Measuring a White Dwarf Star](https://science.nasa.gov/missions/hubble/measuring-a-white-dwarf-star/) |
-| 织女星 | 天琴座亮星，夏季大三角成员，距地球约 25 光年，周围存在观测到的碎屑尘埃盘；本版只建恒星节点 | [NASA Hubble / Webb — Observations of Vega Circumstellar Disk](https://science.nasa.gov/asset/hubble/hubble-and-webb-observations-of-vega-circumstellar-disk/)，[NASA — Summer Triangle Corner: Vega](https://science.nasa.gov/solar-system/skywatching/night-sky-network/summer-triangle-corner-vega/) |
-| 北河三 | 双子座巨星，距离约 34 光年；与北河二无引力束缚双星关系，橙色模型对应 K 型巨星 | [NASA — Find the Twins: Gemini Constellation](https://science.nasa.gov/solar-system/skywatching/night-sky-network/gemini-constellation/)，[Kelch et al. 1978, NASA GISS — Pollux (K0 III)](https://www.giss.nasa.gov/pubs/abs/ke02100q.html) |
-| 参宿七 | 猎户座的蓝超巨星，与参宿四呈不同颜色；未将不确定的直径或距离估计写死 | [NASA — The Lives, Times, and Deaths of Stars](https://science.nasa.gov/universe/stories/quick-reads/the-lives-times-and-deaths-of-stars/)，[NASA — Find the Twins: Gemini Constellation](https://science.nasa.gov/solar-system/skywatching/night-sky-network/gemini-constellation/) |
-| 参宿四 | 猎户座红超巨星，直径约千个太阳直径的量级；实际半径随测量方法、距离假设和变化状态而异 | [ESA — Betelgeuse braces for a collision](https://www.esa.int/Science_Exploration/Space_Science/Betelgeuse_braces_for_a_collision) |
-| HR 8799 | 四颗已确认巨行星 b、c、d、e 的宿主，行星有直接成像研究 | [NASA Exoplanet Archive — HR 8799](https://exoplanetarchive.ipac.caltech.edu/overview/HR%208799) |
-| AF And 与 AE And | 仙女座星系中已知的高光度蓝变星；不设置未经核对的直径或亮度排名 | [Sholukhova et al. 2015, MNRAS — New luminous blue variables in the Andromeda galaxy](https://academic.oup.com/mnras/article/447/3/2459/988608) |
-| 罗马诺之星 | M33 中的 GR 290 / V532，大质量演化恒星，不同光谱状态具有晚型氮序沃尔夫–拉叶星特征 | [Maryeva & Abolmasov 2012, MNRAS — Modelling the optical spectrum of Romano’s star](https://academic.oup.com/mnras/article/419/2/1455/989195) |
-| R136a1 | 位于大麦哲伦星云蜘蛛星云中的 R136 星团，是百太阳质量量级恒星的代表 | [ESO — Stars Just Got Bigger](https://www.eso.org/public/news/eso1030/)；目录只用“逾 100 太阳质量”量级，不沿用该 2010 年新闻的精确质量或“最大”排名 |
-| WOH G64 | 大麦哲伦星云中受尘埃包围、近期发生显著变化的超巨星；现阶段解释存在争议，目录用中性的“演化中的超巨星” | [Ohnaka et al. 2024 — Imaging the innermost circumstellar environment](https://www.eso.org/public/archives/releases/sciencepapers/eso2417/eso2417a.pdf)，[Muñoz-Sanchez et al. 2026, Nature Astronomy — Transition to a yellow hypergiant](https://www.nature.com/articles/s41550-026-02789-7)，[van Loon & Ohnaka 2026 — WOH G64 is still a red supergiant, for now](https://arxiv.org/abs/2601.02057) |
-| HD 5980 | 小麦哲伦星云的沃尔夫–拉叶多星系统，存在显著变化、强烈恒星风；位于 NGC 346 附近，曾在 1994 年爆发 | [Koenigsberger et al. 1994, NASA NTRS — Remarkable long-term changes](https://ntrs.nasa.gov/citations/19950037141)，[Nazé et al. 2002, ApJ — X-ray investigation of the NGC 346 field](https://asd.gsfc.nasa.gov/Michael.Corcoran/papers/2002ApJ_580_225.pdf) |
+| Proxima Centauri | Cách khoảng 4,25 năm ánh sáng, ngôi sao gần nhất ngoài Mặt Trời; thành viên sao lùn đỏ của hệ Alpha Centauri, có bùng sáng mạnh | [NASA — Our Nearest Celestial Neighbor? An Exotic 3-Star System](https://science.nasa.gov/exoplanets/other-stars-other-worlds/our-nearest-celestial-neighbor-an-exotic-3-star-system/) |
+| Alpha Centauri A | Thành viên giống Mặt Trời trong hệ ba sao lân cận, quay quanh nhau cùng B; Proxima Centauri là thành viên ở xa | [NASA Chandra — Alpha Centauri: A Triple Star System about 4 Light Years from Earth](https://www.nasa.gov/image-article/alpha-centauri-triple-star-system-about-4-light-years-from-earth/) |
+| Alpha Centauri B | Sao màu cam, hơi lạnh hơn và khối lượng hơi nhỏ hơn Mặt Trời; tính chất bên trong được nghiên cứu qua địa chấn sao | [ESO — Allo, Allo? A Star is Ringing](https://www.hq.eso.org/public/news/eso0542/) |
+| Sirius A | Ngôi sao sáng nhất trên bầu trời đêm của Trái Đất, cách Trái Đất khoảng 8,6 năm ánh sáng, cùng B tạo thành sao đôi chu kỳ khoảng 50 năm | [NASA Hubble — The Dog Star, Sirius, and its Tiny Companion](https://science.nasa.gov/asset/hubble/the-dog-star-sirius-and-its-tiny-companion/) |
+| Sirius B | Cách Trái Đất khoảng 8,6 năm ánh sáng; sao lùn trắng có kích thước gần bằng Trái Đất, khối lượng gần bằng Mặt Trời | [NASA Hubble — Measuring a White Dwarf Star](https://science.nasa.gov/missions/hubble/measuring-a-white-dwarf-star/) |
+| Vega | Sao sáng của chòm Thiên Cầm, thành viên Tam giác mùa hè, cách Trái Đất khoảng 25 năm ánh sáng, xung quanh có đĩa bụi mảnh vụn đã được quan sát; phiên bản này chỉ dựng nút sao | [NASA Hubble / Webb — Observations of Vega Circumstellar Disk](https://science.nasa.gov/asset/hubble/hubble-and-webb-observations-of-vega-circumstellar-disk/), [NASA — Summer Triangle Corner: Vega](https://science.nasa.gov/solar-system/skywatching/night-sky-network/summer-triangle-corner-vega/) |
+| Pollux | Sao khổng lồ của chòm Song Tử, cách khoảng 34 năm ánh sáng; không có quan hệ sao đôi liên kết hấp dẫn với Castor, mô hình màu cam tương ứng sao khổng lồ loại K | [NASA — Find the Twins: Gemini Constellation](https://science.nasa.gov/solar-system/skywatching/night-sky-network/gemini-constellation/), [Kelch et al. 1978, NASA GISS — Pollux (K0 III)](https://www.giss.nasa.gov/pubs/abs/ke02100q.html) |
+| Rigel | Sao siêu khổng lồ xanh của chòm Lạp Hộ, khác màu với Betelgeuse; không cố định các ước tính đường kính hay khoảng cách chưa chắc chắn | [NASA — The Lives, Times, and Deaths of Stars](https://science.nasa.gov/universe/stories/quick-reads/the-lives-times-and-deaths-of-stars/), [NASA — Find the Twins: Gemini Constellation](https://science.nasa.gov/solar-system/skywatching/night-sky-network/gemini-constellation/) |
+| Betelgeuse | Sao siêu khổng lồ đỏ của chòm Lạp Hộ, đường kính cỡ khoảng một nghìn lần đường kính Mặt Trời; bán kính thực tế khác nhau tùy phương pháp đo, giả định khoảng cách và trạng thái biến đổi | [ESA — Betelgeuse braces for a collision](https://www.esa.int/Science_Exploration/Space_Science/Betelgeuse_braces_for_a_collision) |
+| HR 8799 | Sao chủ của bốn hành tinh khổng lồ đã xác nhận b, c, d, e; các hành tinh có nghiên cứu chụp ảnh trực tiếp | [NASA Exoplanet Archive — HR 8799](https://exoplanetarchive.ipac.caltech.edu/overview/HR%208799) |
+| AF And và AE And | Sao biến quang xanh độ sáng cao đã biết trong thiên hà Tiên Nữ; không đặt đường kính hay xếp hạng độ sáng chưa được đối chiếu | [Sholukhova et al. 2015, MNRAS — New luminous blue variables in the Andromeda galaxy](https://academic.oup.com/mnras/article/447/3/2459/988608) |
+| Sao Romano | GR 290 / V532 trong M33, sao tiến hóa khối lượng lớn, ở các trạng thái quang phổ khác nhau mang đặc trưng sao Wolf–Rayet dãy nitơ muộn | [Maryeva & Abolmasov 2012, MNRAS — Modelling the optical spectrum of Romano’s star](https://academic.oup.com/mnras/article/419/2/1455/989195) |
+| R136a1 | Nằm trong cụm sao R136 thuộc Tinh vân Tarantula của Đám mây Magellan Lớn, đại diện cho sao có khối lượng cỡ trăm lần Mặt Trời | [ESO — Stars Just Got Bigger](https://www.eso.org/public/news/eso1030/); danh mục chỉ dùng cấp độ "hơn 100 lần khối lượng Mặt Trời", không dùng khối lượng chính xác hay xếp hạng "lớn nhất" từ bản tin năm 2010 đó |
+| WOH G64 | Sao siêu khổng lồ được bụi bao quanh trong Đám mây Magellan Lớn, gần đây có biến đổi rõ rệt; cách giải thích hiện còn tranh cãi, danh mục dùng cách gọi trung tính "sao siêu khổng lồ đang tiến hóa" | [Ohnaka et al. 2024 — Imaging the innermost circumstellar environment](https://www.eso.org/public/archives/releases/sciencepapers/eso2417/eso2417a.pdf), [Muñoz-Sanchez et al. 2026, Nature Astronomy — Transition to a yellow hypergiant](https://www.nature.com/articles/s41550-026-02789-7), [van Loon & Ohnaka 2026 — WOH G64 is still a red supergiant, for now](https://arxiv.org/abs/2601.02057) |
+| HD 5980 | Hệ nhiều sao Wolf–Rayet trong Đám mây Magellan Nhỏ, có biến đổi rõ rệt và gió sao mạnh; nằm gần NGC 346, từng bùng nổ năm 1994 | [Koenigsberger et al. 1994, NASA NTRS — Remarkable long-term changes](https://ntrs.nasa.gov/citations/19950037141), [Nazé et al. 2002, ApJ — X-ray investigation of the NGC 346 field](https://asd.gsfc.nasa.gov/Michael.Corcoran/papers/2002ApJ_580_225.pdf) |
 
-WOH G64 的红色画面属于艺术外观，不裁决相互竞争的光谱解释。2026 年的 Nature Astronomy 论文与 van Loon / Ohnaka 论文是两个不同团队的不同解释，不能把后者的 arXiv 链接误标为前者预印本。
+Hình ảnh màu đỏ của WOH G64 là ngoại hình nghệ thuật, không phân xử các cách giải thích quang phổ đang cạnh tranh. Bài báo Nature Astronomy năm 2026 và bài báo của van Loon / Ohnaka là hai cách giải thích khác nhau của hai nhóm khác nhau; không được ghi nhầm liên kết arXiv của bài sau thành bản tiền in của bài trước.
 
-## 黑洞来源
+## Nguồn về hố đen
 
-| 对象 | 采用的事实与处理方式 | 一手来源 |
+| Đối tượng | Sự thật được dùng và cách xử lý | Nguồn gốc |
 | --- | --- | --- |
-| 人马座 A* | 银河系中央超大质量黑洞，约 400 万太阳质量；EHT 于 2022 年公布首张阴影图像 | [ESO / EHT — Astronomers reveal first image of the black hole at the heart of our galaxy](https://www.hq.eso.org/public/news/eso2208-eht-mw/) |
-| 仙女座中央黑洞 / M31* | M31 中央超大质量黑洞；采用 Hubble 研究约 1.4 亿太阳质量的估计，非精确不变数值 | [NASA Hubble — Our Neighboring Galaxy’s Unusual Core](https://science.nasa.gov/asset/hubble/our-neighboring-galaxys-unusual-core/) |
-| M32 中央黑洞 / M32* | 位于 M32 中央，采用 NASA 尺度比较的“逾 200 万太阳质量”量级，不沿用早期新闻的精确数值 | [NASA SVS — Supermassive Black Hole Scale Comparison, 00:40](https://svs.gsfc.nasa.gov/vis/a010000/a014300/a014335/14335_Supermassive_Black_Hole_Scale_Comparison_HTML_Transcript.html)，[NASA Hubble — The Dense Nucleus of Galaxy M32](https://science.nasa.gov/missions/hubble/nasas-hubble-space-telescope-images-the-dense-nucleus-of-galaxy-m32/) |
-| M33 X-7 | 三角座星系内食双星的恒星级黑洞；Orosz 等给出 15.65 ± 1.45 太阳质量，面板取约 16，不是星系中央黑洞 | [Orosz et al. 2007, Nature — A 15.65 solar mass black hole in an eclipsing binary in the nearby spiral galaxy Messier 33](https://arxiv.org/abs/0710.3165)，[NASA Chandra — M33 X-7](https://chandra.harvard.edu/photo/2007/m33x7/) |
-| LMC X-1 | 大麦哲伦星云的高质量 X 射线双星，黑洞动力学质量 10.91 ± 1.41 太阳质量，面板取约 11，不是星系中央黑洞 | [Orosz et al. 2009, ApJ — A New Dynamical Model for the Black Hole Binary LMC X-1](https://arxiv.org/abs/0810.3447) |
+| Sagittarius A* | Hố đen siêu khối lượng ở trung tâm Ngân Hà, khoảng 4 triệu lần khối lượng Mặt Trời; EHT công bố ảnh bóng đầu tiên năm 2022 | [ESO / EHT — Astronomers reveal first image of the black hole at the heart of our galaxy](https://www.hq.eso.org/public/news/eso2208-eht-mw/) |
+| Hố đen trung tâm Tiên Nữ / M31* | Hố đen siêu khối lượng ở trung tâm M31; dùng ước tính khoảng 140 triệu lần khối lượng Mặt Trời từ nghiên cứu của Hubble, không phải giá trị chính xác bất biến | [NASA Hubble — Our Neighboring Galaxy’s Unusual Core](https://science.nasa.gov/asset/hubble/our-neighboring-galaxys-unusual-core/) |
+| Hố đen trung tâm M32 / M32* | Nằm ở trung tâm M32, dùng cấp độ "hơn 2 triệu lần khối lượng Mặt Trời" theo bảng so sánh tỷ lệ của NASA, không dùng giá trị chính xác từ các bản tin trước đây | [NASA SVS — Supermassive Black Hole Scale Comparison, 00:40](https://svs.gsfc.nasa.gov/vis/a010000/a014300/a014335/14335_Supermassive_Black_Hole_Scale_Comparison_HTML_Transcript.html), [NASA Hubble — The Dense Nucleus of Galaxy M32](https://science.nasa.gov/missions/hubble/nasas-hubble-space-telescope-images-the-dense-nucleus-of-galaxy-m32/) |
+| M33 X-7 | Hố đen cấp sao trong hệ sao đôi che khuất thuộc thiên hà Tam Giác; Orosz và cộng sự đưa ra 15.65 ± 1.45 lần khối lượng Mặt Trời, bảng hiển thị lấy khoảng 16; không phải hố đen trung tâm thiên hà | [Orosz et al. 2007, Nature — A 15.65 solar mass black hole in an eclipsing binary in the nearby spiral galaxy Messier 33](https://arxiv.org/abs/0710.3165), [NASA Chandra — M33 X-7](https://chandra.harvard.edu/photo/2007/m33x7/) |
+| LMC X-1 | Sao đôi tia X khối lượng lớn trong Đám mây Magellan Lớn, khối lượng động lực học của hố đen là 10.91 ± 1.41 lần khối lượng Mặt Trời, bảng hiển thị lấy khoảng 11; không phải hố đen trung tâm thiên hà | [Orosz et al. 2009, ApJ — A New Dynamical Model for the Black Hole Binary LMC X-1](https://arxiv.org/abs/0810.3447) |
 
-## 已确认巨行星
+## Hành tinh khổng lồ đã xác nhận
 
-| 对象 | 本版采用的 NASA 目录近似质量 | 真实公转周期 | 一手目录 |
+| Đối tượng | Khối lượng gần đúng theo danh mục NASA dùng trong phiên bản này | Chu kỳ quỹ đạo thật | Danh mục gốc |
 | --- | --- | --- | --- |
-| HR 8799 b | 7 木星质量 | 465.8 年 | [NASA — HR 8799 b](https://science.nasa.gov/exoplanet-catalog/hr-8799-b/) |
-| HR 8799 c | 10 木星质量 | 189 年 | [NASA — HR 8799 c](https://science.nasa.gov/exoplanet-catalog/hr-8799-c/) |
-| HR 8799 d | 10 木星质量 | 101.4 年 | [NASA — HR 8799 d](https://science.nasa.gov/exoplanet-catalog/hr-8799-d/) |
-| HR 8799 e | 10 木星质量 | 57 年 | [NASA — HR 8799 e](https://science.nasa.gov/exoplanet-catalog/hr-8799-e/) |
+| HR 8799 b | 7 lần khối lượng Sao Mộc | 465.8 năm | [NASA — HR 8799 b](https://science.nasa.gov/exoplanet-catalog/hr-8799-b/) |
+| HR 8799 c | 10 lần khối lượng Sao Mộc | 189 năm | [NASA — HR 8799 c](https://science.nasa.gov/exoplanet-catalog/hr-8799-c/) |
+| HR 8799 d | 10 lần khối lượng Sao Mộc | 101.4 năm | [NASA — HR 8799 d](https://science.nasa.gov/exoplanet-catalog/hr-8799-d/) |
+| HR 8799 e | 10 lần khối lượng Sao Mộc | 57 năm | [NASA — HR 8799 e](https://science.nasa.gov/exoplanet-catalog/hr-8799-e/) |
 
-外部星系的四个行星目的地全部是虚构示意；本版没有将任何河外微引力透镜候选加入已确认目录。未来新增候选时应独立使用 `modelStatus: candidate`，提供对应观测论文，并避免将候选天体配置到无关联的著名恒星上。
+Bốn điểm đến hành tinh trong các thiên hà bên ngoài đều là minh họa hư cấu; phiên bản này không đưa bất kỳ ứng viên vi thấu kính hấp dẫn ngoài thiên hà nào vào danh mục đã xác nhận. Khi bổ sung ứng viên trong tương lai, cần dùng riêng `modelStatus: candidate`, cung cấp bài báo quan sát tương ứng, và tránh gán thiên thể ứng viên cho các ngôi sao nổi tiếng không liên quan.

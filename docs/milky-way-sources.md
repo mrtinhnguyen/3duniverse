@@ -1,22 +1,22 @@
-# 银河系新增行星
+# Hành tinh mới trong Ngân Hà
 
-核对日期：2026-09-12。目录位于 `src/universe/deep-space-catalog.js`。
+Ngày đối chiếu: 2026-09-12. Danh mục nằm tại `src/universe/deep-space-catalog.js`.
 
-新增六颗行星均为已确认天体；`modelStatus: confirmed` 只表示天体已确认，不表示画面中的地貌、大气或颜色得到观测确认。下表半径、公转周期采用核对时 NASA 系外行星目录的展示值。场景中的 `r`、`orbitRadius`、`orbitalPeriod`、坐标和相位是交互构图参数，不是物理比例或星历。
+Sáu hành tinh mới đều là thiên thể đã được xác nhận; `modelStatus: confirmed` chỉ có nghĩa thiên thể đã được xác nhận, không có nghĩa địa hình, khí quyển hay màu sắc trên màn hình đã được quan trắc xác nhận. Bán kính và chu kỳ quỹ đạo trong bảng dưới đây lấy theo giá trị hiển thị của danh mục ngoại hành tinh NASA tại thời điểm đối chiếu. `r`, `orbitRadius`, `orbitalPeriod`, tọa độ và pha trong cảnh là tham số bố cục tương tác, không phải tỉ lệ vật lý hay lịch thiên văn.
 
-| 行星 | 母星 | 面板采用的资料 | 原始资料 |
+| Hành tinh | Sao chủ | Tư liệu dùng trên bảng thông tin | Nguồn gốc |
 | --- | --- | --- | --- |
-| 比邻星 b | 比邻星（既有目录） | 2016 年公布发现；径向速度法；公转约 11.2 天 | [NASA · Proxima Centauri b](https://science.nasa.gov/exoplanet-catalog/proxima-centauri-b/) |
-| TRAPPIST-1 e | TRAPPIST-1 | 半径 0.92 个地球半径；公转约 6.1 天 | [NASA · TRAPPIST-1 e](https://science.nasa.gov/exoplanet-catalog/trappist-1-e/) |
-| TRAPPIST-1 f | TRAPPIST-1 | 半径约 1.05 个地球半径；公转约 9.2 天 | [NASA · TRAPPIST-1 f](https://science.nasa.gov/exoplanet-catalog/trappist-1-f/) |
-| TRAPPIST-1 g | TRAPPIST-1 | 半径约 1.13 个地球半径；公转约 12.4 天 | [NASA · TRAPPIST-1 g](https://science.nasa.gov/exoplanet-catalog/trappist-1-g/) |
-| 开普勒-186 f | 开普勒-186 | 2014 年公布发现；半径 1.17 个地球半径；公转约 129.9 天 | [NASA · Kepler-186 f](https://science.nasa.gov/exoplanet-catalog/kepler-186-f/) |
-| 开普勒-22 b | 开普勒-22 | 2011 年公布发现；半径 2.1 个地球半径；公转约 289.9 天 | [NASA · Kepler-22 b](https://science.nasa.gov/exoplanet-catalog/kepler-22b/) |
+| Proxima Centauri b | Proxima Centauri (đã có trong danh mục) | Công bố phát hiện năm 2016; phương pháp vận tốc xuyên tâm; chu kỳ quỹ đạo khoảng 11,2 ngày | [NASA · Proxima Centauri b](https://science.nasa.gov/exoplanet-catalog/proxima-centauri-b/) |
+| TRAPPIST-1 e | TRAPPIST-1 | Bán kính 0,92 bán kính Trái Đất; chu kỳ khoảng 6,1 ngày | [NASA · TRAPPIST-1 e](https://science.nasa.gov/exoplanet-catalog/trappist-1-e/) |
+| TRAPPIST-1 f | TRAPPIST-1 | Bán kính khoảng 1,05 bán kính Trái Đất; chu kỳ khoảng 9,2 ngày | [NASA · TRAPPIST-1 f](https://science.nasa.gov/exoplanet-catalog/trappist-1-f/) |
+| TRAPPIST-1 g | TRAPPIST-1 | Bán kính khoảng 1,13 bán kính Trái Đất; chu kỳ khoảng 12,4 ngày | [NASA · TRAPPIST-1 g](https://science.nasa.gov/exoplanet-catalog/trappist-1-g/) |
+| Kepler-186 f | Kepler-186 | Công bố phát hiện năm 2014; bán kính 1,17 bán kính Trái Đất; chu kỳ khoảng 129,9 ngày | [NASA · Kepler-186 f](https://science.nasa.gov/exoplanet-catalog/kepler-186-f/) |
+| Kepler-22 b | Kepler-22 | Công bố phát hiện năm 2011; bán kính 2,1 bán kính Trái Đất; chu kỳ khoảng 289,9 ngày | [NASA · Kepler-22 b](https://science.nasa.gov/exoplanet-catalog/kepler-22b/) |
 
-母星背景资料：
+Tư liệu nền về sao chủ:
 
-- [NASA · TRAPPIST-1](https://science.nasa.gov/exoplanets/trappist1/)：七颗地球大小行星围绕超冷红矮星运行；本次场景只开放 e、f、g，不将开放数量当成系统的总行星数。
-- [NASA · 开普勒-186 系统发现](https://www.nasa.gov/news-release/nasas-kepler-telescope-discovers-first-earth-size-planet-in-habitable-zone/)：母星为 M 型红矮星，位于天鹅座方向；开普勒-186 f 是宜居带内近地球大小行星的重要发现。该 2014 年报道的旧半径估计不覆盖本次使用的目录值。
-- [NASA / JPL · 开普勒-22 系统](https://www.jpl.nasa.gov/news/nasas-kepler-confirms-its-first-planet-in-habitable-zone/)：母星为 G 型、略小且略冷于太阳；开普勒-22 b 是开普勒任务首颗确认位于宜居带的行星。该 2011 年报道中的旧半径估计不覆盖本次使用的目录值。
+- [NASA · TRAPPIST-1](https://science.nasa.gov/exoplanets/trappist1/): bảy hành tinh cỡ Trái Đất quay quanh một sao lùn đỏ siêu lạnh; cảnh lần này chỉ mở e, f, g, không coi số lượng được mở là tổng số hành tinh của hệ.
+- [NASA · Phát hiện hệ Kepler-186](https://www.nasa.gov/news-release/nasas-kepler-telescope-discovers-first-earth-size-planet-in-habitable-zone/): sao chủ là sao lùn đỏ loại M, nằm theo hướng chòm Thiên Nga; Kepler-186 f là phát hiện quan trọng về một hành tinh gần cỡ Trái Đất trong vùng có thể sống được. Ước tính bán kính cũ trong bản tin năm 2014 này không thay thế giá trị danh mục được dùng lần này.
+- [NASA / JPL · Hệ Kepler-22](https://www.jpl.nasa.gov/news/nasas-kepler-confirms-its-first-planet-in-habitable-zone/): sao chủ loại G, hơi nhỏ và hơi lạnh hơn Mặt Trời; Kepler-22 b là hành tinh đầu tiên được sứ mệnh Kepler xác nhận nằm trong vùng có thể sống được. Ước tính bán kính cũ trong bản tin năm 2011 này không thay thế giá trị danh mục được dùng lần này.
 
-`rocky-world`、`temperate-world`、`ice-world` 是程序化材质设计名称。岩面、冰纹、蓝色区域和云雾都是艺术示意，不能推断冰盖、海洋、宜居性或生命已经确认。每颗行星的信息面板都明确说明了相关外观的不确定性。TRAPPIST-1 e/f/g 保持由内到外的轨道顺序，每颗行星通过 `parentStarId` 与真实母星建立导航和光照关系。
+`rocky-world`, `temperate-world`, `ice-world` là tên thiết kế của vật liệu sinh theo thủ tục. Bề mặt đá, vân băng, vùng màu xanh và mây mù đều là minh họa nghệ thuật, không thể suy ra rằng chỏm băng, đại dương, khả năng sống được hay sự sống đã được xác nhận. Bảng thông tin của mỗi hành tinh đều nói rõ tính không chắc chắn của diện mạo liên quan. TRAPPIST-1 e/f/g giữ thứ tự quỹ đạo từ trong ra ngoài, mỗi hành tinh liên kết điều hướng và chiếu sáng với sao chủ thực qua `parentStarId`.

@@ -24,7 +24,7 @@ export function createFeedStore(definitions, onChange, { now = Date.now } = {}) 
       const result = await definition.load({ signal: controller.signal, force });
       if (controller.signal.aborted || pending.get(definition.id) !== controller) return;
       const events = Array.isArray(result) ? result : result.events;
-      if (!Array.isArray(events)) throw new Error('数据格式不可识别');
+      if (!Array.isArray(events)) throw new Error('Định dạng dữ liệu không thể nhận dạng');
       record.events = events;
       record.error = Array.isArray(result) ? '' : result.warning || '';
       record.updatedAt = now();
@@ -32,7 +32,7 @@ export function createFeedStore(definitions, onChange, { now = Date.now } = {}) 
       record.nextRefresh = now() + (record.error ? 60_000 : definition.ttl);
     } catch (error) {
       if (controller.signal.aborted) return;
-      record.error = error?.message || '数据源暂不可用';
+      record.error = error?.message || 'Nguồn dữ liệu tạm thời không khả dụng';
       record.status = record.updatedAt ? 'stale' : 'error';
       record.nextRefresh = now() + 60_000;
     } finally {

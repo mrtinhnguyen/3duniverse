@@ -1,10 +1,10 @@
-# 旅行者 1 号
+# Voyager 1
 
-核对日期：2026-09-12。显示模型由本地 Three.js 几何生成，不加载远程纹理。
+Ngày đối chiếu: 2026-09-12. Mô hình hiển thị được tạo từ hình học Three.js cục bộ, không tải texture từ xa.
 
-- [NASA · Voyager 1](https://science.nasa.gov/mission/voyager/voyager-1/)：1977 年 9 月 5 日发射；2012 年 8 月 25 日越过日球层顶、开始测量星际环境。已越过日球层顶不等于已离开太阳的全部引力影响范围。
-- [NASA · Spacecraft](https://science.nasa.gov/mission/voyager/spacecraft/)：3.7 米高增益天线、十面电子舱、三个串列放射性同位素热电发电器，以及保持天线朝向地球的三轴稳定控制。模型呈现这些主要结构，并采用固定展示姿态。
-- [NASA · Frequently Asked Questions](https://science.nasa.gov/mission/voyager/frequently-asked-questions/)：磁强计杆、科学仪器杆和等离子体波天线的结构。为近距离浏览方便，模型压缩了长杆相对于天线的比例，并放大了部分细节；不作为工程尺度图。
-- [NASA/JPL · Model of Voyager](https://www.jpl.nasa.gov/images/pia14111-model-of-voyager-artist-concept/)：舱体上的金唱片和伸展仪器布局参考。金唱片刻线为简化装饰，不是可解码的封面复刻。
+- [NASA · Voyager 1](https://science.nasa.gov/mission/voyager/voyager-1/): phóng ngày 5 tháng 9 năm 1977; ngày 25 tháng 8 năm 2012 vượt qua ranh giới nhật quyển (heliopause) và bắt đầu đo môi trường liên sao. Vượt qua ranh giới nhật quyển không đồng nghĩa với việc đã rời khỏi toàn bộ phạm vi ảnh hưởng hấp dẫn của Mặt Trời.
+- [NASA · Spacecraft](https://science.nasa.gov/mission/voyager/spacecraft/): ăng-ten độ lợi cao 3,7 mét, khoang điện tử mười mặt, ba máy phát nhiệt điện đồng vị phóng xạ mắc nối tiếp và hệ điều khiển ổn định ba trục giữ ăng-ten hướng về Trái Đất. Mô hình thể hiện các cấu trúc chính này và dùng tư thế trưng bày cố định.
+- [NASA · Frequently Asked Questions](https://science.nasa.gov/mission/voyager/frequently-asked-questions/): cấu trúc cần từ kế, cần thiết bị khoa học và ăng-ten sóng plasma. Để tiện xem cận cảnh, mô hình đã nén tỉ lệ các cần dài so với ăng-ten và phóng to một số chi tiết; không dùng làm bản vẽ tỉ lệ kỹ thuật.
+- [NASA/JPL · Model of Voyager](https://www.jpl.nasa.gov/images/pia14111-model-of-voyager-artist-concept/): tham khảo vị trí Đĩa Vàng trên thân tàu và bố cục các thiết bị vươn ra. Các đường khắc trên Đĩa Vàng là trang trí giản lược, không phải bản sao bìa đĩa có thể giải mã.
 
-场景固定位置 `[-320, 180, -470]`、相对天体大小与淡色弧线路径仅用于交互构图。路径不对应特定日期的星历、飞掠轨迹或真实距离；信息面板明确展示此限制。未写入易过时的当前距离或当前运行仪器数量。
+Vị trí cố định trong cảnh `[-320, 180, -470]`, kích thước tương đối so với thiên thể và đường cung màu nhạt chỉ phục vụ bố cục tương tác. Đường bay không tương ứng với lịch thiên văn của một ngày cụ thể, quỹ đạo bay ngang qua hay khoảng cách thực; bảng thông tin nêu rõ giới hạn này. Không ghi khoảng cách hiện tại hay số thiết bị còn hoạt động, vì các con số này dễ lỗi thời.

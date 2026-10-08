@@ -1,106 +1,106 @@
-# ORBIT 小屏与小米背屏壁纸调研
+# Khảo sát hình nền Du Hành Vũ Trụ cho màn hình nhỏ và màn hình phụ mặt sau của Xiaomi
 
-调研日期：2026-09-08。范围：小米 17 Pro / Pro Max 妙享背屏，兼顾普通手机和其他小屏。机型与系统版本尚未由用户确认。本文是产品与实现建议，未在小米真机验证；本次没有修改应用功能。
+Ngày khảo sát: 2026-09-08. Phạm vi: màn hình phụ mặt sau của Xiaomi 17 Pro / Pro Max, đồng thời tính đến điện thoại thông thường và các màn hình nhỏ khác. Model máy và phiên bản hệ thống chưa được người dùng xác nhận. Tài liệu này là đề xuất về sản phẩm và triển khai, chưa được kiểm chứng trên máy Xiaomi thật; đợt này không sửa đổi chức năng của ứng dụng.
 
-## 建议
+## Đề xuất
 
-将已有“隐藏界面”保留为纯净预览，新增“制作壁纸”：选择目标屏幕 → 调整星球和构图 → 预览可见区域 → 导出图片或短视频 → 在手机系统内设为壁纸。
+Giữ "Ẩn giao diện" hiện có làm chế độ xem trước thuần, bổ sung "Tạo hình nền": chọn màn hình đích → điều chỉnh thiên thể và bố cục → xem trước vùng hiển thị → xuất ảnh hoặc video ngắn → đặt làm hình nền trong hệ thống điện thoại.
 
-优先实现图片导出与机型构图，随后实现短视频导出。背屏实时运行整个 ORBIT 网页作为独立实验方向，不作为普通用户的必要步骤。
+Ưu tiên triển khai xuất ảnh và bố cục theo model máy, sau đó mới triển khai xuất video ngắn. Việc chạy toàn bộ trang web Du Hành Vũ Trụ theo thời gian thực trên màn hình phụ mặt sau là một hướng thử nghiệm riêng, không phải bước bắt buộc với người dùng thông thường.
 
-## 已核实的设备事实
+## Các thông số thiết bị đã xác minh
 
-| 设备 | 官方背屏尺寸 | 官方分辨率 | 对 ORBIT 的影响 |
+| Thiết bị | Kích thước màn hình phụ mặt sau chính thức | Độ phân giải chính thức | Ảnh hưởng đến Du Hành Vũ Trụ |
 | --- | --- | --- | --- |
-| Xiaomi 17 Pro | 2.7 英寸，标准矩形对角线 | 904 × 572 | 独立预设，不能直接套用手机竖屏截图 |
-| Xiaomi 17 Pro Max | 2.9 英寸，标准矩形对角线 | 976 × 596 | 独立预设，不能只给 Pro 的图片改文件名 |
+| Xiaomi 17 Pro | 2,7 inch, đường chéo hình chữ nhật tiêu chuẩn | 904 × 572 | Preset riêng, không thể dùng thẳng ảnh chụp màn hình dọc của điện thoại |
+| Xiaomi 17 Pro Max | 2,9 inch, đường chéo hình chữ nhật tiêu chuẩn | 976 × 596 | Preset riêng, không thể chỉ đổi tên tệp ảnh của bản Pro |
 
-两款官方参数页均说明实际可视区域小于标准矩形。官方产品图显示左侧镜头区域、右侧主体显示区域。完整矩形分辨率不能直接等同于无遮挡的画布，图片导入时的旋转与裁切映射仍需真机确认。参数已在官方页面动态加载后读取，而非只依赖搜索摘要。[Pro 官方参数](https://www.mi.com/prod/xiaomi-17-pro/specs)、[Pro Max 官方参数](https://www.mi.com/prod/xiaomi-17-pro-max/specs)
+Trang thông số chính thức của cả hai model đều ghi rằng vùng hiển thị thực tế nhỏ hơn hình chữ nhật tiêu chuẩn. Ảnh sản phẩm chính thức cho thấy cụm camera ở bên trái, vùng hiển thị chính ở bên phải. Độ phân giải hình chữ nhật đầy đủ không thể coi là canvas không bị che khuất, và cách ánh xạ xoay / cắt khi nhập ảnh vẫn cần xác nhận trên máy thật. Các thông số được đọc sau khi trang chính thức tải động xong, không chỉ dựa vào đoạn tóm tắt của công cụ tìm kiếm. [Thông số chính thức Pro](https://www.mi.com/prod/xiaomi-17-pro/specs), [Thông số chính thức Pro Max](https://www.mi.com/prod/xiaomi-17-pro-max/specs)
 
-2025-12-10 的报道记录了小米官方上线动态照片／视频背屏壁纸，入口为“设置 → 妙享背屏 → 背屏个性化 → 自定义壁纸”。因此，文件替换式旧教程不应成为 ORBIT 默认安装流程。此项证据来自对官方公告的报道，未获得独立可访问的官方原帖。[上线报道](https://www.ithome.com/0/903/947.htm)
+Theo tin tức công nghệ ngày 2025-12-10, Xiaomi đã chính thức ra mắt hình nền màn hình phụ mặt sau dạng ảnh động / video, đường dẫn là "Cài đặt → Màn hình phụ mặt sau → Cá nhân hóa màn hình phụ → Hình nền tùy chỉnh" (tên mục có thể khác tùy ngôn ngữ hệ thống). Vì vậy, các hướng dẫn cũ kiểu thay thế tệp không nên trở thành quy trình cài đặt mặc định của ORBIT. Bằng chứng này đến từ bài báo tường thuật thông báo chính thức, chưa tìm được bài đăng gốc chính thức có thể truy cập độc lập.
 
-目前未核实所有系统版本统一适用的视频最长时长、文件大小上限、帧率上限、自动循环策略、息屏持续播放行为与裁切规则。不能承诺“全天候自动循环”或“所有系统一键应用”。社区增强模块明确列有解除视频时长、帧率限制和强制循环功能，说明这些行为确实存在系统差异，但它不是原厂规格文档。[REAREye 项目说明](https://github.com/Xposed-Modules-Repo/hk.uwu.reareye)
+Hiện chưa xác minh được thời lượng video tối đa, giới hạn dung lượng tệp, giới hạn tốc độ khung hình, chính sách tự lặp, hành vi tiếp tục phát khi tắt màn hình và quy tắc cắt áp dụng thống nhất cho mọi phiên bản hệ thống. Không thể hứa hẹn "tự lặp suốt cả ngày" hay "áp dụng một chạm trên mọi hệ thống". Một module tăng cường của cộng đồng (REAREye) liệt kê rõ các chức năng gỡ giới hạn thời lượng video, giới hạn tốc độ khung hình và ép lặp, cho thấy các hành vi này thực sự khác nhau giữa các hệ thống, nhưng đó không phải tài liệu thông số của nhà sản xuất.
 
-## 三条路线的取舍
+## Đánh đổi giữa ba hướng
 
-| 路线 | 用户操作 | 主要成本 | 建议 |
+| Hướng | Thao tác của người dùng | Chi phí chính | Đề xuất |
 | --- | --- | --- | --- |
-| PNG 图片 | 下载，系统相册选作背屏壁纸 | 构图、裁切适配 | 第一阶段默认方案 |
-| 无声 MP4 视频 | 下载，系统导入自定义视频壁纸 | 编码兼容、短片接缝、系统时长限制 | 第二阶段，最接近缓慢转动的星球效果 |
-| 实时网页／原生背屏应用 | 额外应用或系统集成 | 权限、生命周期、耗电、版本适配 | 独立探索，不作为壁纸功能前置条件 |
+| Ảnh PNG | Tải về, chọn từ thư viện ảnh hệ thống làm hình nền màn hình phụ mặt sau | Bố cục, thích ứng cắt ảnh | Phương án mặc định giai đoạn một |
+| Video MP4 không tiếng | Tải về, nhập vào hình nền video tùy chỉnh của hệ thống | Tương thích mã hóa, mối nối của đoạn ngắn, giới hạn thời lượng của hệ thống | Giai đoạn hai, gần nhất với hiệu ứng thiên thể xoay chậm |
+| Trang web thời gian thực / ứng dụng gốc cho màn hình phụ | Ứng dụng bổ sung hoặc tích hợp hệ thống | Quyền, vòng đời, tiêu thụ pin, thích ứng phiên bản | Khám phá riêng, không phải điều kiện tiên quyết của chức năng hình nền |
 
-浏览器可以生成和分享文件，但此次没有找到面向普通网页、可直接设置小米背屏壁纸的公开接口。分享菜单不等同于背屏安装接口。[Web Share API](https://developer.mozilla.org/en-US/docs/Web/API/Web_Share_API)
+Trình duyệt có thể tạo và chia sẻ tệp, nhưng đợt này không tìm thấy giao diện công khai nào cho trang web thông thường để đặt trực tiếp hình nền màn hình phụ mặt sau của Xiaomi. Menu chia sẻ không tương đương với giao diện cài đặt cho màn hình phụ. [Web Share API](https://developer.mozilla.org/en-US/docs/Web/API/Web_Share_API)
 
-Android 的 WallpaperService 是原生动态壁纸入口，并不自动证明小米背屏会接纳普通第三方壁纸服务。小米公开的 Flip 适配文档包含背屏设备识别方法，但主要面向折叠设备应用适配，不能当作 17 Pro 背屏壁纸 SDK。[Android WallpaperService](https://developer.android.com/reference/android/service/wallpaper/WallpaperService)、[小米 Flip 适配文档](https://dev.mi.com/xiaomihyperos/documentation/detail?pId=2026)
+WallpaperService của Android là điểm vào gốc cho hình nền động, nhưng điều đó không tự động chứng minh màn hình phụ mặt sau của Xiaomi sẽ chấp nhận dịch vụ hình nền thông thường của bên thứ ba. Tài liệu thích ứng Flip công khai của Xiaomi có phương pháp nhận diện thiết bị có màn hình phụ, nhưng chủ yếu dành cho việc thích ứng ứng dụng trên thiết bị gập, không thể coi là SDK hình nền màn hình phụ của 17 Pro. [Android WallpaperService](https://developer.android.com/reference/android/service/wallpaper/WallpaperService), [Tài liệu thích ứng Xiaomi Flip](https://dev.mi.com/xiaomihyperos/documentation/detail?pId=2026)
 
-作为可行性参照，MiRearScreenSwitcher 使用 Shizuku 将应用切换至背屏；项目于 2026-04-30 归档。REAREye 卡片制作器则依赖 LSPosed / Xposed 模块导入 MAML 卡片。它们说明实时显示存在社区方案，也说明它不是一个普通网页响应式布局即可解决的问题。[MRSS](https://github.com/AntiOblivionis/MiRearScreenSwitcher)、[卡片制作器](https://github.com/guocheng1378/rear-eye-card-maker)
+Để tham khảo tính khả thi: MiRearScreenSwitcher dùng Shizuku để chuyển ứng dụng sang màn hình phụ mặt sau; dự án đã được lưu trữ (archived) vào 2026-04-30. Công cụ tạo thẻ REAREye thì dựa vào module LSPosed / Xposed để nhập thẻ MAML. Chúng cho thấy cộng đồng có giải pháp hiển thị thời gian thực, đồng thời cũng cho thấy đây không phải vấn đề có thể giải quyết chỉ bằng bố cục responsive của một trang web thông thường.
 
-## 适合 ORBIT 的界面
+## Giao diện phù hợp với Du Hành Vũ Trụ
 
-保留一键隐藏所有界面的原入口，增加“制作壁纸”入口，避免让仅想沉浸浏览的人被迫进入编辑器。
+Giữ lối vào gốc để ẩn toàn bộ giao diện bằng một chạm, thêm lối vào "Tạo hình nền", tránh buộc người chỉ muốn duyệt ở chế độ đắm chìm phải vào trình chỉnh sửa.
 
-制作面板只保留四组操作：
+Bảng tạo hình nền chỉ giữ bốn nhóm thao tác:
 
-1. 屏幕：手机竖屏、17 Pro 背屏、17 Pro Max 背屏、正方形、自定义宽高。
-2. 内容：当前天体；首批推荐地球、月球、土星和黑洞。
-3. 构图：居中、靠右、局部特写；可拖动位置、缩放主体，切换纯黑／少量星空。
-4. 导出：保存图片；通过能力检测的设备提供短视频。下载完成后展示系统设置路径。
+1. Màn hình: điện thoại dọc, màn hình phụ mặt sau 17 Pro, màn hình phụ mặt sau 17 Pro Max, hình vuông, chiều rộng / chiều cao tùy chỉnh.
+2. Nội dung: thiên thể hiện tại; đợt đầu đề xuất Trái Đất, Mặt Trăng, Sao Thổ và hố đen.
+3. Bố cục: giữa, lệch phải, cận cảnh cục bộ; có thể kéo vị trí, thu phóng chủ thể, chuyển giữa nền đen tuyền / ít sao.
+4. Xuất: lưu ảnh; thiết bị vượt qua kiểm tra năng lực được cung cấp thêm video ngắn. Sau khi tải xong hiển thị đường dẫn cài đặt trong hệ thống.
 
-预览区展示镜头避让区域、圆角和可选时钟占位；导出文件不包含这些辅助图形，不包含 ORBIT 控件、文字或水印。时钟占位只用于构图，真正的时间交给手机系统。
+Vùng xem trước hiển thị vùng tránh camera, góc bo và chỗ giữ chỗ đồng hồ tùy chọn; tệp xuất ra không chứa các hình phụ trợ này, không chứa điều khiển, chữ hay watermark của ORBIT. Chỗ giữ chỗ đồng hồ chỉ dùng để bố cục, thời gian thực do hệ thống điện thoại đảm nhận.
 
-“靠右”应指星球位于右侧可见区域的中心，不是贴着整张图片的最右边。设备配置要分开记录完整画布尺寸、方向、镜头遮挡、可见内容区和时钟避让区域；精确坐标在真机校准前标为示意，并允许调整。
+"Lệch phải" nghĩa là thiên thể nằm ở tâm vùng hiển thị phía bên phải, không phải sát mép phải của toàn bộ ảnh. Cấu hình thiết bị phải ghi riêng kích thước canvas đầy đủ, hướng, vùng camera che khuất, vùng nội dung hiển thị và vùng tránh đồng hồ; tọa độ chính xác được đánh dấu là minh họa cho đến khi hiệu chỉnh trên máy thật, và cho phép điều chỉnh.
 
-首批视觉预设建议：
+Đề xuất các preset hình ảnh đợt đầu:
 
-- 地球夜面：清晰球体和城市灯光、薄大气层，少量或不放背景星星。
-- 土星：完整保留星环，按星环外径构图，避免只按球体居中导致切环。
-- 月球：柔和侧光，适合小尺寸的清晰静态画面。
-- 黑洞：保证明亮吸积盘不过曝，保留外围空间。
+- Phía đêm Trái Đất: quả cầu rõ nét với ánh đèn thành phố, khí quyển mỏng, ít hoặc không có sao nền.
+- Sao Thổ: giữ trọn vành đai, bố cục theo đường kính ngoài của vành đai, tránh chỉ căn giữa theo quả cầu khiến vành đai bị cắt.
+- Mặt Trăng: ánh sáng bên mềm, phù hợp với hình tĩnh rõ nét ở kích thước nhỏ.
+- Hố đen: đảm bảo đĩa bồi tụ sáng không bị cháy sáng, giữ khoảng không gian xung quanh.
 
-背屏预设默认隐藏普通轨道线、卫星、随机流星、标签和天气事件图层，专门的运动轨迹壁纸仍保留轨迹本体。地球上的卫星在当前模型中是放大的演示比例，缩到背屏容易形成黑线干扰。以上是壁纸专用显示配置，退出后恢复原来的探索状态。
+Preset màn hình phụ mặt sau mặc định ẩn đường quỹ đạo thông thường, vệ tinh, sao băng ngẫu nhiên, nhãn và lớp sự kiện thời tiết; riêng hình nền quỹ đạo chuyển động chuyên dụng vẫn giữ bản thân quỹ đạo. Vệ tinh quanh Trái Đất trong mô hình hiện tại dùng tỉ lệ minh họa được phóng to, thu nhỏ xuống màn hình phụ dễ tạo thành các vạch đen gây nhiễu. Trên đây là cấu hình hiển thị dành riêng cho hình nền, sau khi thoát sẽ khôi phục trạng thái khám phá ban đầu.
 
-## 导出建议与实现依据
+## Đề xuất xuất tệp và cơ sở triển khai
 
-### 静态图片
+### Ảnh tĩnh
 
-优先输出 PNG，保留暗部渐变、星点和轮廓；可提供 JPEG 兼容选项。按目标像素尺寸直接渲染，不使用浏览器截图，不将整张竖屏截图硬裁成横屏。先以原生分辨率验证系统导入，2 倍尺寸作为后续可选项，而不是把“4K”当作小屏质量的替代指标。[Canvas toBlob](https://developer.mozilla.org/en-US/docs/Web/API/HTMLCanvasElement/toBlob)
+Ưu tiên xuất PNG, giữ dải chuyển màu vùng tối, điểm sao và đường viền; có thể cung cấp tùy chọn JPEG để tương thích. Kết xuất trực tiếp theo kích thước pixel đích, không dùng ảnh chụp màn hình của trình duyệt, không cắt cứng ảnh chụp màn hình dọc thành ảnh ngang. Trước tiên kiểm chứng việc nhập vào hệ thống ở độ phân giải gốc, kích thước 2 lần là tùy chọn về sau, thay vì coi "4K" là thước đo thay thế cho chất lượng trên màn hình nhỏ. [Canvas toBlob](https://developer.mozilla.org/en-US/docs/Web/API/HTMLCanvasElement/toBlob)
 
-当前项目的 `src/ui/wallpaper.js` 只隐藏 DOM、处理双击恢复，没有导出能力。`src/core/renderer.js` 的相机构图仍为浏览器界面留空间，输出尺寸也绑定窗口；`src/app.js` 的动画循环使用真实时间。应增加独立的壁纸构图与导出模块，复用天体和材质，避免改变现有探索视角。
+`src/ui/wallpaper.js` của dự án hiện chỉ ẩn DOM và xử lý khôi phục bằng nhấp đúp, chưa có khả năng xuất. Bố cục camera của `src/core/renderer.js` vẫn chừa chỗ cho giao diện trình duyệt, kích thước đầu ra cũng gắn với cửa sổ; vòng lặp hoạt ảnh của `src/app.js` dùng thời gian thực. Nên bổ sung module bố cục và xuất hình nền độc lập, tái sử dụng thiên thể và vật liệu, tránh thay đổi góc nhìn khám phá hiện có.
 
-静态捕获必须在一次完整后处理渲染完成后取帧。Three.js 官方说明直接在任意时刻读取 WebGL 画布可能得到空白，建议先渲染再调用 toBlob。不要为截图功能全局改变清屏行为，避免引入残影。[Three.js 截图说明](https://threejs.org/manual/en/tips.html)
+Việc chụp ảnh tĩnh phải lấy khung hình sau khi một lần kết xuất hậu kỳ đầy đủ đã hoàn tất. Tài liệu chính thức của Three.js cho biết đọc canvas WebGL vào thời điểm bất kỳ có thể nhận được ảnh trống, khuyến nghị kết xuất trước rồi mới gọi toBlob. Không thay đổi hành vi xóa màn hình trên toàn cục chỉ vì chức năng chụp ảnh, để tránh sinh bóng mờ. [Hướng dẫn chụp ảnh của Three.js](https://threejs.org/manual/en/tips.html)
 
-### 动态视频
+### Video động
 
-建议第一版用 5 秒、30 fps、无声 H.264 MP4 作为待验证的默认导出档。这是 ORBIT 的产品选择，不是已经确认的小米强制规格；通过真机后再增加其他时长。
+Đề xuất bản đầu dùng MP4 H.264 không tiếng, 5 giây, 30 fps làm cấu hình xuất mặc định chờ kiểm chứng. Đây là lựa chọn sản phẩm của Du Hành Vũ Trụ, không phải thông số bắt buộc đã được xác nhận của Xiaomi; sau khi qua kiểm tra trên máy thật mới bổ sung các thời lượng khác.
 
-第一帧应已经是完整星球，不加片头、淡入或相机飞行。小屏只做轻微、稳定运动，不能直接截取项目的 25 秒漫游演示。对于要求循环的素材，需检查纹理、云层、星空、光照等所有可见元素的首尾状态；不能只把星球转一圈就宣称无缝。
+Khung hình đầu tiên phải là thiên thể hoàn chỉnh, không thêm đoạn mở đầu, hiệu ứng hiện dần hay chuyến bay camera. Trên màn hình nhỏ chỉ dùng chuyển động nhẹ, ổn định, không thể cắt thẳng đoạn trình diễn du hành 25 giây của dự án. Với tư liệu cần lặp, phải kiểm tra trạng thái đầu và cuối của mọi thành phần nhìn thấy như texture, lớp mây, bầu trời sao, ánh sáng; không thể chỉ cho thiên thể quay một vòng rồi tuyên bố là liền mạch.
 
-可选轻微周期镜头运动或专门的循环动画。五秒内完整自转一圈通常过快；缓慢单向自转与严格无缝短循环存在取舍，要在预览中明确。系统是否重复播放仍由设备决定。
+Có thể chọn chuyển động camera tuần hoàn nhẹ hoặc hoạt ảnh lặp chuyên dụng. Tự quay trọn một vòng trong năm giây thường quá nhanh; giữa tự quay chậm một chiều và vòng lặp ngắn liền mạch tuyệt đối có sự đánh đổi, cần thể hiện rõ trong phần xem trước. Việc hệ thống có phát lặp lại hay không vẫn do thiết bị quyết định.
 
-Canvas captureStream 可以提供画布视频流；MediaRecorder 的编码支持须运行时检测，而且检测通过后仍可能因资源不足失败。不能把 WebM 改扩展名当作 MP4。动态不支持时保留静态导出，后续可再评估独立编码方案。[captureStream](https://developer.mozilla.org/en-US/docs/Web/API/HTMLCanvasElement/captureStream)、[MediaRecorder 支持检测](https://developer.mozilla.org/en-US/docs/Web/API/MediaRecorder/isTypeSupported_static)
+Canvas captureStream có thể cung cấp luồng video của canvas; khả năng mã hóa của MediaRecorder phải được kiểm tra lúc chạy, và ngay cả khi kiểm tra đạt vẫn có thể thất bại do thiếu tài nguyên. Không được đổi phần mở rộng của WebM thành MP4. Khi không hỗ trợ video động thì giữ chức năng xuất ảnh tĩnh, về sau có thể đánh giá thêm phương án mã hóa độc lập. [captureStream](https://developer.mozilla.org/en-US/docs/Web/API/HTMLCanvasElement/captureStream), [Kiểm tra hỗ trợ MediaRecorder](https://developer.mozilla.org/en-US/docs/Web/API/MediaRecorder/isTypeSupported_static)
 
-为避免此前录屏的观感问题，导出应直接来自渲染结果，避免低质量中间录屏再压缩；以固定时间采样组织高质量导出。实时 MediaRecorder 路线仍需检测丢帧，不能把 requestFrame 等同于编码时间轴控制。编码后复查暗部、细线、重复帧和首尾衔接。
+Để tránh vấn đề về cảm quan của các bản quay màn hình trước đây, tệp xuất nên lấy trực tiếp từ kết quả kết xuất, tránh quay màn hình trung gian chất lượng thấp rồi nén lại; tổ chức xuất chất lượng cao theo lấy mẫu thời gian cố định. Hướng MediaRecorder thời gian thực vẫn cần kiểm tra rớt khung, không thể coi requestFrame tương đương với việc kiểm soát trục thời gian mã hóa. Sau khi mã hóa cần rà lại vùng tối, các đường mảnh, khung lặp và mối nối đầu cuối.
 
-下载优先，系统文件分享作为增强项。Web Share 需要受支持的安全上下文与用户触发；用户取消分享不能被误报成导出失败。手机通过局域网 HTTP 访问时，不应假设与线上 HTTPS 的分享能力一致。[Web Share API](https://developer.mozilla.org/en-US/docs/Web/API/Web_Share_API)
+Ưu tiên tải về, chia sẻ tệp qua hệ thống là phần tăng cường. Web Share cần ngữ cảnh bảo mật được hỗ trợ và thao tác kích hoạt từ người dùng; việc người dùng hủy chia sẻ không được báo nhầm thành xuất thất bại. Khi điện thoại truy cập qua HTTP trong mạng LAN, không nên giả định khả năng chia sẻ giống như khi dùng HTTPS trực tuyến. [Web Share API](https://developer.mozilla.org/en-US/docs/Web/API/Web_Share_API)
 
-## 真机校准和交付标准
+## Hiệu chỉnh trên máy thật và tiêu chuẩn bàn giao
 
-在把某个配置标为“已适配”前，至少用对应机型完成一次：
+Trước khi đánh dấu một cấu hình là "đã thích ứng", cần thực hiện ít nhất một lần trên model tương ứng:
 
-1. 导入带四角标记、中心线、坐标网格的校准图片，确认文件方向、缩放、裁切与右侧可见边界。
-2. 分别检查图片与视频导入，它们未必采用完全相同的裁切方式。
-3. 打开与关闭系统时钟、通知，确认主体遮挡范围；另查圆角和手机壳边缘。
-4. 导入默认短片，检查可选时长、系统是否二次压缩、实际播放帧率及首帧显示。
-5. 检查播放结束、熄屏、唤醒后的行为，明确哪些是系统限制。
-6. 在小米浏览器和 Chrome 上验证图片保存、MP4 导出、取消和失败恢复。
-7. 退出制作面板后，探索模式的天体、相机、播放速度、图层和感知地球状态均恢复。
+1. Nhập ảnh hiệu chỉnh có đánh dấu bốn góc, đường tâm và lưới tọa độ, xác nhận hướng tệp, tỉ lệ, vùng cắt và biên hiển thị bên phải.
+2. Kiểm tra riêng việc nhập ảnh và nhập video, chúng chưa chắc dùng cùng một cách cắt.
+3. Bật và tắt đồng hồ hệ thống, thông báo, xác nhận phạm vi che khuất chủ thể; kiểm tra thêm góc bo và mép ốp điện thoại.
+4. Nhập đoạn video mặc định, kiểm tra các thời lượng có thể chọn, hệ thống có nén lại lần hai hay không, tốc độ khung hình phát thực tế và hiển thị khung đầu tiên.
+5. Kiểm tra hành vi khi phát xong, tắt màn hình và đánh thức, nêu rõ đâu là giới hạn của hệ thống.
+6. Kiểm chứng việc lưu ảnh, xuất MP4, hủy và khôi phục sau lỗi trên Mi Browser và Chrome.
+7. Sau khi thoát bảng tạo hình nền, thiên thể, camera, tốc độ phát, các lớp và trạng thái Trái Đất ở chế độ cảm nhận của chế độ khám phá đều được khôi phục.
 
-## 开发顺序
+## Thứ tự phát triển
 
-第一阶段：可配置的屏幕预设 + 右侧构图 + 避让预览 + PNG 导出 + 系统应用指引。
+Giai đoạn một: preset màn hình có thể cấu hình + bố cục lệch phải + xem trước vùng tránh + xuất PNG + hướng dẫn áp dụng trong hệ thống.
 
-第二阶段：短视频导出 + 编码检测 + 循环与压缩质量检查 + 真机参数校准。
+Giai đoạn hai: xuất video ngắn + kiểm tra mã hóa + kiểm tra chất lượng lặp và nén + hiệu chỉnh thông số trên máy thật.
 
-第三阶段：视实际需求另立背屏实时应用方案，评估公开接入与维护条件。
+Giai đoạn ba: tùy nhu cầu thực tế mà lập riêng phương án ứng dụng thời gian thực cho màn hình phụ mặt sau, đánh giá điều kiện tích hợp công khai và bảo trì.
 
-当前证据足以选择“网页制作、系统应用”的方向。继续搜集零散教程无法替代真机对裁切、时长和播放策略的验证；这三项是下一步最有价值的验证工作。
+Bằng chứng hiện có đủ để chọn hướng "tạo trên web, áp dụng trong hệ thống". Tiếp tục thu thập các hướng dẫn rời rạc không thể thay thế việc kiểm chứng trên máy thật về cách cắt, thời lượng và chính sách phát; ba hạng mục này là công việc kiểm chứng có giá trị nhất ở bước tiếp theo.

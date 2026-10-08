@@ -1,51 +1,51 @@
-# EarthSense 数据来源与契约
+# Nguồn dữ liệu và hợp đồng dữ liệu của EarthSense
 
-EarthSense **1.4.0** 只注册 **天气、闪电、台风** 三个图层，默认全部开启，可独立开关；它们将公开天气／风暴数据与明确标记的闪电演示叠加在 ORBIT 原有地球表面。数据适配器位于 `src/data/`，图层与请求状态位于 `src/earthsense/`；数据模块不依赖 Three.js 或页面 UI。
+EarthSense **1.4.0** chỉ đăng ký ba lớp **Thời tiết, Sét, Bão**, mặc định bật cả ba và có thể bật/tắt độc lập. Các lớp này chồng dữ liệu thời tiết/bão công khai cùng dữ liệu sét minh họa được đánh dấu rõ ràng lên bề mặt Trái Đất sẵn có của ORBIT. Bộ chuyển đổi dữ liệu nằm trong `src/data/`, lớp hiển thị và trạng thái yêu cầu nằm trong `src/earthsense/`; mô-đun dữ liệu không phụ thuộc Three.js hay giao diện trang.
 
-地表隐藏天气／闪电定位符号及台风中心符号，可点击云团、台风云带或事件列表查看详情。晴天没有云团时，通过列表选择对应天气采样点。选中台风后仍显示可点击的历史／预测路径时间点。
+Trên bề mặt Trái Đất, ký hiệu định vị Thời tiết/Sét và ký hiệu tâm bão được ẩn đi; người dùng có thể nhấp vào cụm mây, dải mây bão hoặc danh sách sự kiện để xem chi tiết. Khi trời quang không có cụm mây, chọn điểm lấy mẫu thời tiết tương ứng từ danh sách. Sau khi chọn một cơn bão, các mốc thời gian trên đường đi lịch sử/dự báo vẫn hiển thị và có thể nhấp được.
 
-## 公开接口
+## Giao diện công khai
 
-| 来源与图层 | 接口 | 读取内容 |
+| Nguồn và lớp | Giao diện | Nội dung đọc |
 | --- | --- | --- |
-| [Open-Meteo 官方文档](https://open-meteo.com/en/docs)：天气 | [/v1/forecast](https://api.open-meteo.com/v1/forecast?latitude=31.23&longitude=121.47&current=temperature_2m,relative_humidity_2m,precipitation,rain,weather_code,cloud_cover,wind_speed_10m,wind_direction_10m&timezone=GMT&timeformat=unixtime&forecast_days=1&cell_selection=nearest) | 多坐标批量返回的 `current`；单位使用接口默认值。链接为单点请求示例，应用实际批量请求 60 点。 |
-| [NASA EONET v3 文档](https://eonet.gsfc.nasa.gov/docs/v3)：风暴 | [/api/v3/events?status=open&category=severeStorms&limit=100](https://eonet.gsfc.nasa.gov/api/v3/events?status=open&category=severeStorms&limit=100) | 读取最多 100 项未关闭风暴的 `events` 及其按时间记录的 `geometry`。 |
-| [GDACS 官方 API 文档](https://www.gdacs.org/gdacsapi/swagger/index.html)：台风预警 | [geteventlist/MAP?eventtype=TC](https://www.gdacs.org/gdacsapi/api/events/geteventlist/MAP?eventtype=TC) | `FeatureCollection` 中的事件中心、报告等级、来源最大风速及轨迹线段。 |
-| GDACS：选中台风的公告 | [getepisodedata 示例](https://www.gdacs.org/gdacsapi/api/events/getepisodedata?eventtype=TC&eventid=1001317&episodeid=18) | 按所选 `eventid` 与 `episodeid` 读取公告，使用 `properties.impacts[].resource.timeline` 中发布的路径链接。 |
-| GDACS：官方历史与预测 | [gettimeline 示例](https://www.gdacs.org/gdacsapi/api/export/gettimeline?id=793141) | `channel.item[]` 中每点的 `actual`、`current`、公告编号、坐标、风速和 UTC 有效时间。链接中的内部 ID 从该次公告读取，不硬编码。 |
+| [Tài liệu chính thức Open-Meteo](https://open-meteo.com/en/docs): Thời tiết | [/v1/forecast](https://api.open-meteo.com/v1/forecast?latitude=31.23&longitude=121.47&current=temperature_2m,relative_humidity_2m,precipitation,rain,weather_code,cloud_cover,wind_speed_10m,wind_direction_10m&timezone=GMT&timeformat=unixtime&forecast_days=1&cell_selection=nearest) | Trường `current` trả về hàng loạt cho nhiều tọa độ; đơn vị dùng mặc định của giao diện. Liên kết là ví dụ yêu cầu một điểm, ứng dụng thực tế yêu cầu hàng loạt 60 điểm. |
+| [Tài liệu NASA EONET v3](https://eonet.gsfc.nasa.gov/docs/v3): Bão | [/api/v3/events?status=open&category=severeStorms&limit=100](https://eonet.gsfc.nasa.gov/api/v3/events?status=open&category=severeStorms&limit=100) | Đọc tối đa 100 cơn bão chưa đóng trong `events` cùng `geometry` được ghi theo thời gian. |
+| [Tài liệu API chính thức GDACS](https://www.gdacs.org/gdacsapi/swagger/index.html): Cảnh báo bão | [geteventlist/MAP?eventtype=TC](https://www.gdacs.org/gdacsapi/api/events/geteventlist/MAP?eventtype=TC) | Tâm sự kiện, cấp báo cáo, tốc độ gió cực đại theo nguồn và các đoạn quỹ đạo trong `FeatureCollection`. |
+| GDACS: bản tin của cơn bão được chọn | [Ví dụ getepisodedata](https://www.gdacs.org/gdacsapi/api/events/getepisodedata?eventtype=TC&eventid=1001317&episodeid=18) | Đọc bản tin theo `eventid` và `episodeid` được chọn, dùng liên kết đường đi công bố trong `properties.impacts[].resource.timeline`. |
+| GDACS: lịch sử và dự báo chính thức | [Ví dụ gettimeline](https://www.gdacs.org/gdacsapi/api/export/gettimeline?id=793141) | Với mỗi điểm trong `channel.item[]`: `actual`, `current`, số hiệu bản tin, tọa độ, tốc độ gió và thời gian hiệu lực UTC. ID nội bộ trong liên kết được đọc từ chính bản tin đó, không mã hóa cứng. |
 
-天气请求使用 `timezone=GMT&timeformat=unixtime&cell_selection=nearest`。字段为 `temperature_2m`、`relative_humidity_2m`、`precipitation`、`rain`、`weather_code`、`cloud_cover`、`wind_speed_10m`、`wind_direction_10m`。
+Yêu cầu thời tiết dùng `timezone=GMT&timeformat=unixtime&cell_selection=nearest`. Các trường gồm `temperature_2m`, `relative_humidity_2m`, `precipitation`, `rain`, `weather_code`, `cloud_cover`, `wind_speed_10m`, `wind_direction_10m`.
 
-## 统一事件格式
+## Định dạng sự kiện thống nhất
 
-列表网络调用为 `loadWeather(options)`、`loadEonet('severeStorms', options)`、`loadGdacs('TC', options)`。选中台风时调用 `src/data/cyclone-track.js` 的 `loadCycloneTrack(event, options)`，返回该次公告的路径。`options` 支持 `signal`、`force` 和用于测试的 `fetchImpl`；传输或格式失败抛出错误。闪电通过本地 `loadSimulatedLightning()` 返回演示记录，不发起数据请求。
+Các lệnh gọi mạng cho danh sách là `loadWeather(options)`, `loadEonet('severeStorms', options)`, `loadGdacs('TC', options)`. Khi chọn một cơn bão, gọi `loadCycloneTrack(event, options)` trong `src/data/cyclone-track.js` để trả về đường đi của bản tin đó. `options` hỗ trợ `signal`, `force` và `fetchImpl` dùng cho kiểm thử; lỗi truyền tải hoặc lỗi định dạng sẽ ném ra ngoại lệ. Sét được trả về qua hàm cục bộ `loadSimulatedLightning()` dưới dạng bản ghi minh họa, không gửi yêu cầu dữ liệu.
 
 ```js
 {
   id, layer, title,
-  lat, lon,                 // WGS84；纬度 [-90, 90]，经度 [-180, 180]
-  time,                     // 来源事件时间，UTC ISO 字符串
-  source, sourceUrl,         // 来源名称；仅允许 HTTPS 详情链接
+  lat, lon,                 // WGS84; vĩ độ [-90, 90], kinh độ [-180, 180]
+  time,                     // Thời gian sự kiện theo nguồn, chuỗi ISO UTC
+  source, sourceUrl,         // Tên nguồn; chỉ cho phép liên kết chi tiết HTTPS
   severity,                 // high / medium / low / unknown
   description,
   metrics: [{ label, value }],
-  track: [[lon, lat], ...],  // 可选：EONET 按时间排序的连续观测路径
-  paths: [[[lon, lat], ...], ...], // 可选：旧 GDACS 独立线段，不据此判断历史／预测
-  cyclone: {                // 仅台风／风暴；缺失风速为 null
+  track: [[lon, lat], ...],  // Tùy chọn: đường quan trắc liên tục của EONET, sắp theo thời gian
+  paths: [[[lon, lat], ...], ...], // Tùy chọn: các đoạn độc lập kiểu GDACS cũ, không dùng để phân biệt lịch sử/dự báo
+  cyclone: {                // Chỉ cho bão; thiếu tốc độ gió thì là null
     windSpeedKmh,
     windBasis,              // observation / event-maximum / unavailable
-    validTime               // 当前观测的 UTC ISO 时间；事件最大值为 null
+    validTime               // Thời gian ISO UTC của quan trắc hiện tại; giá trị cực đại sự kiện thì là null
   },
-  gdacs: { eventId, episodeId, eventType, source }, // GDACS 公告标识
-  trackData: {              // EONET 自带历史；GDACS 选中后按需加载
+  gdacs: { eventId, episodeId, eventType, source }, // Định danh bản tin GDACS
+  trackData: {              // EONET có sẵn lịch sử; GDACS tải theo nhu cầu sau khi được chọn
     history: [{ lon, lat, time, validTime, windSpeedKmh, source, sourceUrl }],
     forecast: [{ lon, lat, time, validTime, windSpeedKmh, source, sourceUrl }],
-    current,                // GDACS 明确标为当前的观测点，否则 null
+    current,                // Điểm quan trắc GDACS đánh dấu rõ là hiện tại, nếu không thì null
     source, sourceUrl, dataUrl, issuedAt,
     status,                 // ready / history-only / unavailable
     message
   },
-  weather: {                // 仅天气事件；缺失观测值保留为 null
+  weather: {                // Chỉ cho sự kiện thời tiết; giá trị quan trắc thiếu giữ là null
     temperature, windSpeed, windDirection,
     precipitation, cloudCover, interval,
     rain, humidity, code
@@ -53,73 +53,73 @@ EarthSense **1.4.0** 只注册 **天气、闪电、台风** 三个图层，默�
 }
 ```
 
-无效坐标、时间或不适用几何会被过滤；同一来源 ID 的重复记录保留较新记录。顶层格式错误、HTTP 错误、非法 JSON 和请求超时均不会伪装成空事件数组。标题和说明属于外部文本，UI 使用 `textContent` 渲染，不将来源内容当作 HTML。
+Tọa độ, thời gian không hợp lệ hoặc hình học không phù hợp sẽ bị lọc bỏ; bản ghi trùng cùng ID nguồn giữ lại bản mới hơn. Lỗi định dạng cấp cao nhất, lỗi HTTP, JSON không hợp lệ và hết thời gian chờ đều không bị ngụy trang thành mảng sự kiện rỗng. Tiêu đề và mô tả là văn bản bên ngoài, giao diện hiển thị bằng `textContent`, không coi nội dung nguồn là HTML.
 
-`severity` 用于预警标签分级：GDACS 使用当前报告的 `episodealertlevel`，卡片同时保留事件总体 `alertlevel`。EONET 未提供相应等级时为 `unknown`。台风云系的半径与旋速读取独立的 `cyclone.windSpeedKmh`，不使用预警颜色推算风速。
+`severity` dùng để phân cấp nhãn cảnh báo: GDACS dùng `episodealertlevel` của báo cáo hiện tại, thẻ đồng thời giữ `alertlevel` tổng thể của sự kiện. Khi EONET không cung cấp cấp tương ứng thì là `unknown`. Bán kính và tốc độ xoay của hệ mây bão đọc từ `cyclone.windSpeedKmh` riêng, không suy tốc độ gió từ màu cảnh báo.
 
-## 时间、单位与覆盖范围
+## Thời gian, đơn vị và phạm vi bao phủ
 
-- **天气**：纬度为 −60°、−30°、0°、30°、60°，每条纬线每 30° 经度采样一次，共 60 点；它们是当前天气模型估计，**不是连续全球气象场或地面气象站实测值**。风向是来向，单位为度；风速为 km/h，气温为 °C，云量和湿度为百分比。
-- **累计降水与雨率**：Open-Meteo `current.time` 为 Unix 秒，`current.interval` 为累计时间间隔的秒数。`precipitation` 包含雨、阵雨和雪的降水量，`rain` 为降雨量，单位均为 mm。卡片保留真实累计间隔，例如“近 15 分钟”。视觉效果取有效 `rain` / `precipitation` 的较大值，以 `累计 mm × 3600 / interval` 换算为 mm/h；例如 15 分钟累计 1 mm 对应 4 mm/h。缺失或无效间隔不补造雨率，只可按天气代码做定性雨线示意；雪类代码不生成雨线。
-- **小雨云层简化**：按 [Open-Meteo 天气代码](https://open-meteo.com/en/docs)识别轻微毛毛雨、小雨、轻微冻雨与小阵雨（51、56、61、66、80），这些点位不生成云团，仅保留原有雨丝；即使来源云量较高也不补画。采样数据、云量数值、事件列表与雨率计算保持原样，中大雨和雷暴继续使用原有云层。
-- **EONET 风暴**：最多读取 100 项来源标记为 `open` 的 `severeStorms` 事件。它是经过整理的事件目录，未关闭不表示刚刚发生，也不保证覆盖全部风暴。时间取最新有效 `geometry.date`，不替换成当前时间。Point 直接定位，Polygon 使用球面平均的示意中心并在说明中标明。风暴历史 Point 按时间排序生成路径；`magnitudeValue` 的 `kts` 按 1.852 换算为 km/h。EONET 未提供官方预测端点，返回 `history-only` 并明确说明；正常空集合表示本次来源没有匹配事件。
-- **GDACS**：只将 `Point_Centroid` 计为事件；风圈、多边形、预报锥和轨迹不计为新增灾害。`todate` 表示来源事件／报告结束时间，`datemodified` 用于区分修订；这些未带时区的来源时间按 UTC 处理。台风同时读取 EONET 风暴；名称匹配的重复事件优先保留 GDACS，因此并非两个来源数量的简单相加。
-- **独立闪电图层**：保留 6 个明确标注的模拟雷暴地点，`simulated: true`、`time: null`，来源显示“模拟数据”，默认开启。`loadSimulatedLightning()` 是后续接入真实闪电服务的替换入口；这些地点的云团、雨线和闪电不表示当地实际发生雷暴。
+- **Thời tiết**: Các vĩ độ −60°, −30°, 0°, 30°, 60°, mỗi vĩ tuyến lấy mẫu mỗi 30° kinh độ, tổng cộng 60 điểm; đây là ước tính từ mô hình thời tiết hiện tại, **không phải trường khí tượng toàn cầu liên tục hay số liệu đo thực của trạm khí tượng mặt đất**. Hướng gió là hướng gió thổi đến, đơn vị độ; tốc độ gió tính bằng km/h, nhiệt độ bằng °C, lượng mây và độ ẩm bằng phần trăm.
+- **Lượng mưa tích lũy và cường độ mưa**: `current.time` của Open-Meteo là giây Unix, `current.interval` là số giây của khoảng tích lũy. `precipitation` gồm lượng mưa, mưa rào và tuyết, `rain` là lượng mưa, cùng đơn vị mm. Thẻ giữ khoảng tích lũy thực, ví dụ "15 phút gần nhất". Hiệu ứng hình ảnh lấy giá trị lớn hơn giữa `rain` / `precipitation` hợp lệ, quy đổi sang mm/h theo `lượng tích lũy mm × 3600 / interval`; ví dụ tích lũy 1 mm trong 15 phút tương ứng 4 mm/h. Khoảng thiếu hoặc không hợp lệ thì không bịa cường độ mưa, chỉ có thể minh họa định tính vệt mưa theo mã thời tiết; các mã tuyết không tạo vệt mưa.
+- **Giản lược mây khi mưa nhỏ**: Theo [mã thời tiết Open-Meteo](https://open-meteo.com/en/docs), nhận diện mưa phùn nhẹ, mưa nhỏ, mưa băng nhẹ và mưa rào nhẹ (51, 56, 61, 66, 80); các điểm này không tạo cụm mây, chỉ giữ các sợi mưa sẵn có, kể cả khi lượng mây theo nguồn cao. Dữ liệu lấy mẫu, giá trị lượng mây, danh sách sự kiện và phép tính cường độ mưa giữ nguyên; mưa vừa, mưa to và dông vẫn dùng lớp mây cũ.
+- **Bão EONET**: Đọc tối đa 100 sự kiện `severeStorms` được nguồn đánh dấu là `open`. Đây là danh mục sự kiện đã qua biên tập; chưa đóng không có nghĩa là vừa mới xảy ra, cũng không đảm bảo bao phủ mọi cơn bão. Thời gian lấy `geometry.date` hợp lệ mới nhất, không thay bằng thời gian hiện tại. Point được định vị trực tiếp, Polygon dùng tâm minh họa tính bằng trung bình trên mặt cầu và có ghi chú trong mô tả. Các Point lịch sử của bão được sắp theo thời gian để tạo đường đi; `kts` trong `magnitudeValue` được nhân 1.852 để đổi sang km/h. EONET không cung cấp điểm cuối dự báo chính thức, nên trả về `history-only` kèm giải thích rõ; tập rỗng bình thường nghĩa là lần này nguồn không có sự kiện khớp.
+- **GDACS**: Chỉ tính `Point_Centroid` là sự kiện; vòng gió, đa giác, nón dự báo và quỹ đạo không được tính là thảm họa mới. `todate` là thời điểm kết thúc sự kiện/báo cáo theo nguồn, `datemodified` dùng để phân biệt bản sửa đổi; các thời gian nguồn không kèm múi giờ này được xử lý theo UTC. Lớp Bão đồng thời đọc bão từ EONET; sự kiện trùng tên ưu tiên giữ GDACS, vì vậy tổng số không phải là phép cộng đơn giản số lượng của hai nguồn.
+- **Lớp Sét độc lập**: Giữ 6 địa điểm dông mô phỏng được đánh dấu rõ, `simulated: true`, `time: null`, nguồn hiển thị "Dữ liệu mô phỏng", mặc định bật. `loadSimulatedLightning()` là điểm thay thế để sau này kết nối dịch vụ sét thực; cụm mây, vệt mưa và tia sét tại các địa điểm này không biểu thị dông thực sự xảy ra ở đó.
 
-UI 的“更新”时间是本次成功取得数据的时间，事件卡片时间来自数据源，两者含义不同。宇宙演示流速不会改写事件时间。图层用于探索与科普，采样位置、路径和分级不能替代官方监测、避险信息或应急决策；数据使用仍需遵循各来源的许可与调用配额。
+Thời gian "Cập nhật" trên giao diện là thời điểm lần này lấy dữ liệu thành công, còn thời gian trên thẻ sự kiện đến từ nguồn dữ liệu; hai giá trị có ý nghĩa khác nhau. Tốc độ trôi thời gian minh họa của vũ trụ không làm thay đổi thời gian sự kiện. Các lớp dùng cho khám phá và phổ biến khoa học; vị trí lấy mẫu, đường đi và phân cấp không thể thay thế giám sát chính thức, thông tin phòng tránh hay quyết định ứng phó khẩn cấp. Việc dùng dữ liệu vẫn phải tuân theo giấy phép và hạn mức gọi của từng nguồn.
 
-## 台风公告与路径
+## Bản tin và đường đi của bão
 
-GDACS 列表的 `severitydata.severity` 是**事件最大风速**，其单位按来源字段转换；初始云系据此缩放，并使用 `windBasis: 'event-maximum'` 与 `validTime: null` 明确区分当前观测。选中台风后，适配器请求列表指向的具体公告，检查返回的事件与公告编号一致，再读取该公告发布的官方 timeline 链接。只接受 GDACS HTTPS `gettimeline` 地址，不把几何轮廓或预报锥猜测为中心路径。
+`severitydata.severity` trong danh sách GDACS là **tốc độ gió cực đại của sự kiện**, đơn vị được quy đổi theo trường nguồn; hệ mây ban đầu được co giãn theo giá trị này, và dùng `windBasis: 'event-maximum'` cùng `validTime: null` để phân biệt rõ với quan trắc hiện tại. Sau khi chọn bão, bộ chuyển đổi yêu cầu bản tin cụ thể mà danh sách trỏ tới, kiểm tra số hiệu sự kiện và bản tin trả về có khớp không, rồi đọc liên kết timeline chính thức do bản tin đó công bố. Chỉ chấp nhận địa chỉ HTTPS `gettimeline` của GDACS, không đoán đường viền hình học hay nón dự báo thành đường đi của tâm bão.
 
-timeline 的 `actual: 'True'` 是历史观测，`actual: 'False'` 是官方预测；`current: 'true'` 与 `actual: 'True'` 同时成立才是当前观测。`advisory_datetime` 按 `DD Mon YYYY HH:mm` 解析为 UTC，保留为每个点的 `time` / `validTime`。当前观测时间存入该次路径的 `issuedAt`，UI 标为“预报时次”；该字段不是网页发布时间，`datemodified` 也不替代它。只展示匹配当前公告编号、有效时间晚于该观测的官方预测点。缺少明确当前观测或公告编号时保留历史、隐藏预测并说明原因，不能把旧公告预测混入当前路径。时间分类来自公告字段，不随本机当前时间改变；UI 可单独标示公告预测时段已结束。
+Trong timeline, `actual: 'True'` là quan trắc lịch sử, `actual: 'False'` là dự báo chính thức; chỉ khi `current: 'true'` và `actual: 'True'` cùng đúng mới là quan trắc hiện tại. `advisory_datetime` được phân tích theo `DD Mon YYYY HH:mm` thành UTC, giữ làm `time` / `validTime` của từng điểm. Thời gian quan trắc hiện tại được lưu vào `issuedAt` của đường đi lần đó, giao diện ghi là "Thời điểm dự báo"; trường này không phải thời gian đăng trên trang web, và `datemodified` cũng không thay thế nó. Chỉ hiển thị các điểm dự báo chính thức khớp số hiệu bản tin hiện tại và có thời gian hiệu lực muộn hơn quan trắc đó. Khi thiếu quan trắc hiện tại rõ ràng hoặc số hiệu bản tin, giữ lịch sử, ẩn dự báo và giải thích lý do, không được trộn dự báo của bản tin cũ vào đường đi hiện tại. Việc phân loại thời gian đến từ các trường của bản tin, không thay đổi theo giờ hiện tại của máy; giao diện có thể đánh dấu riêng khi giai đoạn dự báo của bản tin đã kết thúc.
 
-timeline 的持续风速 `wind_speed` 单位为 m/s，乘 3.6 换算为 km/h；已与 [GDACS 官方 MARIE 公告的 km/h 图表](https://www.gdacs.org/Cyclones/report.aspx?eventid=1001317&episodeid=18&eventtype=TC) 逐点核对。只有上述明确当前观测的风速可在选中后更新云系，预测风速仅显示在预测点详情中。无效数值、负值或未知单位保留为空，不能用缺测值生成风力。
+Tốc độ gió duy trì `wind_speed` trong timeline có đơn vị m/s, nhân 3.6 để đổi sang km/h; đã đối chiếu từng điểm với [biểu đồ km/h trong bản tin MARIE chính thức của GDACS](https://www.gdacs.org/Cyclones/report.aspx?eventid=1001317&episodeid=18&eventtype=TC). Chỉ tốc độ gió của quan trắc hiện tại rõ ràng nói trên mới được dùng để cập nhật hệ mây sau khi chọn; tốc độ gió dự báo chỉ hiển thị trong chi tiết điểm dự báo. Giá trị không hợp lệ, số âm hoặc đơn vị không rõ được để trống, không dùng giá trị thiếu đo để tạo sức gió.
 
-地球上只显示当前选中的台风路径：历史用实线，预测用虚线，两类来源时间点分别可点击。没有官方预测时仅显示可用历史，不延长观测轨迹；没有可用路径时显示 `unavailable`。已实测 NOAA 的 MARIE 公告返回 18 个历史点与 8 个预测点，JTWC 的 KROVANH 公告返回 18 与 7 个点；样本公告及采集日期见 [fixture 溯源记录](../tests/fixtures/README.md)。
+Trên Trái Đất chỉ hiển thị đường đi của cơn bão đang được chọn: lịch sử dùng nét liền, dự báo dùng nét đứt, mốc thời gian của hai loại nguồn đều có thể nhấp riêng. Khi không có dự báo chính thức thì chỉ hiển thị lịch sử khả dụng, không kéo dài quỹ đạo quan trắc; khi không có đường đi khả dụng thì hiển thị `unavailable`. Đã kiểm tra thực tế: bản tin MARIE của NOAA trả về 18 điểm lịch sử và 8 điểm dự báo, bản tin KROVANH của JTWC trả về 18 và 7 điểm; bản tin mẫu và ngày thu thập xem tại [hồ sơ nguồn gốc fixture](../tests/fixtures/README.md).
 
-## 天气与台风的视觉含义
+## Ý nghĩa hình ảnh của Thời tiết và Bão
 
-天气云使用贴合球面的半透明薄云片，每个有云采样点的三片几何合并渲染；扭曲噪声生成缓慢流动的云丝与渐散边缘，太阳方向控制昼夜明暗，雷暴脉冲短暂照亮云内。云形、漂移和局部覆盖范围是程序示意，不能据此推断未采样区域的连续云场。
+Mây thời tiết dùng các lớp mây mỏng bán trong suốt áp sát mặt cầu, ba mảnh hình học của mỗi điểm lấy mẫu có mây được gộp lại để kết xuất; nhiễu biến dạng tạo các sợi mây trôi chậm và mép tan dần, hướng Mặt Trời điều khiển sáng tối ngày đêm, xung dông thoáng chiếu sáng bên trong mây. Hình dạng mây, độ trôi và phạm vi che phủ cục bộ là minh họa theo chương trình, không thể dùng để suy ra trường mây liên tục ở vùng không lấy mẫu.
 
-天气云渲染器初始化时生成一张 256 × 256 的单通道噪声纹理（64 KiB），供该组云片共享采样，减少逐片元重复的噪声计算；它是程序纹理，不是新增气象数据或卫星底图。
+Khi khởi tạo, bộ kết xuất mây thời tiết sinh một kết cấu nhiễu đơn kênh 256 × 256 (64 KiB) để nhóm mảnh mây dùng chung khi lấy mẫu, giảm tính toán nhiễu lặp lại cho từng fragment; đây là kết cấu theo chương trình, không phải dữ liệu khí tượng mới hay ảnh nền vệ tinh.
 
-`src/earthsense/effects/weather-state.js` 将真实天气采样记录转换为局部示意效果：晴／大致晴朗代码 `0 / 1` 不生成云、雨或闪电，即使其他字段存在冲突；其余天气的云量控制云团密度，雨率连续控制雨线数量、速度、长度与扩散范围。雨率强度采用平滑映射并在 50 mm/h 达到动画上限。**天气图层仅在 Open-Meteo 代码为 `95`、`96`、`99` 时显示雷暴闪电**；普通降雨或较高云量不会被升级为雷暴。雷暴示意闪电的循环间隔随雨率增强从约 18 秒缩短到 4 秒，亮度也随之变化；这个节奏不是来源实测闪电频率，API 没有提供逐次落雷数据。
+`src/earthsense/effects/weather-state.js` chuyển bản ghi lấy mẫu thời tiết thực thành hiệu ứng minh họa cục bộ: mã trời quang/gần như quang `0 / 1` không tạo mây, mưa hay sét, kể cả khi các trường khác mâu thuẫn; với các loại thời tiết còn lại, lượng mây điều khiển mật độ cụm mây, cường độ mưa điều khiển liên tục số lượng, tốc độ, độ dài và phạm vi khuếch tán của vệt mưa. Cường độ mưa được ánh xạ mượt và đạt giới hạn hoạt ảnh ở 50 mm/h. **Lớp Thời tiết chỉ hiển thị sét dông khi mã Open-Meteo là `95`, `96`, `99`**; mưa thường hay lượng mây cao không bị nâng thành dông. Chu kỳ sét minh họa trong dông rút ngắn từ khoảng 18 giây xuống 4 giây khi cường độ mưa tăng, độ sáng cũng thay đổi theo; nhịp này không phải tần suất sét đo thực từ nguồn, API không cung cấp dữ liệu từng lần sét đánh.
 
-台风云系定位于 EONET / GDACS 的真实事件经纬度。`effects/cyclone-scale.js` 将来源 km/h 连续映射到视觉半径和旋转速度；当前映射在 280 km/h 达到视觉上限，缺测值使用明确的中性示意大小。两层曲面薄云形成低眼墙、开放风眼与长短宽窄不同的螺旋云带，结构随事件种子变化，云带细节与整体旋转采用不同的流动节奏；南北半球旋向相反。局部云内电光是程序演示，强弱和频率均不代表来源观测。**风速驱动的示意半径仍不是卫星云边界或官方风圈／预测锥**。独立闪电图层复用天气效果渲染器，但始终保留上述 6 个点的模拟身份。
+Hệ mây bão được định vị theo kinh vĩ độ thực của sự kiện EONET / GDACS. `effects/cyclone-scale.js` ánh xạ liên tục km/h từ nguồn sang bán kính hình ảnh và tốc độ xoay; ánh xạ hiện tại đạt giới hạn hình ảnh ở 280 km/h, giá trị thiếu đo dùng kích thước minh họa trung tính rõ ràng. Hai lớp mây mỏng dạng mặt cong tạo thành thành mắt bão thấp, mắt bão mở và các dải mây xoắn ốc dài ngắn, rộng hẹp khác nhau; cấu trúc thay đổi theo hạt giống của sự kiện, chi tiết dải mây và chuyển động xoay tổng thể dùng nhịp trôi khác nhau; hai bán cầu Bắc và Nam xoay ngược chiều. Ánh chớp cục bộ trong mây là minh họa theo chương trình, cường độ và tần suất không đại diện cho quan trắc nguồn. **Bán kính minh họa do tốc độ gió điều khiển vẫn không phải ranh giới mây vệ tinh hay vòng gió/nón dự báo chính thức**. Lớp Sét độc lập tái sử dụng bộ kết xuất hiệu ứng thời tiết, nhưng luôn giữ danh tính mô phỏng của 6 điểm nói trên.
 
-## 地球高清底图
+## Ảnh nền Trái Đất độ phân giải cao
 
-地球日夜底图来自 [Solar System Scope 官方纹理](https://www.solarsystemscope.com/textures/)，采用 CC BY 4.0；原始 8K 文件的来源、尺寸与校验值见 [素材署名](../assets/CREDITS.md) 和 [manifest](../assets/manifest.json)。它们是静态视觉重建纹理，不是当前卫星观测；天气数据与灾害时间由独立公开接口提供。
+Ảnh nền ngày/đêm của Trái Đất lấy từ [kết cấu chính thức của Solar System Scope](https://www.solarsystemscope.com/textures/), theo giấy phép CC BY 4.0; nguồn, kích thước và giá trị kiểm tra của các tệp 8K gốc xem tại [ghi công tư liệu](../assets/CREDITS.md) và [manifest](../assets/manifest.json). Đây là kết cấu tái dựng hình ảnh tĩnh, không phải quan trắc vệ tinh hiện tại; dữ liệu thời tiết và thời gian thảm họa do các giao diện công khai độc lập cung cấp.
 
-`src/earth/detail-textures.js` 在应用启动后异步准备同一对 **8192 × 4096** 源图，供宇宙漫游与感知模式共用：桌面优先 8K，手机布局或设备报告内存不高于 4 GB 时优先 4K，最终尺寸还受 GPU 纹理上限限制。4K 是运行时降采样结果，并非另一个官方下载版本；原文件不做重采样或覆盖。无法使用高于 2K 的纹理或加载失败时继续使用原 2K 底图。两模式共用细分地球几何、原有昼夜着色、原泛光及同一渲染采样策略，切换不会降级贴图或重新调亮地球。
+`src/earth/detail-textures.js` sau khi ứng dụng khởi động sẽ chuẩn bị bất đồng bộ cùng một cặp ảnh nguồn **8192 × 4096**, dùng chung cho chế độ du hành vũ trụ và chế độ cảm nhận: máy tính để bàn ưu tiên 8K, bố cục điện thoại hoặc thiết bị báo bộ nhớ không quá 4 GB thì ưu tiên 4K, kích thước cuối cùng còn bị giới hạn bởi kích thước kết cấu tối đa của GPU. 4K là kết quả giảm mẫu khi chạy, không phải phiên bản tải xuống chính thức khác; tệp gốc không bị lấy mẫu lại hay ghi đè. Khi không dùng được kết cấu lớn hơn 2K hoặc tải thất bại, tiếp tục dùng ảnh nền 2K gốc. Hai chế độ dùng chung hình học Trái Đất chia mịn, cách tô ngày đêm sẵn có, hiệu ứng bloom sẵn có và cùng chiến lược lấy mẫu khi kết xuất, nên chuyển chế độ không làm giảm chất lượng ảnh hay làm sáng lại Trái Đất.
 
-固定装饰云层只在宇宙漫游中显示；感知模式在地球近景关闭它，仅显示数据驱动的局部天气／台风云系。因此晴天采样点不会被固定装饰云层覆盖。两种云形都不代表实时卫星云图。
+Lớp mây trang trí cố định chỉ hiển thị trong chế độ du hành vũ trụ; chế độ cảm nhận tắt lớp này khi cận cảnh Trái Đất, chỉ hiển thị hệ mây thời tiết/bão cục bộ do dữ liệu điều khiển. Vì vậy điểm lấy mẫu trời quang sẽ không bị lớp mây trang trí cố định che phủ. Cả hai kiểu mây đều không đại diện cho ảnh mây vệ tinh thời gian thực.
 
-## 缓存、取消和错误状态
+## Bộ nhớ đệm, hủy yêu cầu và trạng thái lỗi
 
-`src/data/http.js` 合并同 URL 的并发请求，成功且通过格式验证后才缓存，列表与台风公告／路径接口的 TTL 均为 15 分钟。60 个天气采样点使用一次批量请求。单次请求超时为 18 秒，接口选项 `force` 绕过有效缓存。
+`src/data/http.js` gộp các yêu cầu đồng thời cùng URL, chỉ lưu đệm khi thành công và vượt qua kiểm tra định dạng; TTL của giao diện danh sách và giao diện bản tin/đường đi bão đều là 15 phút. 60 điểm lấy mẫu thời tiết dùng một yêu cầu hàng loạt. Thời gian chờ của mỗi yêu cầu là 18 giây, tùy chọn `force` bỏ qua bộ nhớ đệm còn hiệu lực.
 
-只有 EarthSense 模式开启且图层启用时才调度该图层。调度器每分钟检查是否到期，页面隐藏时跳过自动轮询；退出模式或关闭图层取消相应请求。取消一个消费者不会中止仍被其他图层使用的共享请求，最后一个消费者取消时才中止底层请求。模式退出后保留已成功取得的数据与开关状态；GPU 叠加图层仅在地球视角进入近景后显示。
+Chỉ khi chế độ EarthSense đang bật và lớp được bật thì lớp đó mới được lập lịch. Bộ lập lịch kiểm tra mỗi phút xem đã đến hạn chưa, bỏ qua thăm dò tự động khi trang bị ẩn; thoát chế độ hoặc tắt lớp sẽ hủy yêu cầu tương ứng. Hủy một bên tiêu thụ không làm dừng yêu cầu dùng chung mà lớp khác vẫn đang dùng, chỉ khi bên tiêu thụ cuối cùng hủy thì yêu cầu bên dưới mới bị dừng. Sau khi thoát chế độ, dữ liệu đã lấy thành công và trạng thái bật/tắt vẫn được giữ; lớp phủ GPU chỉ hiển thị khi góc nhìn Trái Đất vào cận cảnh.
 
-台风路径由独立选择状态管理，缓存键包含事件 ID、公告编号与事件时间。更换所选事件、关闭详情、关闭对应图层、离开地球近景或切换模式时取消该次路径请求并清除所选路径；迟到的旧响应不能重新打开详情或覆盖新选择。路径加载期间使用 `loading`，网络失败显示 `error`；二者是 UI 状态，与来源明确的 `history-only` / `unavailable` 不混淆。
+Đường đi của bão được quản lý bởi trạng thái chọn riêng, khóa bộ nhớ đệm gồm ID sự kiện, số hiệu bản tin và thời gian sự kiện. Khi đổi sự kiện được chọn, đóng chi tiết, tắt lớp tương ứng, rời cận cảnh Trái Đất hoặc chuyển chế độ, yêu cầu đường đi lần đó bị hủy và đường đi đã chọn bị xóa; phản hồi cũ đến muộn không thể mở lại chi tiết hay ghi đè lựa chọn mới. Trong khi tải đường đi dùng `loading`, lỗi mạng hiển thị `error`; hai giá trị này là trạng thái giao diện, không lẫn với `history-only` / `unavailable` do nguồn xác định rõ.
 
-| 状态 | 含义 |
+| Trạng thái | Ý nghĩa |
 | --- | --- |
-| `idle` / `loading` | 尚未读取 / 正在读取，刷新期间可继续保留已有事件效果。 |
-| `ready` / `empty` | 成功取得有效事件 / 来源成功返回且没有可显示事件。 |
-| `partial` | 台风的 GDACS / EONET 部分来源失败；展示此次成功来源的数据，同时显示失败来源说明。 |
-| `error` | 首次读取失败，尚无可复用的成功结果。 |
-| `stale` | 刷新失败，保留上次成功的数据与更新时间，明确提示未能更新。 |
+| `idle` / `loading` | Chưa đọc / đang đọc; trong lúc làm mới có thể tiếp tục giữ hiệu ứng sự kiện hiện có. |
+| `ready` / `empty` | Lấy được sự kiện hợp lệ / nguồn trả về thành công nhưng không có sự kiện nào để hiển thị. |
+| `partial` | Một phần nguồn GDACS / EONET của lớp Bão thất bại; hiển thị dữ liệu từ nguồn thành công lần này, đồng thời ghi chú nguồn thất bại. |
+| `error` | Lần đọc đầu tiên thất bại, chưa có kết quả thành công để tái sử dụng. |
+| `stale` | Làm mới thất bại, giữ dữ liệu và thời gian cập nhật của lần thành công trước, thông báo rõ là chưa cập nhật được. |
 
-失败及部分失败在约一分钟后重试。请求取消不被当作来源故障；普通错误不会触发伪造灾害或静态“实时”数据回退。
+Thất bại và thất bại một phần sẽ được thử lại sau khoảng một phút. Việc hủy yêu cầu không bị coi là sự cố nguồn; lỗi thông thường không kích hoạt thảm họa giả hay dữ liệu "thời gian thực" tĩnh dự phòng.
 
-## 静态部署与验证
+## Triển khai tĩnh và kiểm chứng
 
-`npm run build` 仍生成包含 Three.js、代码、CSS 与 15 张纹理的自包含 `index.html`，其中包括两张原始 8K 地球图。高清底图本身不需要额外联网下载。宇宙漫游保持离线可用，EarthSense 的公开数据需要联网；无需服务端代理、API 密钥或额外地球引擎。直接通过 `file://` 打开和 GitHub Pages 静态部署均使用浏览器 CORS 请求。
+`npm run build` vẫn tạo ra `index.html` tự chứa gồm Three.js, mã nguồn, CSS và 15 kết cấu, trong đó có hai ảnh Trái Đất 8K gốc. Bản thân ảnh nền độ phân giải cao không cần tải thêm qua mạng. Chế độ du hành vũ trụ vẫn dùng được ngoại tuyến, còn dữ liệu công khai của EarthSense cần kết nối mạng; không cần proxy phía máy chủ, khóa API hay engine Trái Đất bổ sung. Mở trực tiếp qua `file://` hay triển khai lên dịch vụ lưu trữ trang tĩnh đều dùng yêu cầu CORS của trình duyệt.
 
-列表接口在 2026-09-06 UTC 实测返回 `Access-Control-Allow-Origin: *`，包含 `Origin: null` 与 GitHub Pages 来源测试；新增 GDACS NOAA / JTWC 公告与 timeline 请求同日实测 HTTP 200，均带该 CORS 响应头。所有请求使用 `credentials: 'omit'`，无需账号或代理。GDACS 应使用表中的 `/gdacsapi/api/events/geteventlist/MAP`；另一个 `/xml/gdacsTC.geojson` 地址实测缺少 CORS 响应头，未用于应用。来源将来更改 CORS 或服务不可用时，页面会显示相应数据错误，宇宙渲染仍可继续。
+Ngày 2026-09-06 UTC, các giao diện danh sách được đo thực tế trả về `Access-Control-Allow-Origin: *`, bao gồm thử nghiệm với `Origin: null` và nguồn gốc từ trang lưu trữ tĩnh; các yêu cầu bản tin và timeline GDACS NOAA / JTWC mới thêm cũng được đo trong cùng ngày, đều trả về HTTP 200 kèm header CORS đó. Mọi yêu cầu dùng `credentials: 'omit'`, không cần tài khoản hay proxy. GDACS nên dùng `/gdacsapi/api/events/geteventlist/MAP` trong bảng; địa chỉ khác là `/xml/gdacsTC.geojson` khi đo thực tế thiếu header CORS nên không được ứng dụng dùng. Nếu sau này nguồn thay đổi CORS hoặc dịch vụ không khả dụng, trang sẽ hiển thị lỗi dữ liệu tương ứng, phần kết xuất vũ trụ vẫn tiếp tục hoạt động.
 
-`node --test tests/data.test.js tests/cyclone-data.test.js` 使用 `tests/fixtures/` 内注明采集日期的真实小型响应，覆盖单位、空数据、错误格式、UTC 日期、坐标、来源链接、事件去重、官方预测与当前公告匹配、缺少当前观测、缓存、超时和取消。Fixtures 仅用于测试，不会打包为运行时实况数据。
+`node --test tests/data.test.js tests/cyclone-data.test.js` dùng các phản hồi thực cỡ nhỏ có ghi ngày thu thập trong `tests/fixtures/`, bao phủ đơn vị, dữ liệu rỗng, định dạng lỗi, ngày UTC, tọa độ, liên kết nguồn, loại trùng sự kiện, khớp dự báo chính thức với bản tin hiện tại, thiếu quan trắc hiện tại, bộ nhớ đệm, hết thời gian chờ và hủy yêu cầu. Fixtures chỉ dùng cho kiểm thử, không được đóng gói thành dữ liệu thực tế khi chạy.
 
-历史版本的风场、地震、火山、山火和洪水模块及其适配器／测试源码暂时保留；当前 `layers.js` 不注册这些图层，不请求相应数据。未被当前入口引用的独立模块不进入构建依赖图，测试中保留旧类别不表示产品仍开放这些图层。
+Mã nguồn các mô-đun Gió, Động đất, Núi lửa, Cháy rừng và Lũ lụt của các phiên bản trước cùng bộ chuyển đổi/kiểm thử của chúng tạm thời được giữ lại; `layers.js` hiện tại không đăng ký các lớp này và không yêu cầu dữ liệu tương ứng. Các mô-đun độc lập không được điểm vào hiện tại tham chiếu sẽ không nằm trong đồ thị phụ thuộc khi build; việc giữ các loại cũ trong kiểm thử không có nghĩa là sản phẩm vẫn mở các lớp này.

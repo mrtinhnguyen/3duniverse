@@ -14,18 +14,18 @@ export function createLabels({ camera, controls, world, onSelect }) {
     element.dataset.bodyId = id;
     element.innerHTML = '<i></i><span></span>';
     element.querySelector('span').textContent = name;
-    element.title = '前往' + name;
+    element.title = 'Đi đến ' + name;
     element.tabIndex = -1;
     element.onclick = () => onSelect(id);
     document.getElementById('labels').appendChild(element);
     labels.push({ id, name, type, element });
   }
 
-  for (const body of bodies.values()) if (!body.parentGalaxy) add(body.id, body.cn);
-  add('iss', 'ISS · 国际空间站', 'station');
-  add('solar', '太阳系 · 你在这里');
-  for (const body of bodies.values()) if (body.parentGalaxy) add(body.id, body.cn);
-  for (const galaxy of galaxies.values()) add(galaxy.id, galaxy.cn, 'galaxy');
+  for (const body of bodies.values()) if (!body.parentGalaxy) add(body.id, body.vi);
+  add('iss', 'ISS · Trạm Vũ trụ Quốc tế', 'station');
+  add('solar', 'Hệ Mặt Trời · Bạn đang ở đây');
+  for (const body of bodies.values()) if (body.parentGalaxy) add(body.id, body.vi);
+  for (const galaxy of galaxies.values()) add(galaxy.id, galaxy.vi, 'galaxy');
 
   function isVisible(object) {
     for (let node = object; node; node = node.parent) if (node.visible === false) return false;
@@ -100,7 +100,7 @@ export function createLabels({ camera, controls, world, onSelect }) {
       const y = Math.round(py - 5);
       // Estimate the compact text box without a layout read on each animation frame.
       const fontSize = compact ? 9 : 11;
-      const width = [...item.name].reduce((sum, char) => sum + (char.charCodeAt(0) > 255 ? fontSize : fontSize * .64) + 1, 28);
+      const width = [...item.name].reduce((sum, char) => sum + (char.charCodeAt(0) >= 0x2e80 ? fontSize : fontSize * .64) + 1, 28);
       const besideScale = item.type === 'galaxy' && compact && py > viewH * .4 - 20 && py < viewH - 180;
       const rightEdge = viewW - (besideScale ? 88 : 20);
       if (item.type === 'galaxy') {

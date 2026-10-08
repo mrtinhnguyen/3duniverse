@@ -5,7 +5,6 @@ import { createRenderer, createPipeline } from './core/renderer.js';
 import { createCamera, createNavigation } from './core/camera.js';
 import { createWorld, updateWorldVisibility } from './core/scene.js';
 import { loadTextures } from './core/textures.js';
-import { visitPing } from './core/telemetry.js';
 import { data } from './universe/catalog.js';
 import { createInfoPanel } from './ui/info-panel.js';
 import { createLabels } from './ui/labels.js';
@@ -19,12 +18,11 @@ export async function startOrbit() {
   let renderer;
   window.addEventListener('error', event => {
     console.error(event.error || event.message);
-    if (!renderer) fail('加载出现问题。请使用支持 WebGL 2 的新版 Chrome、Edge 或 Safari 打开此文件。');
+    if (!renderer) fail('Đã xảy ra lỗi khi tải. Vui lòng mở trang bằng phiên bản mới của Chrome, Edge hoặc Safari có hỗ trợ WebGL 2.');
   });
-  visitPing();
   try {
     renderer = createRenderer(document.getElementById('universe'), () =>
-      fail('图形上下文已丢失。请关闭占用显卡的页面后，重新加载星空。'));
+      fail('Mất ngữ cảnh đồ họa. Vui lòng đóng các trang đang dùng nhiều GPU rồi tải lại bầu trời sao.'));
     const scene = new THREE.Scene();
     const { camera, controls } = createCamera(renderer);
     const { composer, resize, updateFraming } = createPipeline(renderer, scene, camera);
@@ -57,7 +55,7 @@ export async function startOrbit() {
     bindCompactUI();
     resize(world);
     document.getElementById('load-progress').style.width = '100%';
-    document.getElementById('load-text').textContent = '欢迎回到地球';
+    document.getElementById('load-text').textContent = 'Chào mừng trở về Trái Đất';
     await renderer.compileAsync(scene, camera);
     composer.render();
     void earthDetail.prepare();
@@ -126,10 +124,10 @@ export async function startOrbit() {
         if (earthsense.visible) {
           const detail = earthDetail.getState();
           document.getElementById('view-caption').textContent = detail.status === 'ready'
-            ? `EARTHSENSE · ${detail.textureWidth / 1024}K 地表` : 'EARTHSENSE · 地表观测';
+            ? `EARTHSENSE · ${detail.textureWidth / 1024}K bề mặt` : 'EARTHSENSE · Quan sát bề mặt';
         } else if (navigation.getState().focusBody === 'earth' && navigation.getState().stage === 'earth'
           && earthDetail.getState().status === 'ready') {
-          document.getElementById('view-caption').textContent += ` · ${earthDetail.getState().textureWidth / 1024}K 地表`;
+          document.getElementById('view-caption').textContent += ` · ${earthDetail.getState().textureWidth / 1024}K bề mặt`;
         }
       }
       if (ui.wallpaper.active) ui.wallpaper.update(dt);
@@ -165,12 +163,12 @@ export async function startOrbit() {
         setTrailLength: world.motionTrajectories.setTrailLength,
       },
       destinations: () => [...world.galaxyDefinitions, ...world.deepSpace.bodies.values()].map(body => ({
-        id: body.id, name: body.cn, kind: body.kind, parentGalaxy: body.parentGalaxy,
+        id: body.id, name: body.vi, kind: body.kind, parentGalaxy: body.parentGalaxy,
         parentStarId: body.parentStarId, modelStatus: body.modelStatus,
       })),
     };
   } catch (error) {
     console.error(error);
-    fail('无法初始化三维场景。请确认浏览器已开启硬件加速，或使用新版 Chrome、Edge、Safari 重试。');
+    fail('Không thể khởi tạo cảnh 3D. Vui lòng kiểm tra trình duyệt đã bật tăng tốc phần cứng, hoặc thử lại bằng phiên bản mới của Chrome, Edge, Safari.');
   }
 }

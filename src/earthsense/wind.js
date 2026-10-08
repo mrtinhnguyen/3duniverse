@@ -78,7 +78,7 @@ export function createWindLayer() {
 }
 
 export const wind = {
-  id: 'wind', label: '风场', color: '#93ecdc', enabled: false, ttl: 15 * 60_000,
-  load: async options => (await loadWeather(options)).map(event => ({ ...event, id: event.id + '-wind', layer: 'wind', title: '风场 · ' + event.title })),
+  id: 'wind', label: 'Gió', color: '#93ecdc', enabled: false, ttl: 15 * 60_000,
+  load: async options => (await loadWeather(options)).map(event => ({ ...event, id: event.id + '-wind', layer: 'wind', title: 'Trường gió · ' + event.title })),
   createView: createWindLayer,
 };

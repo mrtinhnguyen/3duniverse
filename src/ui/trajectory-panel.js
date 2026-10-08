@@ -13,7 +13,7 @@ export function createTrajectoryPanel({ world, navigation }) {
   panel.id = 'trajectory-panel';
   panel.inert = true;
   panel.setAttribute('aria-hidden', 'true');
-  panel.setAttribute('aria-label', '运动轨迹设置');
+  panel.setAttribute('aria-label', 'Cài đặt quỹ đạo chuyển động');
   const controls = element('div', 'trajectory-controls');
 
   function segment(label, options, onChange) {
@@ -37,48 +37,48 @@ export function createTrajectoryPanel({ world, navigation }) {
     return buttons;
   }
 
-  const referenceButtons = segment('轨迹参照系', [
-    ['galactic', '银河参照', '同时观察太阳系的整体运动与行星公转'],
-    ['solar', '太阳参照', '跟随太阳，比较八大行星的公转'],
+  const referenceButtons = segment('Hệ quy chiếu của quỹ đạo', [
+    ['galactic', 'Theo Ngân Hà', 'Quan sát đồng thời chuyển động tổng thể của Hệ Mặt Trời và sự quay quanh của các hành tinh'],
+    ['solar', 'Theo Mặt Trời', 'Bám theo Mặt Trời để so sánh chuyển động quay quanh của tám hành tinh'],
   ], value => world.motionTrajectories?.setReferenceFrame(value));
-  const lengthButtons = segment('轨迹显示长度', [
-    ['short', '短轨迹', '保留较短的运动轨迹，让画面更清晰'],
-    ['long', '长轨迹', '展开更长的一段运动过程'],
+  const lengthButtons = segment('Độ dài vệt quỹ đạo', [
+    ['short', 'Vệt ngắn', 'Giữ vệt quỹ đạo ngắn hơn để hình ảnh rõ ràng'],
+    ['long', 'Vệt dài', 'Hiển thị một đoạn chuyển động dài hơn'],
   ], value => world.motionTrajectories?.setTrailLength(value));
 
   const actions = element('div', 'trajectory-actions');
-  const reset = element('button', '', '重置视角');
+  const reset = element('button', '', 'Đặt lại góc nhìn');
   reset.type = 'button';
-  reset.title = '回到运动轨迹全景';
+  reset.title = 'Quay về toàn cảnh quỹ đạo chuyển động';
   reset.onclick = () => navigation.flyTo('trajectory');
-  const back = element('button', 'trajectory-back', '返回太阳系 ↗');
+  const back = element('button', 'trajectory-back', 'Quay về Hệ Mặt Trời ↗');
   back.type = 'button';
   back.onclick = () => navigation.flyTo('solar');
   actions.append(reset, back);
   controls.append(actions);
 
   const legend = element('div', 'trajectory-legend');
-  legend.setAttribute('aria-label', '八大行星轨迹颜色');
+  legend.setAttribute('aria-label', 'Màu quỹ đạo của tám hành tinh');
   for (const body of TRAJECTORY_DEFINITIONS.filter(body => body.id !== 'sun')) {
     const item = element('span', 'trajectory-legend-item');
     const swatch = element('i');
     swatch.setAttribute('aria-hidden', 'true');
     swatch.style.setProperty('--trajectory-color', `#${body.color.toString(16).padStart(6, '0')}`);
-    item.append(swatch, element('span', '', body.cn));
+    item.append(swatch, element('span', '', body.vi));
     legend.append(item);
   }
 
   const note = element('div', 'trajectory-note');
-  const intro = element('p', 'trajectory-intro', '公转与太阳系整体运动叠加 · 时间与距离压缩示意');
+  const intro = element('p', 'trajectory-intro', 'Chuyển động quay quanh cộng với chuyển động tổng thể của Hệ Mặt Trời · Thời gian và khoảng cách được nén để minh họa');
   const explanation = element('details', 'trajectory-explanation');
-  const summary = element('summary', '', '说明');
+  const summary = element('summary', '', 'Giải thích');
   const content = element('div', 'trajectory-explanation-content');
-  content.append(element('p', '', '银河参照叠加太阳系的整体运动；太阳参照跟随太阳，方便比较行星公转。暂停与时间倍速沿用上方控制。'));
-  const source = element('a', '', 'NASA · 太阳的轨道与运动 ↗');
+  content.append(element('p', '', 'Hệ quy chiếu Ngân Hà cộng thêm chuyển động tổng thể của Hệ Mặt Trời; hệ quy chiếu Mặt Trời bám theo Mặt Trời, giúp dễ so sánh chuyển động quay quanh của các hành tinh. Tạm dừng và tốc độ thời gian dùng chung các nút điều khiển phía trên.'));
+  const source = element('a', '', 'NASA · Quỹ đạo và chuyển động của Mặt Trời ↗');
   source.href = 'https://science.nasa.gov/sun/facts/';
   source.target = '_blank';
   source.rel = 'noopener noreferrer';
-  source.setAttribute('aria-label', 'NASA：太阳的轨道与运动（新标签页）');
+  source.setAttribute('aria-label', 'NASA: Quỹ đạo và chuyển động của Mặt Trời (mở trong thẻ mới)');
   content.append(source);
   explanation.append(summary, content);
   note.append(intro, explanation);

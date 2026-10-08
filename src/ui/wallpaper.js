@@ -13,13 +13,13 @@ export function bindWallpaperMode(canvas, { world, controls, navigation, view, s
   let active=false, press=null, taps=null, tapTimer=null, multi=false, pinching=null;
   let clock=0, savedNavigation=null, hintTimer=null;
   const descriptions = {
-    universe:'保留当前宇宙、镜头与动画，仅隐藏文字和控件。拖动与缩放照常，双击恢复界面。',
-    focus:'只展示一颗旋转星体或一个完整星系，保留光晕与星环。三击主体切换，双击恢复界面。',
-    trajectory:'太阳与八颗行星持续留下运动轨迹。选择运动参照、轨迹长度和左中右位置，画面自动适应屏幕。双击恢复界面。',
+    universe:'Giữ nguyên vũ trụ, góc máy và hoạt ảnh hiện tại, chỉ ẩn chữ và nút điều khiển. Vẫn kéo và thu phóng như bình thường, nhấp đúp để khôi phục giao diện.',
+    focus:'Chỉ hiển thị một thiên thể đang tự quay hoặc một thiên hà hoàn chỉnh, giữ lại quầng sáng và vành đai. Nhấp ba lần vào đối tượng để chuyển, nhấp đúp để khôi phục giao diện.',
+    trajectory:'Mặt Trời và tám hành tinh liên tục để lại vệt quỹ đạo chuyển động. Chọn hệ quy chiếu, độ dài vệt và vị trí trái, giữa hoặc phải; hình ảnh tự thích ứng với màn hình. Nhấp đúp để khôi phục giao diện.',
   };
-  for (const [label,items] of [['星体',bodies],['星系',world.galaxyDefinitions]]) {
+  for (const [label,items] of [['Thiên thể',bodies],['Thiên hà',world.galaxyDefinitions]]) {
     const group=document.createElement('optgroup'); group.label=label;
-    group.replaceChildren(...items.map(body=>new Option(body.cn+(body.modelStatus==='illustration'?' · 示意':''),body.id)));
+    group.replaceChildren(...items.map(body=>new Option(body.vi+(body.modelStatus==='illustration'?' · Minh họa':''),body.id)));
     $('wallpaper-selected').append(group);
   }
   function save() {
@@ -63,7 +63,7 @@ export function bindWallpaperMode(canvas, { world, controls, navigation, view, s
         hiddenRoots.set(element,element.inert); element.inert=true;
       }
       view.resize(settings); $('universe').focus({preventScroll:true});
-      hint.textContent=settings.mode==='focus'?'双击退出 · 三击星体切换':settings.mode==='trajectory'?'双击退出 · 三击切换参照与长短轨迹':'双击退出';
+      hint.textContent=settings.mode==='focus'?'Nhấp đúp để thoát · Nhấp ba lần vào thiên thể để chuyển':settings.mode==='trajectory'?'Nhấp đúp để thoát · Nhấp ba lần để đổi hệ quy chiếu và độ dài vệt':'Nhấp đúp để thoát';
       hint.classList.add('show');
       hintTimer=setTimeout(()=>hint.classList.remove('show'),4500);
     } else {
@@ -87,7 +87,7 @@ export function bindWallpaperMode(canvas, { world, controls, navigation, view, s
   $('wallpaper-reset').onclick=()=>{ view.resetRotation(); configure(normalizeWallpaperSettings()); };
   canvas.addEventListener('pointerdown',event=>{
     if (!active || event.button>0) return;
-    // A third press must cancel the pending double-tap before its release.
+    // Ba lần nhấp phải hủy bỏ tap kép đang chờ trước khi nhả.
     if (taps?.count===2 && performance.now()-taps.time<380) clearTimeout(tapTimer);
     pointers.set(event.pointerId,{x:event.clientX,y:event.clientY});
     canvas.setPointerCapture(event.pointerId);

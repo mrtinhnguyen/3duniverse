@@ -1,7 +1,8 @@
 import { createCycloneRouteInfo } from './cyclone-route-info.js';
+import { displayEventTitle } from './event-title.js';
 
-const layerNames = { weather: '天气', typhoon: '台风 / 风暴', lightning: '闪电 · 模拟' };
-const severityNames = { unknown: '未分级', high: '较高', medium: '中等', low: '较低', red: '红色预警', orange: '橙色预警', green: '绿色预警' };
+const layerNames = { weather: 'Thời tiết', typhoon: 'Bão / Bão nhiệt đới', lightning: 'Sét · Mô phỏng' };
+const severityNames = { unknown: 'Chưa phân cấp', high: 'Cao', medium: 'Trung bình', low: 'Thấp', red: 'Cảnh báo đỏ', orange: 'Cảnh báo cam', green: 'Cảnh báo xanh' };
 
 function node(tag, className, text) {
   const result = document.createElement(tag);
@@ -12,12 +13,12 @@ function node(tag, className, text) {
 
 function formatTime(value) {
   const date = new Date(typeof value === 'number' && value < 1e12 ? value * 1000 : value);
-  return value && Number.isFinite(date.getTime()) ? date.toLocaleString('zh-CN', { hour12: false }) : '未提供';
+  return value && Number.isFinite(date.getTime()) ? date.toLocaleString('vi-VN', { hour12: false }) : 'Không có dữ liệu';
 }
 
 function coordinates(lat, lon) {
-  if (!Number.isFinite(lat) || !Number.isFinite(lon)) return '坐标未提供';
-  return `${Math.abs(lat).toFixed(2)}°${lat >= 0 ? 'N' : 'S'} / ${Math.abs(lon).toFixed(2)}°${lon >= 0 ? 'E' : 'W'}`;
+  if (!Number.isFinite(lat) || !Number.isFinite(lon)) return 'Không có tọa độ';
+  return `${Math.abs(lat).toFixed(2).replace('.', ',')}°${lat >= 0 ? 'B' : 'N'} / ${Math.abs(lon).toFixed(2).replace('.', ',')}°${lon >= 0 ? 'Đ' : 'T'}`;
 }
 
 /** Safe text rendering for external event feeds; this panel does not own camera or data. */
@@ -30,7 +31,7 @@ export function createEventPopup({ onFocus, onClose }) {
   panel.setAttribute('aria-labelledby', 'earthsense-popup-title');
   const closeButton = node('button', 'earthsense-popup-close', '×');
   closeButton.type = 'button';
-  closeButton.setAttribute('aria-label', '关闭事件详情');
+  closeButton.setAttribute('aria-label', 'Đóng chi tiết sự kiện');
   const category = node('div', 'eyebrow');
   const title = node('h2', '');
   title.id = 'earthsense-popup-title';
@@ -41,7 +42,7 @@ export function createEventPopup({ onFocus, onClose }) {
   const source = node('a', 'earthsense-popup-source');
   source.target = '_blank';
   source.rel = 'noopener noreferrer';
-  const focus = node('button', 'earthsense-popup-focus', '放大查看 ↗');
+  const focus = node('button', 'earthsense-popup-focus', 'Phóng to quan sát ↗');
   const route = createCycloneRouteInfo();
   focus.type = 'button';
   panel.append(closeButton, category, title, location, route.element, description, metrics, time, source, focus);
@@ -66,24 +67,24 @@ export function createEventPopup({ onFocus, onClose }) {
     if (!event) return close();
     if (panel.hidden) previousFocus = document.activeElement;
     current = event;
-    category.textContent = `${layerNames[event.layer] || '地球事件'}${event.severity ? ' / ' + (severityNames[event.severity] || event.severity) : ''}`;
-    title.textContent = event.title || '地球事件';
+    category.textContent = `${layerNames[event.layer] || 'Sự kiện trên Trái Đất'}${event.severity ? ' / ' + (severityNames[event.severity] || event.severity) : ''}`;
+    title.textContent = displayEventTitle(event.title) || 'Sự kiện trên Trái Đất';
     const position = event.trackPoint || event;
-    const positionLabel = event.trackPoint ? `${event.trackKind === 'forecast' ? '预测点' : '历史点'} · ` : '';
+    const positionLabel = event.trackPoint ? `${event.trackKind === 'forecast' ? 'Điểm dự báo' : 'Điểm đã qua'} · ` : '';
     location.textContent = positionLabel + coordinates(position.lat, position.lon);
     description.textContent = event.description || '';
     description.hidden = !event.description;
     metrics.replaceChildren();
     for (const metric of (event.metrics || [])) {
-      metrics.append(node('dt', '', metric.label), node('dd', '', String(metric.value ?? '未提供')));
+      metrics.append(node('dt', '', metric.label), node('dd', '', String(metric.value ?? 'Không có dữ liệu')));
     }
     metrics.hidden = !metrics.childElementCount;
     route.update(event);
     const eventTime = event.time ?? event.timeISO;
-    time.textContent = event.layer === 'lightning' && !eventTime ? '模拟演示 · 非实况观测' : `事件时间 · ${formatTime(eventTime)}`;
+    time.textContent = event.layer === 'lightning' && !eventTime ? 'Dữ liệu mô phỏng · Không phải quan sát thực tế' : `Thời điểm sự kiện · ${formatTime(eventTime)}`;
     let safeUrl = null;
     try { const url = new URL(event.sourceUrl); if (url.protocol === 'https:' || url.protocol === 'http:') safeUrl = url.href; } catch { /* Missing source links remain plain text. */ }
-    source.textContent = `${event.source || '数据来源'}${safeUrl ? ' ↗' : ''}`;
+    source.textContent = `${event.source || 'Nguồn dữ liệu'}${safeUrl ? ' ↗' : ''}`;
     if (safeUrl) source.href = safeUrl;
     else source.removeAttribute('href');
     focus.disabled = !Number.isFinite(position.lat) || !Number.isFinite(position.lon);

@@ -1,149 +1,159 @@
-# ORBIT · 漫游宇宙 · 感知地球
+# Du Hành Vũ Trụ · Khám phá vũ trụ · Cảm nhận Trái Đất
 
-[简体中文](README.md) | [English](README_EN.md)
+[Tiếng Việt](README.md) | [English](README_EN.md)
 
 **Explore the Universe. Sense the Earth.**
 
-当前版本：**1.9.0**。查看[更新日志](CHANGELOG.md)。
+Phiên bản hiện tại: **1.9.0**. Xem [nhật ký thay đổi](CHANGELOG.md).
 
-**线上体验：** [https://ryh842487118-bot.github.io/orbit/](https://ryh842487118-bot.github.io/orbit/)
+Chỉ cần nhấp đúp vào tệp **index.html** trong thư mục này là dùng được. Three.js và 15 ảnh texture (gồm ảnh gốc 8K ngày/đêm của Trái Đất) đã được nhúng sẵn vào HTML, nên phần du hành vũ trụ không cần mạng, không cần cài thư viện và không cần chạy máy chủ. EarthSense chỉ kết nối mạng khi cần để lấy dữ liệu từ các nguồn công khai. Nên dùng phiên bản mới của Chrome, Edge hoặc Safari có hỗ trợ WebGL 2 và đã bật tăng tốc phần cứng.
 
-直接双击本目录的 **index.html** 即可使用。Three.js 和 15 张纹理（含地球 8K 日夜源图）已嵌入 HTML，宇宙漫游无需联网、安装依赖或启动服务器。EarthSense 通过公开接口按需联网。建议使用支持 WebGL 2、已开启硬件加速的新版 Chrome、Edge 或 Safari。
+## Video giới thiệu
 
-## 演示视频
+[![Ảnh xem trước video giới thiệu Du Hành Vũ Trụ](demo-preview.jpg)](demo.mp4)
 
-[![ORBIT 宇宙漫游演示预览](demo-preview.jpg)](demo.mp4)
+**[Xem video giới thiệu](demo.mp4)**
 
-**[查看演示视频](demo.mp4)** · [下载 MP4](https://github.com/ryh842487118-bot/orbit/raw/refs/heads/main/demo.mp4)
+Dài 25 giây, 1920 × 1080, 25 FPS. Video được quay liền mạch từ trang web thật, lần lượt đi qua quỹ đạo chuyển động theo hệ quy chiếu Ngân Hà, Trái Đất, chế độ Cảm nhận Trái Đất, Mặt Trời, hình minh họa một hành tinh khổng lồ trong Đám mây Magellan Lớn, và kết thúc ở toàn cảnh Nhóm Địa Phương.
 
-25 秒，1920 × 1080，25 FPS。实际网页连续录制，依次展示银河参照运动轨迹、地球、感知地球、太阳、大麦哲伦星云中的巨行星示意，最后停留在本星系群全景。
+## Xem trước tính năng mới
 
-## 新功能预览
+Dưới đây là ảnh chụp màn hình thực tế của phiên bản v1.6.0; nhấp vào ảnh để xem kích thước gốc. Cảnh hành tinh khổng lồ ngoài Ngân Hà vẫn giữ nhãn «Minh họa sáng tạo».
 
-以下为 v1.6.0 的实际页面截图，点击图片可查看原图。河外巨行星场景保留「创作示意」标记。
-
-| 银河参照运动轨迹 | 太阳参照运动轨迹 |
+| Quỹ đạo chuyển động · quy chiếu Ngân Hà | Quỹ đạo chuyển động · quy chiếu Mặt Trời |
 | --- | --- |
-| ![太阳与八大行星向前延伸的彩色运动轨迹](docs/previews/motion-galactic.jpg) | ![太阳参照下八大行星围绕太阳的运行轨迹](docs/previews/motion-solar.jpg) |
-| **感知地球 · 天气与雷暴图层** | **大质量恒星 · R136a1** |
-| ![EarthSense 高清地球与天气、闪电、台风图层](docs/previews/earthsense.jpg) | ![大麦哲伦星云中的真实恒星 R136a1 艺术化近景](docs/previews/massive-star.jpg) |
-| **河外巨行星 · 创作示意** | **本星系群 · 全景** |
-| ![大麦哲伦星云巨行星的艺术化表面，界面明确标注创作示意](docs/previews/extragalactic-planet.jpg) | ![银河系、仙女座星系、三角座星系及大小麦哲伦星云的星系群全景](docs/previews/local-group.jpg) |
+| ![Quỹ đạo chuyển động nhiều màu của Mặt Trời và tám hành tinh kéo dài về phía trước](docs/previews/motion-galactic.jpg) | ![Đường chuyển động của tám hành tinh quanh Mặt Trời theo hệ quy chiếu Mặt Trời](docs/previews/motion-solar.jpg) |
+| **Cảm nhận Trái Đất · Lớp Thời tiết và dông** | **Ngôi sao khối lượng lớn · R136a1** |
+| ![Trái Đất độ phân giải cao trong EarthSense với các lớp Thời tiết, Sét và Bão](docs/previews/earthsense.jpg) | ![Cận cảnh mang tính nghệ thuật của ngôi sao có thật R136a1 trong Đám mây Magellan Lớn](docs/previews/massive-star.jpg) |
+| **Hành tinh khổng lồ ngoài Ngân Hà · Minh họa sáng tạo** | **Nhóm Địa Phương · Toàn cảnh** |
+| ![Bề mặt nghệ thuật của một hành tinh khổng lồ trong Đám mây Magellan Lớn, giao diện ghi rõ là minh họa sáng tạo](docs/previews/extragalactic-planet.jpg) | ![Toàn cảnh Ngân Hà, Thiên hà Tiên Nữ, Thiên hà Tam Giác và hai Đám mây Magellan Lớn, Nhỏ](docs/previews/local-group.jpg) |
 
-## 演示与反馈
+## Khám phá
 
-[观看 ORBIT 抖音演示](https://v.douyin.com/fs-xgwuET1g)。所附截图显示 **4,319 次点赞、1,292 次收藏、304 条评论和 920 次分享**，记录了项目在 GitHub 之外获得的关注。数据以截图为准，收录日期为 2026-09-08。
+- Kéo chuột để xoay góc nhìn, cuộn chuột để phóng to/thu nhỏ; trên màn hình cảm ứng, dùng một ngón để xoay và chụm hai ngón để thu phóng.
+- Thu nhỏ liên tục từ Trái Đất để lần lượt đi qua các thang Hệ Mặt Trời, Ngân Hà và Danh mục thiên hà; phóng to liên tục để quay về thiên thể đang theo dõi.
+- Nhấp vào thiên thể ở thanh dưới cùng, thiên thể trong cảnh hoặc nhãn đánh dấu để bay mượt tới đích; ô tìm kiếm ở dưới hỗ trợ tên tiếng Việt, tên tiếng Anh và số hiệu danh lục sao.
+- Danh mục thiên hà mở **14 thiên hà**: Ngân Hà, Thiên hà Tiên Nữ (Andromeda), Thiên hà Tam Giác (Triangulum), Đám mây Magellan Lớn và Nhỏ, M32, M110, NGC 6822, Thiên hà Xoáy Nước M51, Thiên hà Bode M81, Thiên hà Xì Gà M82, Thiên hà Mũ Rộng Vành M104, Centaurus A và M87. Chọn một thiên hà, thanh dưới cùng sẽ mở ra các ngôi sao, hành tinh và hố đen đã được đưa vào; dùng «Thiên hà chứa», «Toàn cảnh hệ sao» hoặc «Danh mục thiên hà» để quay lại tầm nhìn rộng hơn. Danh mục trải qua nhiều nhóm thiên hà thực tế khác nhau, xem [tư liệu thiên hà mới](docs/observed-galaxies-sources.md).
+- Mở **27 mục tiêu là ngôi sao có thật ngoài Hệ Mặt Trời**. Lần này bổ sung ba sao chủ của ngoại hành tinh là TRAPPIST-1, Kepler-186, Kepler-22, cùng Sao Bắc Cực A (Polaris A), Altair, Arcturus, Aldebaran, Deneb, Canopus, Antares A và Sao Barnard. HD 5980 vẫn được thể hiện bằng một thiên thể phát sáng duy nhất đại diện cho hệ nhiều sao. Xem [tư liệu sao mới](docs/observed-stars-sources.md).
+- Thêm **5 điểm đến là hố đen**: Sagittarius A* của Ngân Hà, hố đen trung tâm Thiên hà Tiên Nữ, hố đen trung tâm M32, cùng M33 X-7 trong Thiên hà Tam Giác và LMC X-1 trong Đám mây Magellan Lớn. Hai hố đen sau thuộc loại khối lượng sao; bóng, vành sáng và đĩa bồi tụ chuyển động đều là minh họa nghệ thuật.
+- Mở **10 ngoại hành tinh đã được xác nhận**: HR 8799 b/c/d/e, Proxima Centauri b, TRAPPIST-1 e/f/g, Kepler-186 f, Kepler-22 b, đồng thời giữ **4 hành tinh khổng lồ ngoài Ngân Hà được ghi rõ là «hư cấu / minh họa»**. Việc ghép hành tinh hư cấu với ngôi sao có thật không đồng nghĩa với một phát hiện hay quỹ đạo thực; mọi bề mặt ngoại hành tinh đều là minh họa nghệ thuật. Xem [nguồn danh mục không gian sâu](docs/deep-space-sources.md) và [tư liệu hành tinh mới](docs/milky-way-sources.md).
+- Thêm mô hình bên ngoài của **Kính viễn vọng James Webb (JWST)**, hỗ trợ phát lại quá trình mở/thu gọn mười tám tấm gương chính và năm lớp tấm chắn nắng, vẫn kéo để xoay và thu phóng như bình thường. Phần phát lại chỉ mang tính minh họa phổ biến khoa học.
+- Thêm **Voyager 1**, có thể vào từ điểm đến thuộc Hệ Mặt Trời hoặc Ngân Hà để ngắm cận cảnh ăng-ten, các cần dài, khoang thiết bị và Đĩa Vàng; công tắc «Quỹ đạo» điều khiển đường bay minh họa. Xem [mô hình và nguồn tham khảo](docs/voyager-sources.md).
+- Bảng bên trái của Trái Đất có hai thao tác «Ngắm ánh đèn về đêm» và «Thăm Trạm Vũ trụ Quốc tế (ISS)».
+- Phía trên có lối tắt «Quỹ đạo gần Trái Đất», «Hệ Mặt Trời», «Ngân Hà», «Danh mục thiên hà».
+- Có thể bật/tắt riêng quỹ đạo và nhãn đánh dấu; chuyển động thiên thể có thể tạm dừng hoặc chạy ở tốc độ 0,25×, 1×, 5×, 20×.
+- Nhấp **«Quỹ đạo chuyển động»** cạnh «Quỹ đạo» và «Nhãn» để xem đường tiến của Mặt Trời và tám hành tinh; chuyển giữa quy chiếu Ngân Hà / quy chiếu Mặt Trời, lịch sử ngắn / dài, dùng chung nút tạm dừng và tốc độ thời gian, tự do xoay và thu phóng, hoặc chọn «Quay về Hệ Mặt Trời».
+- Thỉnh thoảng có thiên thạch màu ấm hoặc sao chổi hai đuôi lướt qua bầu trời, mỗi lần một vật thể, cách nhau ngẫu nhiên; chúng dừng khi tạm dừng và bị ẩn trong Cảm nhận Trái Đất cũng như chế độ giảm chuyển động.
+- Chế độ màn hình: phần cài đặt ở góc trên bên phải có «Du hành vũ trụ» (giữ nguyên cảnh và thao tác hiện tại, chỉ ẩn giao diện), «Cận cảnh thiên thể» (một thiên thể hoặc trọn một thiên hà) và «Bảo vệ màn hình quỹ đạo» (Quỹ đạo chuyển động của Mặt Trời và tám hành tinh). Du hành và cận cảnh đều hỗ trợ bố cục trái / giữa / phải, cận cảnh hỗ trợ tự động xoay vòng; phần cài đặt quỹ đạo chỉ giữ hệ quy chiếu chuyển động, độ dài quỹ đạo và vị trí tâm trái / giữa / phải.
+- Thao tác trên màn hình: kéo bằng một ngón hoặc chuột để xoay, chụm hai ngón hoặc cuộn chuột để thu phóng. Ở chế độ cận cảnh, chạm ba lần vào thiên thể / thiên hà để chuyển sang mục tiếp theo, phím mũi tên để chuyển tới/lui; ở chế độ hình nền quỹ đạo, chạm ba lần vào màn hình để xoay vòng giữa quỹ đạo dài Ngân Hà, quỹ đạo ngắn Ngân Hà, quỹ đạo dài Mặt Trời và quỹ đạo ngắn Mặt Trời, hướng mặc định khớp với Quỹ đạo chuyển động ở trang chính. Chạm đúp vào màn hình hoặc nhấn `I` / `Esc` để khôi phục giao diện; ở cận cảnh và hình nền quỹ đạo, chạm đúp có độ trễ nhỏ để phân biệt với chạm ba lần.
+- Màu không gian sâu, sao nền, vệ tinh nhân tạo / trạm vũ trụ và hiển thị quỹ đạo áp dụng chung cho chế độ khám phá và mọi chế độ màn hình; công tắc quỹ đạo đồng bộ với trang chính và điều khiển cả quỹ đạo ở chế độ hình nền. Bên trong Cận cảnh thiên thể quỹ đạo luôn ẩn, nhưng không làm thay đổi công tắc chung. Chế độ, thiên thể, màu sắc, bố cục và cấu hình xoay vòng được lưu tự động trong trình duyệt hiện tại. Mọi chế độ tự thích ứng với kích thước màn hình và hướng ngang/dọc, không cần chọn thiết bị hay cấu hình màn hình có sẵn.
+- Phím tắt: `+` / `-` thu phóng, phím cách để tạm dừng, `H` về Trái Đất, `F` toàn màn hình, `I` ẩn giao diện, `?` xem hướng dẫn.
 
-[![ORBIT 抖音演示截图：4,319 次点赞、1,292 次收藏、304 条评论、920 次分享](docs/previews/douyin-demo.png)](docs/previews/douyin-demo.png)
+## Quỹ đạo chuyển động của Hệ Mặt Trời
 
-## 探索
+«Quy chiếu Ngân Hà» thể hiện sự chồng chập giữa chuyển động tịnh tiến của cả Hệ Mặt Trời và chuyển động quay quanh Mặt Trời của các hành tinh; «Quy chiếu Mặt Trời» bám theo Mặt Trời, loại bỏ phần tịnh tiến chung để dễ so sánh đường đi của các hành tinh. Hệ Mặt Trời thực sự chuyển động quanh tâm Ngân Hà, NASA cho biết chu kỳ quay khoảng 230 triệu năm. [NASA: Thông tin về Mặt Trời](https://science.nasa.gov/sun/facts/), [NASA: Thông tin về Hệ Mặt Trời](https://science.nasa.gov/solar-system/solar-system-facts/).
 
-- 鼠标拖动旋转视角；滚轮缩放；触屏单指旋转、双指捏合缩放。
-- 从地球持续缩小，可依次进入太阳系、银河和星系图鉴尺度；持续放大则回到所追踪天体。
-- 点击底部天体、场景中的天体或标记，可以平滑飞向目的地；底部搜索支持中文名、英文名和星表编号。
-- 星系图鉴开放 **14 座星系**：银河系、仙女座星系、三角座星系、大小麦哲伦星云、M32、M110、NGC 6822、旋涡星系 M51、波德星系 M81、雪茄星系 M82、草帽星系 M104、半人马座 A、M87。选择一座星系后，底部展开其中已收录的恒星、行星与黑洞；通过「所属星系」「恒星系全景」「星系图鉴」返回上层视野。图鉴跨越多个实际星系群，参见[新增星系资料](docs/observed-galaxies-sources.md)。
-- 开放 **27 个太阳系外真实恒星目标**。本次补充 TRAPPIST-1、开普勒-186、开普勒-22 三颗系外行星母星，以及北极星 A、牛郎星、大角星、毕宿五、天津四、南船二、心宿二 A、巴纳德星。HD 5980 仍以单个发光天体呈现其多星系统。参见[新增恒星资料](docs/observed-stars-sources.md)。
-- 新增 **5 个黑洞目的地**：银河系的人马座 A*、仙女座中心黑洞、M32 中心黑洞，以及三角座的 M33 X-7、大麦哲伦星云的 LMC X-1。后两者是恒星级黑洞；阴影、光环和动态吸积盘均为艺术示意。
-- 开放 **10 颗已确认系外行星**：HR 8799 b／c／d／e、比邻星 b、TRAPPIST-1 e／f／g、开普勒-186 f、开普勒-22 b，另保留 **4 颗明确标注「虚构／示意」的河外巨行星**。虚构行星与真实恒星的配对不代表发现或真实轨道；所有系外行星表面均为艺术示意。查看[深空目录来源](docs/deep-space-sources.md)与[新增行星资料](docs/milky-way-sources.md)。
-- 新增 **韦布 JWST** 外部模型，支持十八片主镜与五层遮阳板的展开／收拢部署回放，正常拖动旋转和缩放。回放为科普示意。
-- 新增 **旅行者 1 号**，可从太阳系或银河目的地进入，近看天线、长杆、仪器舱和金唱片；轨道开关控制示意航迹。查看[模型与来源说明](docs/voyager-sources.md)。
-- 地球左侧提供「看万家灯火」「探访空间站」。
-- 顶部提供「近地轨道」「太阳系」「银河系」「星系图鉴」快捷导航。
-- 轨道、标记可以独立开关；天体运动支持暂停及 0.25×、1×、5×、20× 演示流速。
-- 点击「轨道」「标记」旁的 **「运动轨迹」**，查看太阳与八大行星的前进路径；切换银河参照／太阳参照、短／长历史，复用暂停和时间流速，自由旋转缩放，或选择「返回太阳系」。
-- 星空中偶尔会有暖色陨石或双拖尾彗星划过，每次一颗、随机间隔；随暂停停止，在感知地球和减少动态效果模式下隐藏。
-- 屏幕模式：右上角设置提供「宇宙漫游」（保留当前场景与操作，仅隐藏界面）、「天体特写」（单颗星体或完整星系）和「轨迹屏保」（太阳与八颗行星的运动轨迹）。漫游与特写均支持左／中／右构图，特写支持自动轮播；轨迹设置只保留运动参照、轨迹长度和左／中／右中心位置。
-- 屏幕操作：单指或鼠标拖动旋转，双指捏合或滚轮缩放。特写模式三击天体／星系切换下一个，方向键前后切换；轨迹屏保三击画面循环银河长轨迹、银河短轨迹、太阳长轨迹和太阳短轨迹，默认朝向与主页运动轨迹一致；双击画面或按 `I` / `Esc` 恢复界面，特写与轨迹屏保中的双击稍有延迟以区分三击。
-- 全局深空颜色、背景星星、人造卫星／空间站与轨道显示应用于探索和全部屏幕模式；轨道开关与主页同步，也控制屏保轨迹。天体特写内部固定隐藏轨道，不改变全局开关。模式、天体、颜色、构图和轮播配置自动保存在当前浏览器。所有模式自动适应当前屏幕大小和横竖屏，无需选择设备或屏幕预设。
-- 快捷键：`+` / `-` 缩放，空格暂停，`H` 回地球，`F` 全屏，`I` 隐藏界面，`?` 操作说明。
+Quy chiếu Ngân Hà ở đây là **minh họa cục bộ**: các đường lịch sử được mô hình tính ngược, thời gian, kích thước, chu kỳ, hướng tịnh tiến và tỉ lệ hiển thị đều đã được điều chỉnh. Hình xoắn ốc nhìn thấy từ một góc nào đó không phải là tuyến đường thực duy nhất và cũng không phải lịch thiên văn quan trắc. Xem [giải thích và nguồn của Quỹ đạo chuyển động](docs/motion-trajectories.md).
 
-## 太阳系运动轨迹
+## Cảm nhận Trái Đất (EarthSense)
 
-「银河参照」展示太阳系整体平移与行星绕太阳公转的叠加；「太阳参照」跟随太阳，去除共同平移，便于对比行星的运行路径。太阳系确实绕银河中心运动，NASA 给出的公转周期约为 2.3 亿年。[NASA 太阳资料](https://science.nasa.gov/sun/facts/)，[NASA 太阳系资料](https://science.nasa.gov/solar-system/solar-system-facts/)。
+Nhấp «Cảm nhận Trái Đất» ở phía trên để vào chế độ này. Hiệu ứng Thời tiết và Bão được phủ lên chính quả địa cầu Three.js sẵn có và chỉ được dựng khi nhìn Trái Đất ở cự ly gần; vẫn có thể kéo, cuộn chuột hoặc chụm ngón để phóng to. Khi vào chế độ, chuyển động thiên thể tạm dừng; khi quay về «Du hành vũ trụ», góc máy, mục tiêu, chuyến bay đang dở, tốc độ và các công tắc trước đó đều được khôi phục.
 
-这里的银河参照是**局部示意**，历史线条由模型回算，时间、尺寸、周期、平移方向与显示比例经过调整。某个视角下的螺旋外形不代表唯一真实路线，也不是观测星历。查看 [运动轨迹说明与来源](docs/motion-trajectories.md)。
+- Hiện mở ba lớp **Thời tiết, Sét, Bão**, mặc định bật cả ba và có thể bật/tắt riêng.
+- Nhấp vào cụm mây Thời tiết / Sét hoặc dải mây Bão để xem nguồn, thời gian, tọa độ và chỉ số; cũng có thể tìm trong danh sách sự kiện rồi bay tới vị trí tương ứng, sau đó dùng «Phóng to» để tiến sát mặt đất. Khi trời quang không có mây, hãy xem điểm lấy mẫu tương ứng từ danh sách. Danh sách ưu tiên hiển thị Bão và Sét, sau đó mới đến Thời tiết.
+- Khi chuyển sang thiên thể khác hoặc thu nhỏ ra Hệ Mặt Trời, Ngân Hà, các lớp phủ Trái Đất tự động thu lại; quay về Trái Đất để xem tiếp.
+- Thời tiết dùng 60 điểm lấy mẫu đều nhau của Open-Meteo, hiển thị nhiệt độ, tốc độ và hướng gió, giáng thủy, lượng mưa và độ che phủ mây, không phải trường khí tượng liên tục. Mã trời quang / gần như quang `0 / 1` không sinh mây mưa; chế độ cảm nhận tắt lớp mây trang trí cố định ban đầu. Lượng giáng thủy tích lũy được quy đổi sang mm/h theo khoảng thời gian của nguồn, điều khiển liên tục mật độ, tốc độ, độ dài và phạm vi của vệt mưa.
+- Lớp Thời tiết chỉ hiển thị chớp khi có mã dông `95 / 96 / 99`; cường độ mưa càng lớn, chu kỳ chớp minh họa càng rút ngắn từ khoảng 18 giây xuống 4 giây. Đây là nhịp hoạt ảnh thể hiện mức độ mạnh yếu; nguồn dữ liệu không cung cấp từng lần sét đánh hay tần suất sét đo được.
+- Mây thời tiết cục bộ trải theo mặt cầu, những sợi mây bán trong suốt trôi chậm, độ sáng tối thay đổi theo hướng Mặt Trời; chớp dông lóe lên chiếu sáng bên trong mây trong chốc lát. Hình dạng và chuyển động của mây là cách thể hiện trực quan dữ liệu thời tiết lấy mẫu.
+- Bão hiện ở tâm sự kiện thực với mây mỏng, thành mắt bão thấp, mắt bão mở và các dải mây xoắn ốc rộng hẹp không đều; chi tiết dải mây trôi với nhịp khác nhau, thỉnh thoảng có ánh điện minh họa lóe sáng cục bộ. Tốc độ gió từ nguồn điều khiển liên tục bán kính hiển thị và tốc độ xoay; giá trị lớn nhất trong danh sách GDACS và giá trị quan trắc hiện tại sau khi chọn được ghi riêng. Hình dạng mây và bán kính không phải ảnh mây thực tế hay vùng gió chính thức, ánh điện không biểu thị sét quan trắc được hay tần suất sét.
+- Sau khi nhấp vào một cơn Bão, ứng dụng mới tải đường đi lịch sử và dự báo thực từ bản tin GDACS tương ứng: lịch sử là nét liền, dự báo là nét đứt, có thể nhấp vào từng mốc thời gian để xem tọa độ, tốc độ gió và thời gian hiệu lực. Phần chi tiết giữ nguồn và thời điểm phát bản tin; khi không có dự báo hoặc không xác định được bản tin hiện hành, ứng dụng nói rõ và không ngoại suy đường đi. Đóng chi tiết, tắt lớp Bão, rời Trái Đất hoặc đổi chế độ sẽ hủy yêu cầu tải đường đi và xóa đường đã chọn.
+- Dữ liệu Bão lấy từ cảnh báo xoáy thuận nhiệt đới của GDACS và các sự kiện bão chưa đóng của NASA EONET; EONET đọc tối đa 100 mục, các sự kiện trùng khớp ưu tiên dùng GDACS. EONET cung cấp bản ghi vị trí lịch sử, không cung cấp đường dự báo chính thức, điều này được ghi rõ trong phần chi tiết.
+- Lớp «Sét» riêng giữ **6 điểm dông mô phỏng**, mặc định bật, thẻ thông tin ghi rõ là dữ liệu mô phỏng.
+- Mỗi nguồn hiển thị riêng trạng thái đang tải, không có kết quả, lỗi, khả dụng một phần và dữ liệu đệm. Khi làm mới thất bại, dữ liệu cũ còn dùng được sẽ được giữ lại và đánh dấu; thoát chế độ sẽ hủy các yêu cầu đang chạy và dừng làm mới.
 
-## 感知地球 EarthSense
+Nguồn dữ liệu có thể bị trễ, thời gian sự kiện lấy theo bản ghi nguồn trong phần chi tiết. Xem [nguồn dữ liệu và giao diện lập trình](docs/data-sources.md) và [biên bản kiểm chứng tái cấu trúc](docs/refactor-validation.md).
 
-点击顶部「感知地球」进入模式。天气与台风效果叠加在原来的 Three.js 地球上，只有地球近景才渲染；仍可拖动、滚轮或捏合放大查看。进入模式时暂驻天体运动；切回「宇宙漫游」会恢复进入前的镜头、目标、未完成的飞行、流速和开关。
+Du hành vũ trụ và Cảm nhận Trái Đất dùng chung một bộ texture Trái Đất độ phân giải cao, hình học chia nhỏ, cách tô ngày/đêm và thông số phát sáng (bloom) gốc, nên đổi chế độ không làm giảm độ nét hay thay đổi độ sáng Trái Đất. Sau khi khởi động, ứng dụng chuẩn bị texture độ phân giải cao một cách bất đồng bộ: máy tính để bàn ưu tiên **8192 × 4096**, bố cục điện thoại hoặc thiết bị báo bộ nhớ không quá 4 GB dùng **4096 × 2048**, đồng thời bị giới hạn bởi kích thước texture tối đa của GPU; nếu thiết bị không đủ khả năng hoặc tải thất bại thì giữ texture 2K ban đầu. Bản 4K được tạo lúc chạy từ ảnh gốc 8K, không sửa tệp nguồn. Lớp mây trang trí ban đầu chỉ hiện trong Du hành vũ trụ; chế độ cảm nhận hiển thị mây mưa cục bộ do dữ liệu thời tiết lấy mẫu điều khiển.
 
-- 当前开放 **天气、闪电、台风** 三个图层，默认全部开启，可独立开关。
-- 点击天气／闪电云团或台风云带查看来源、时间、坐标和指标；也可通过事件列表搜索并飞到对应位置，再用「放大查看」靠近地表。晴天没有云团时，从列表查看对应采样点。列表优先展示台风和闪电，其后为天气。
-- 切到其他天体或缩小至太阳系、银河时自动收起地球图层，返回地球继续查看。
-- 天气使用 Open-Meteo 的 60 个规则采样点，展示气温、风速风向、降水、降雨和云量，不是连续气象场。晴／大致晴朗代码 `0 / 1` 不生成云雨；感知模式关闭原有固定装饰云层。累计降水按来源时间间隔换算为 mm/h，连续控制雨线密度、速度、长度和范围。
-- 天气图层只有雷暴代码 `95 / 96 / 99` 才显示闪电；随雨率增强，示意闪电的循环间隔由约 18 秒缩短至 4 秒。这是表现强弱的动画节奏，来源没有提供逐次落雷或实测闪电频率。
-- 局部天气云沿球面铺展，半透明云丝缓慢流动，明暗随太阳方向变化；雷暴闪现短暂照亮云内。云形与运动是对采样天气的视觉表达。
-- 台风在真实事件中心呈现薄云、低眼墙、开放风眼与不等宽螺旋云带；云带细节以不同节奏流动，局部演示电光短暂亮起。来源风速连续控制视觉半径与旋转速度，GDACS 列表最大值与选中后的当前观测值分别标明。云形和半径不是实况云图或官方风圈，电光不表示观测到的落雷或频率。
-- 点击台风后按需读取该次 GDACS 公告的真实历史与预测路径：历史为实线、预测为虚线，时间点可点击查看坐标、风速及有效时间。详情保留来源和公告时间；没有预测或无法确认当前公告时明确说明，不外推路径。关闭详情、关闭台风图层、离开地球或切换模式会取消路径请求并清除所选路径。
-- 台风数据来自 GDACS 热带气旋预警和 NASA EONET 的未关闭风暴事件；EONET 最多读取 100 项，匹配的重复事件优先采用 GDACS。EONET 提供历史位置记录，不提供官方预测路径，详情会明确标注。
-- 独立「闪电」图层保留 **6 个模拟雷暴点**，默认开启，卡片明确标注模拟数据。
-- 各源显示独立加载、空结果、错误、部分可用和缓存状态。刷新失败保留可用旧数据并标示；退出模式取消进行中的请求、停止刷新。
+## Phạm vi triển khai
 
-数据源可能延迟，事件时间以详情中的来源记录为准。查看 [数据来源与接口说明](docs/data-sources.md) 和 [重构验证记录](docs/refactor-validation.md)。
+Three.js r185; Trái Đất có tô ngày/đêm, ánh đèn ban đêm, lớp mây riêng, viền khí quyển; 32 vệ tinh, mô hình đơn giản của Trạm Vũ trụ Quốc tế (ISS), Mặt Trăng; Mặt Trời, tám hành tinh, vành Sao Thổ trong suốt; quỹ đạo Hệ Mặt Trời; 14 thiên hà sinh theo thủ tục, gồm cấu trúc nhánh xoắn, quầng elip, đám sao không đều và dải bụi; năm hố đen với đĩa bồi tụ chuyển động; mô hình JWST và Voyager 1; các hệ sao độc lập, bề mặt sao và hành tinh đá / vân băng / khí sinh theo thủ tục, chiếu sáng có hướng từ sao chủ; hiển thị thiên thể và quỹ đạo theo khoảng cách; bộ đệm độ sâu logarit; hậu xử lý bloom; giao diện đáp ứng.
 
-宇宙漫游与感知模式共用同一套高清地球、细分几何、原有昼夜着色与泛光参数，切换模式不会降低贴图清晰度或改变地球亮度。应用启动后异步准备高清贴图：桌面优先使用 **8192 × 4096**，手机布局或设备报告内存不高于 4 GB 时使用 **4096 × 2048**，并受 GPU 最大纹理尺寸限制；能力不足或加载失败时保留原 2K 贴图。4K 版本在运行时从原始 8K 图生成，不修改源文件。原有装饰云层只在宇宙漫游中显示，感知模式显示采样天气驱动的局部云雨。
+Đây là một sản phẩm trực quan hóa tương tác: kích thước, khoảng cách, vị trí quỹ đạo và tốc độ của thiên thể đã được điều chỉnh để dễ nhìn, không phải lịch thiên văn thời gian thực. Mô hình vệ tinh, trạm vũ trụ và tàu vũ trụ dùng tỉ lệ trình diễn; cả 14 thiên hà đều là mô hình minh họa, số lượng được mở không đại diện cho toàn bộ thành viên của bất kỳ nhóm thiên hà thực tế nào. Khoảng cách cận cảnh trên HUD được quy đổi từ đơn vị hiển thị, chỉ dùng cho mục đích trình diễn.
 
-## 实现范围
+## Giao diện gỡ lỗi
 
-Three.js r185；地球昼夜着色、夜景灯光、独立云层、大气边缘；32 颗卫星、简化国际空间站、月球；太阳、八大行星、土星透明环；太阳系轨道；程序生成的 14 座星系，包含旋臂、椭圆星晕、不规则星群及尘带结构；五个黑洞及动态吸积盘；韦布和旅行者 1 号模型；独立恒星系、程序化恒星与岩质／冰纹／气态行星表面、宿主恒星方向光照；分距离显示天体和轨道；对数深度缓冲；泛光后处理；响应式界面。
-
-这是交互可视化，天体尺寸、距离、轨道位置与速度经过视觉调整，不是实时天文星历。卫星、空间站和航天器模型采用展示比例；14 座星系均为示意模型，开放数量不代表任何实际星系群的完整成员数量。HUD 近景距离根据视觉单位换算，适用于演示。
-
-## 调试接口
-
-页面加载完成后，可在浏览器控制台使用 `ORBIT.destinations()` 查看 14 座星系和 46 个太阳系外天体的目录，返回 ID、名称、类型、所属星系、宿主恒星及模型状态。航天器可通过 `ORBIT.goTo('voyager-1')` 和 `ORBIT.goTo('jwst')` 直接访问。原有导航 ID 保持兼容。
+Sau khi trang tải xong, có thể gọi `ORBIT.destinations()` trong bảng điều khiển (console) của trình duyệt để xem danh mục 14 thiên hà và 46 thiên thể ngoài Hệ Mặt Trời, trả về ID, tên, loại, thiên hà chứa, sao chủ và trạng thái mô hình. Có thể đến thẳng các tàu vũ trụ bằng `ORBIT.goTo('voyager-1')` và `ORBIT.goTo('jwst')`. Các ID điều hướng cũ vẫn tương thích.
 
 ```js
 console.table(ORBIT.destinations());
-ORBIT.goTo('sagittarius-a'); // 探索银河中心黑洞
-ORBIT.goTo('m32');          // 飞向 M32
-ORBIT.goTo('local-group'); // 星系图鉴总览
-ORBIT.goTo('andromeda');   // 飞向仙女座星系
-ORBIT.goTo('hr8799-b');    // 飞向已确认的巨行星
-ORBIT.getState();          // 包含 activeGalaxyId、activeSystemId 和当前探索尺度
+ORBIT.goTo('sagittarius-a'); // Khám phá hố đen trung tâm Ngân Hà
+ORBIT.goTo('m32');          // Bay tới M32
+ORBIT.goTo('local-group'); // Tổng quan Danh mục thiên hà
+ORBIT.goTo('andromeda');   // Bay tới Thiên hà Tiên Nữ
+ORBIT.goTo('hr8799-b');    // Bay tới một hành tinh khổng lồ đã xác nhận
+ORBIT.getState();          // Gồm activeGalaxyId, activeSystemId và thang khám phá hiện tại
 ```
 
-新增目录中的 `modelStatus: 'confirmed'` 表示天体真实存在，`'illustration'` 表示虚构示意；已确认天体的艺术纹理、场景比例和轨道动画也经过视觉调整。
+Trong danh mục mới, `modelStatus: 'confirmed'` nghĩa là thiên thể có thật, `'illustration'` nghĩa là minh họa hư cấu; texture nghệ thuật, tỉ lệ cảnh và hoạt ảnh quỹ đạo của các thiên thể đã xác nhận cũng đã được điều chỉnh về mặt hình ảnh.
 
-## 文件
+## Tệp tin
 
-- `src/shell.html`：页面和交互控件。
-- `src/style.css`：界面样式与手机布局。
-- `src/universe.js`：仅保留兼容入口；`src/app.js` 组装场景和逐帧调度。
-- `src/core/`：渲染管线、相机飞行、场景组装和纹理加载。
-- `src/universe/`：天体目录、行星、太阳系运动、轨道、卫星、航天器、星系图鉴、独立深空恒星系和运动轨迹示意。
-- `src/earth/`：地球昼夜光照、大气、云层、经纬度坐标及按需高清纹理。
-- `src/earthsense/`：当前天气、闪电、台风图层、数据状态和模式保存恢复；`effects/` 提供天气云雨、雷暴与台风示意效果。
-- `src/data/`：Open-Meteo、NASA EONET、GDACS 的独立适配器、风速单位转换与请求缓存；`cyclone-track.js` 按需读取官方台风路径。
-- `src/ui/`：原有导航、标签、运动轨迹面板、EarthSense 面板、事件详情和附加样式。
-- `tests/`：导航、深空目录与天体跟随、地理坐标、图层拾取、模式恢复、缓存、取消与数据适配测试。
-- `docs/`：重构验证记录、公开数据说明、深空天体资料来源及运动轨迹模型说明。
-- `assets/`：原始纹理、来源和许可。
-- `build.mjs`：将引擎、场景脚本和纹理打包进一个 HTML。
-- `index.html`：单文件构建产物。
-- `demo.mp4`：网页演示视频。
-- `demo-preview.jpg`：README 视频预览图。
-- `docs/previews/`：运动轨迹、地球观测、深空天体与星系群的实景截图。
+- `src/shell.html`: trang và các điều khiển tương tác.
+- `src/style.css`: kiểu giao diện và bố cục điện thoại.
+- `src/universe.js`: chỉ giữ làm điểm vào tương thích; `src/app.js` lắp ráp cảnh và điều phối từng khung hình.
+- `src/core/`: đường ống dựng hình, bay camera, lắp ráp cảnh và tải texture.
+- `src/universe/`: danh mục thiên thể, hành tinh, chuyển động Hệ Mặt Trời, quỹ đạo, vệ tinh, tàu vũ trụ, Danh mục thiên hà, các hệ sao không gian sâu độc lập và minh họa Quỹ đạo chuyển động.
+- `src/earth/`: chiếu sáng ngày/đêm của Trái Đất, khí quyển, mây, tọa độ kinh vĩ độ và texture độ phân giải cao tải theo nhu cầu.
+- `src/earthsense/`: các lớp Thời tiết, Sét, Bão hiện tại, trạng thái dữ liệu và lưu/khôi phục chế độ; `effects/` cung cấp hiệu ứng minh họa mây mưa, dông và Bão.
+- `src/data/`: bộ chuyển đổi độc lập cho Open-Meteo, NASA EONET, GDACS, quy đổi đơn vị tốc độ gió và bộ đệm yêu cầu; `cyclone-track.js` tải đường đi Bão chính thức khi cần.
+- `src/ui/`: điều hướng, nhãn, bảng Quỹ đạo chuyển động, bảng EarthSense, chi tiết sự kiện và kiểu bổ sung.
+- `tests/`: kiểm thử điều hướng, danh mục không gian sâu và bám theo thiên thể, tọa độ địa lý, chọn đối tượng trên lớp, khôi phục chế độ, bộ đệm, hủy yêu cầu và bộ chuyển đổi dữ liệu.
+- `docs/`: biên bản kiểm chứng tái cấu trúc, giải thích dữ liệu công khai, nguồn tư liệu thiên thể không gian sâu và giải thích mô hình Quỹ đạo chuyển động.
+- `assets/`: texture gốc, nguồn và giấy phép.
+- `build.mjs`: đóng gói engine, mã cảnh và texture vào một tệp HTML.
+- `index.html`: sản phẩm build dạng một tệp.
+- `public/`: ảnh chia sẻ mạng xã hội, favicon, `robots.txt`, `sitemap.xml`; được chép vào `dist/` khi build.
+- `vercel.json`: cấu hình triển khai Vercel (lệnh build, thư mục `dist/`, header bảo mật và bộ nhớ đệm).
+- `demo.mp4`: video giới thiệu trang web.
+- `demo-preview.jpg`: ảnh xem trước video trong README.
+- `docs/previews/`: ảnh chụp thực tế của Quỹ đạo chuyển động, quan sát Trái Đất, thiên thể không gian sâu và nhóm thiên hà.
 
-安装依赖：`npm install`；运行测试：`npm test`；重新构建：`npm run build`。输出写入本目录的 `index.html`，所有依赖均来自本项目。
+## Chạy từ mã nguồn
 
-太阳系纹理来自 [Solar System Scope](https://www.solarsystemscope.com/textures/)，采用 [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/)；使用时通过实时光照和着色显示。新增深空天体使用程序化艺术表面。完整清单见 `assets/CREDITS.md`。Three.js 使用 MIT 许可证，见 `assets/THREE-LICENSE.txt`。
+Tải mã nguồn về máy, mở terminal tại thư mục dự án rồi chạy:
 
-小窗口会自动收起默认控件：底部「天体详情」展开介绍与数据，「探索与控制」展开导航、星体列表、图层与播放工具；选择目的地后自动收起，宽屏恢复完整布局。
+```bash
+npm install     # cài đặt phụ thuộc
+npm test        # chạy kiểm thử
+npm run build   # build lại index.html
+npm start       # chạy máy chủ tĩnh tại http://127.0.0.1:8767 (cần Python 3)
+```
 
-已在浏览器中验证 200×200、240×240、320×320 CSS 像素的方形窗口。画布自动跟随窗口比例，极小窗口的设置与控件通过滚动访问。
+Kết quả build được ghi vào `index.html` trong thư mục này và vào thư mục `dist/` (bản dùng để deploy, kèm các tệp trong `public/`); mọi phụ thuộc đều nằm trong dự án.
 
-## 许可证与来源署名
+## Triển khai lên Vercel
 
-除另有说明的第三方内容外，本项目原创代码和文档采用 [Apache License 2.0](LICENSE)，允许商业使用、修改、复制和分发。
+Dự án đã có sẵn `vercel.json`: Vercel chạy `npm ci`, `npm run build` rồi phục vụ thư mục `dist/` dưới dạng trang tĩnh. Không cần biến môi trường.
 
-分发本项目或其衍生作品时，须遵守许可证第 4 条，包括：
+1. Trên Vercel, chọn **Add New → Project**, nhập repository này. Để Framework Preset là **Other**; các lệnh build được lấy từ `vercel.json`.
+2. Sau khi deploy xong, vào **Settings → Domains** và thêm `duhanhvutru.clbai.vn`.
+3. Tại nơi quản lý DNS của `clbai.vn`, tạo bản ghi `CNAME` với tên `duhanhvutru`, giá trị `cname.vercel-dns.com`. Vercel tự cấp chứng chỉ HTTPS khi DNS đã trỏ đúng.
 
-- 向接收者提供许可证副本。
-- 在修改过的文件中显著注明已作修改。
-- 在分发的衍生作品源码中保留仍适用的版权、专利、商标和署名声明。
-- 在分发的衍生作品中保留 [NOTICE](NOTICE) 中仍适用的来源署名，包括项目名称 **ORBIT** 和原始仓库地址 **https://github.com/ryh842487118-bot/orbit**。按第 4(d) 条，可将这些声明放在随附的 NOTICE 文件、源码或文档中，或放在通常显示第三方声明的界面中。
+Hoặc deploy bằng CLI: `npx vercel` (bản xem trước) và `npx vercel --prod` (bản chính thức).
 
-第三方库、纹理和外部数据仍受各自的许可证或使用条款约束，不因本项目采用 Apache-2.0 而重新授权。太阳系纹理的 CC BY 4.0 署名要求见 [assets/CREDITS.md](assets/CREDITS.md)，Three.js 的 MIT 许可证见 [assets/THREE-LICENSE.txt](assets/THREE-LICENSE.txt)，外部数据说明见 [docs/data-sources.md](docs/data-sources.md)。商业使用时也须遵守这些适用条款。
+Thẻ chia sẻ (Open Graph, Twitter Card), `canonical`, `robots.txt` và `sitemap.xml` đang dùng tên miền `https://duhanhvutru.clbai.vn`. Nếu đổi tên miền, cập nhật các tệp `src/shell.html`, `public/robots.txt` và `public/sitemap.xml` rồi build lại. Ảnh chia sẻ nằm ở `public/og-image.png` (1200×630).
 
-以上为便于理解的摘要；完整权利和义务以 [LICENSE](LICENSE) 及适用的第三方条款为准。[NOTICE](NOTICE) 仅提供来源信息，不添加或修改 Apache-2.0 的许可条件。
+Texture Hệ Mặt Trời lấy từ [Solar System Scope](https://www.solarsystemscope.com/textures/), theo giấy phép [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/), được hiển thị qua chiếu sáng và tô bóng thời gian thực. Các thiên thể không gian sâu mới dùng bề mặt nghệ thuật sinh theo thủ tục. Danh sách đầy đủ xem tại `assets/CREDITS.md`. Three.js dùng giấy phép MIT, xem `assets/THREE-LICENSE.txt`.
+
+Ở cửa sổ nhỏ, các điều khiển mặc định tự thu gọn: «Chi tiết thiên thể» ở dưới mở phần giới thiệu và dữ liệu, «Khám phá và điều khiển» mở điều hướng, danh sách thiên thể, các lớp và công cụ phát; sau khi chọn điểm đến sẽ tự thu lại, màn hình rộng khôi phục bố cục đầy đủ.
+
+Đã kiểm chứng trên trình duyệt với cửa sổ vuông 200×200, 240×240, 320×320 pixel CSS. Canvas tự theo tỉ lệ cửa sổ; ở cửa sổ rất nhỏ, phần cài đặt và điều khiển truy cập bằng cách cuộn.
+
+## Giấy phép
+
+Du Hành Vũ Trụ là bản Việt hóa phát triển từ dự án mã nguồn mở ORBIT; thông báo ghi công của dự án gốc được giữ nguyên trong tệp [NOTICE](NOTICE) theo yêu cầu của giấy phép.
+
+Trừ nội dung của bên thứ ba được ghi chú riêng, mã nguồn và tài liệu gốc của dự án được cấp phép theo [Apache License 2.0](LICENSE). Khi phân phối dự án hoặc sản phẩm phái sinh, cần tuân thủ Điều 4 của giấy phép và giữ lại các thông báo ghi công còn áp dụng trong tệp [NOTICE](NOTICE).
+
+Thư viện, texture và dữ liệu bên ngoài của bên thứ ba vẫn chịu giấy phép hoặc điều khoản sử dụng riêng: CC BY 4.0 cho texture Hệ Mặt Trời xem [assets/CREDITS.md](assets/CREDITS.md), giấy phép MIT của Three.js xem [assets/THREE-LICENSE.txt](assets/THREE-LICENSE.txt), dữ liệu bên ngoài xem [docs/data-sources.md](docs/data-sources.md). Toàn bộ quyền và nghĩa vụ căn cứ theo [LICENSE](LICENSE) và các điều khoản bên thứ ba áp dụng.

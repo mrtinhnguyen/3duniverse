@@ -1,11 +1,11 @@
 import * as THREE from 'three';
 
 export const jwstDefinition = {
-  id: 'jwst', cn: '詹姆斯·韦布', en: 'JAMES WEBB', index: 'L2', kind: 'observatory',
-  type: '日地 L2 / 红外太空望远镜', r: 1.38, color: 0xe5bc69,
-  stat1: '主镜口径', diameter: '6.5', unit1: 'm', stat2: '距地球约', value2: '150', unit2: '万 km',
-  desc: '十八片镀金镜面收集微光，五层遮阳板隔开太阳的热。在红外波段，穿过尘埃寻找新生恒星，捕捉遥远星系的暗弱光芒。',
-  sourceUrl: 'https://science.nasa.gov/mission/webb/science-overview/science-explainers/telescope-overview/', sourceLabel: 'NASA · 望远镜结构',
+  id: 'jwst', vi: 'Kính James Webb', en: 'JAMES WEBB', index: 'L2', kind: 'observatory',
+  type: 'L2 Mặt Trời–Trái Đất / Kính viễn vọng không gian hồng ngoại', r: 1.38, color: 0xe5bc69,
+  stat1: 'Khẩu độ gương chính', diameter: '6.5', unit1: 'm', stat2: 'Cách Trái Đất khoảng', value2: '1,5', unit2: 'triệu km',
+  desc: 'Mười tám mảnh gương mạ vàng thu nhận ánh sáng yếu ớt, năm lớp tấm chắn nắng ngăn hơi nóng của Mặt Trời. Ở dải hồng ngoại, kính nhìn xuyên qua bụi để tìm những ngôi sao mới sinh và bắt lấy ánh sáng mờ nhạt của các thiên hà xa xôi.',
+  sourceUrl: 'https://science.nasa.gov/mission/webb/science-overview/science-explainers/telescope-overview/', sourceLabel: 'NASA · Cấu trúc kính viễn vọng',
 };
 
 // A small studio reflection field gives metal readable highlights without adding
@@ -166,6 +166,6 @@ export function createJWST(scene, earth) {
   update(0);return {body,update,
     setDeployment(expanded,{immediate=false}={}) {targetDeployment=expanded?1:0;if(immediate){deployment=targetDeployment;poseDeployment();}},
     getState:()=>({progress:deployment,targetExpanded:targetDeployment===1,animating:deployment!==targetDeployment,
-      phase:deployment<.45?'遮阳板':deployment<.6?'光学支撑塔':deployment<.8?'副镜支架':'主镜侧翼'}),
+      phase:deployment<.45?'Tấm chắn nắng':deployment<.6?'Tháp đỡ quang học':deployment<.8?'Giá gương phụ':'Cánh gương chính'}),
   };
 }

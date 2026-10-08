@@ -1,6 +1,6 @@
-/* EarthSense extends ORBIT's existing observatory UI. The universe skin stays intact. */
+/* EarthSense extends the existing observatory UI. The universe skin stays intact. */
 :root{--earthsense-ease:cubic-bezier(.22,1,.36,1);--orbit-dock-height:113px}
-.brand small{letter-spacing:1.5px;white-space:nowrap}
+.brand small{letter-spacing:.4px;white-space:nowrap}
 .brand-english{display:block;font-size:8px;letter-spacing:.15px;color:#6f8595;margin-top:6px;font-weight:400}
 .earthsense-mode-switch{position:fixed;top:101px;left:50%;transform:translateX(-50%);display:flex;align-items:center;gap:0;border-bottom:1px solid var(--line);background:#0710189c;backdrop-filter:blur(14px)}
 .earthsense-mode-switch button{position:relative;padding:11px 21px;font-size:11px;letter-spacing:1.5px;color:#8c9ca9}
@@ -85,7 +85,7 @@ body.immersive .earthsense-panel,body.immersive .earthsense-popup{pointer-events
 @media(min-width:1700px){.earthsense-panel{left:64px;width:310px;top:185px}.earthsense-popup{width:335px;right:165px}}
 @media(max-height:800px) and (min-width:901px){:root{--orbit-dock-height:98px}.earthsense-mode-switch{top:85px}.earthsense-panel{top:139px;bottom:90px}.earthsense-title-row{margin-top:12px}.earthsense-title-row h1{font-size:29px}.earthsense-intro{margin:9px 0 14px}.earthsense-sampling{margin-bottom:12px}.earthsense-popup{bottom:113px;max-height:calc(100dvh - 250px)}}
 @media(max-width:1150px){.earthsense-panel{left:34px;width:260px}.earthsense-popup{right:112px;width:288px}.brand-english{font-size:7px}}
-@media(max-width:900px){:root{--orbit-dock-height:100px}.earthsense-mode-switch{top:88px}.earthsense-panel{left:26px;top:148px;width:245px;bottom:96px}.earthsense-title-row h1{font-size:28px}.earthsense-intro{font-size:10px}.earthsense-layer{padding:8px;gap:6px}.earthsense-layer-name{font-size:10px}.earthsense-popup{right:93px;width:276px;bottom:114px;max-height:calc(100dvh - 270px)}.brand-english{display:none}.brand small{font-size:8px;letter-spacing:.65px}}
+@media(max-width:900px){:root{--orbit-dock-height:100px}.earthsense-mode-switch{top:88px}.earthsense-panel{left:26px;top:148px;width:245px;bottom:96px}.earthsense-title-row h1{font-size:28px}.earthsense-intro{font-size:10px}.earthsense-layer{padding:8px;gap:6px}.earthsense-layer-name{font-size:10px}.earthsense-popup{right:93px;width:276px;bottom:114px;max-height:calc(100dvh - 270px)}.brand-english{display:none}.brand small{font-size:8px;letter-spacing:.2px}}
 @media(max-width:600px){
   :root{--orbit-dock-height:89px}
   .earthsense-mode-switch{top:138px;background:#071018b8}
@@ -121,5 +121,10 @@ body.immersive .earthsense-panel,body.immersive .earthsense-popup{pointer-events
   .earthsense-popup-description{font-size:10px;line-height:1.7}
   .earthsense-popup-focus{padding-top:12px;margin-top:13px;min-height:35px}
 }
-@media(max-width:360px){.brand small{font-size:7px;letter-spacing:.25px}.earthsense-layer-dot{width:4px;height:4px}.earthsense-layer-name{font-size:9px}.earthsense-panel{padding-inline:10px}}
+@media(max-width:360px){.brand small{font-size:7px;letter-spacing:0}.earthsense-layer-dot{width:4px;height:4px}.earthsense-layer-name{font-size:9px}.earthsense-panel{padding-inline:10px}}
 @media(prefers-reduced-motion:reduce){.earthsense-panel,.info-panel,.planet-dock,.time-control,.layer-toggles,.control-row,.scale-control,.view-caption{transition:none}}
+
+/* Brand "DU HÀNH VŨ TRỤ" is longer than a four-letter wordmark. */
+.brand>span{font-size:19px;letter-spacing:2.2px;white-space:nowrap}
+.load-mark{font-size:clamp(22px,5vw,38px);letter-spacing:clamp(4px,1.1vw,10px);text-align:center;padding:0 16px}
+@media(max-width:1150px){.brand>span{font-size:16px;letter-spacing:1.6px}}

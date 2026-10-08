@@ -51,7 +51,7 @@ export function createEventSelection({ loadTrack, onChange, now = Date.now }) {
     } catch (error) {
       if (controller.signal.aborted || version !== revision) return;
       event = withTrack(value, { ...event.trackData, status: 'error',
-        message: error?.message || '路径暂时无法加载，请重新选择此台风重试。',
+        message: error?.message || 'Tạm thời không tải được đường đi của bão, vui lòng chọn lại cơn bão này để thử lại.',
       });
       onChange(event, false);
     } finally {

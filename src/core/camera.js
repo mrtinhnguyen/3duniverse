@@ -165,8 +165,8 @@ export function createNavigation({ camera, controls, world, onInfo, onStage, toa
     };
     controls.enabled = false;
     controls.update();
-    if (night) toast('正在飞向地球夜侧');
-    else if (id === 'iss') toast('正在接近国际空间站');
+    if (night) toast('Đang bay tới phía đêm của Trái Đất');
+    else if (id === 'iss') toast('Đang tiếp cận Trạm Vũ trụ Quốc tế');
   }
 
   function keepOutsideBodies() {
@@ -282,8 +282,8 @@ export function createNavigation({ camera, controls, world, onInfo, onStage, toa
     if (mode !== lastMode) {
       lastMode = mode;
       onStage(mode);
-      if (mode === 'galaxy') toast(`进入${getData(activeGalaxyId).cn} · 继续缩小可打开星系图鉴`);
-      if (mode === 'local-group') toast('打开星系图鉴 · 点击星系继续远行');
+      if (mode === 'galaxy') toast(`Đang vào ${getData(activeGalaxyId).vi} · Tiếp tục thu nhỏ để mở Danh mục thiên hà`);
+      if (mode === 'local-group') toast('Đã mở Danh mục thiên hà · Nhấp vào một thiên hà để tiếp tục hành trình');
     }
     if (!flight && !returnFlight) {
       const infoId = mode === 'trajectory' ? 'trajectory' : mode === 'earth' ? focusBody : mode === 'solar' ? activeSystemId

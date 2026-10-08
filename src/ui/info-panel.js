@@ -9,16 +9,16 @@ export function createInfoPanel({ getData }) {
     $('info-en').textContent = data.en;
     $('info-panel').classList.toggle('deep-space-info', Boolean(data.kind || data.parentGalaxy));
     $('info-panel').classList.toggle('black-hole-info', data.kind === 'black-hole');
-    $('info-name').classList.toggle('long-name', data.cn.length >= 5
-      || (data.cn.length >= 4 && Boolean(data.kind || data.parentGalaxy)));
-    $('info-name').textContent = data.cn;
+    $('info-name').classList.toggle('long-name', data.vi.length >= 11
+      || (data.vi.length >= 9 && Boolean(data.kind || data.parentGalaxy)));
+    $('info-name').textContent = data.vi;
     const index = document.createElement('span');
     index.className = 'object-index';
     index.textContent = data.index;
     $('info-name').append(index);
     $('info-description').textContent = data.desc;
-    $('stat-label-1').textContent = data.stat1 || '平均直径';
-    $('stat-label-2').textContent = data.stat2 || '公转周期';
+    $('stat-label-1').textContent = data.stat1 || 'Đường kính trung bình';
+    $('stat-label-2').textContent = data.stat2 || 'Chu kỳ quỹ đạo';
     $('stat-value-1').replaceChildren(document.createTextNode(data.diameter));
     const unit1 = document.createElement('small');
     unit1.textContent = ' ' + (data.unit1 ?? 'km');
@@ -30,23 +30,23 @@ export function createInfoPanel({ getData }) {
     $('jwst-actions').hidden = id !== 'jwst';
     $('info-panel').classList.toggle('jwst-info', id === 'jwst');
     $('earth-actions').style.display = id === 'earth' || id === 'iss' ? '' : 'none';
-    $('observation-text').textContent = data.kind === 'spacecraft' ? '位置、姿态与航迹为示意'
-      : data.kind === 'galaxy' || data.kind === 'group' ? '星系结构与距离为示意'
-      : data.kind === 'black-hole' ? '黑洞阴影、吸积盘与光环为艺术示意'
-      : id === 'trajectory' ? '参照系、距离与时间均为示意'
-      : id === 'solar' ? '八大行星 · 轨道运行中' : '正在追踪' + data.cn;
+    $('observation-text').textContent = data.kind === 'spacecraft' ? 'Vị trí, tư thế và đường bay mang tính minh họa'
+      : data.kind === 'galaxy' || data.kind === 'group' ? 'Cấu trúc và khoảng cách thiên hà mang tính minh họa'
+      : data.kind === 'black-hole' ? 'Bóng hố đen, đĩa bồi tụ và vành sáng là minh họa nghệ thuật'
+      : id === 'trajectory' ? 'Hệ quy chiếu, khoảng cách và thời gian mang tính minh họa'
+      : id === 'solar' ? 'Tám hành tinh · Đang chuyển động trên quỹ đạo' : 'Đang theo dõi ' + data.vi;
     const evidence = $('info-evidence');
     evidence.hidden = !data.modelStatus;
     evidence.dataset.status = data.modelStatus || '';
-    evidence.textContent = data.modelStatus === 'illustration' ? '创作示意 · 未确认存在'
-      : data.modelStatus === 'candidate' ? '候选天体 · 等待确认'
-      : data.kind === 'spacecraft' ? '真实探测器 · 模型示意'
-      : data.kind === 'galaxy' || data.kind === 'group' ? '真实星系 · 结构示意' : '已知天体 · 外观示意';
+    evidence.textContent = data.modelStatus === 'illustration' ? 'Minh họa sáng tạo · Chưa xác nhận tồn tại'
+      : data.modelStatus === 'candidate' ? 'Thiên thể ứng viên · Đang chờ xác nhận'
+      : data.kind === 'spacecraft' ? 'Tàu thăm dò có thật · Mô hình minh họa'
+      : data.kind === 'galaxy' || data.kind === 'group' ? 'Thiên hà có thật · Cấu trúc minh họa' : 'Thiên thể đã biết · Bề ngoài minh họa';
     const source = $('info-source');
     source.hidden = !data.sourceUrl;
     if (data.sourceUrl) {
       source.href = data.sourceUrl;
-      source.textContent = (data.modelStatus === 'illustration' ? '示意背景资料' : data.sourceLabel || '天体资料') + ' ↗';
+      source.textContent = (data.modelStatus === 'illustration' ? 'Tư liệu nền cho phần minh họa' : data.sourceLabel || 'Tư liệu thiên thể') + ' ↗';
     }
     document.querySelectorAll('.planet-button').forEach(button => {
       button.classList.toggle('active', button.dataset.id === id);

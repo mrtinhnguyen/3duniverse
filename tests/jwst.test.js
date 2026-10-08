@@ -11,7 +11,7 @@ const { createNavigation, createCamera } = await import('../src/core/camera.js')
 
 function fixture(realControls = false) {
   const scene = new THREE.Scene();
-  const earth = { id: 'earth', cn: '地球', r: 1, position: new THREE.Vector3(45, 0, 0) };
+  const earth = { id: 'earth', vi: 'Trái Đất', r: 1, position: new THREE.Vector3(45, 0, 0) };
   const jwst = createJWST(scene, earth);
   const bodies = new Map([['earth', earth], ['jwst', jwst.body]]);
   const world = { earth, jwst, bodies, station: { position: new THREE.Vector3() },

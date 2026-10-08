@@ -25,7 +25,7 @@ const displayParameters = {
 export const TRAJECTORY_DEFINITIONS = Object.freeze(data
   .filter(body => Object.hasOwn(displayParameters, body.id))
   .map(body => Object.freeze({
-    id: body.id, cn: body.cn, en: body.en, texture: body.texture,
+    id: body.id, vi: body.vi, en: body.en, texture: body.texture,
     phase: body.phase ?? 0, inclination: body.id === 'mercury' ? .075 : .018,
     ...displayParameters[body.id],
   })));
@@ -411,7 +411,7 @@ export function createMotionTrajectories(scene, textures = {}, pixels = 1) {
       renderedHistorySeconds: renderedHistory, galacticMix, transitioning: Boolean(historyTransition),
       pixelRatio, reducedMotion: Boolean(motionPreference?.matches), forward: [...TRAJECTORY_FORWARD],
       center: [...bounds.center], bounds,
-      bodies: entries.map(({ definition, mesh }) => ({ id: definition.id, cn: definition.cn,
+      bodies: entries.map(({ definition, mesh }) => ({ id: definition.id, vi: definition.vi,
         color: definition.color, orbitRadius: definition.orbitRadius, period: definition.period,
         r: definition.r, position: mesh.position.toArray() })),
     };

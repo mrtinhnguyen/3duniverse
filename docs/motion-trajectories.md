@@ -1,48 +1,48 @@
-# 太阳系运动轨迹
+# Quỹ đạo chuyển động của Hệ Mặt Trời
 
-从「轨道」「标记」旁的「运动轨迹」入口进入，观察太阳与八大行星在一段演示时间内走过的路径。这个视图把行星围绕太阳的公转与太阳系整体运动放在一起，帮助理解参照系如何改变轨迹的外形。
+Vào từ mục "Quỹ đạo chuyển động" bên cạnh "Quỹ đạo" và "Đánh dấu" để quan sát đường đi của Mặt Trời và tám hành tinh trong một khoảng thời gian minh họa. Chế độ xem này đặt chuyển động quay của các hành tinh quanh Mặt Trời cùng với chuyển động tổng thể của Hệ Mặt Trời, giúp hiểu hệ quy chiếu thay đổi hình dạng quỹ đạo như thế nào.
 
-## 操作
+## Thao tác
 
-- **银河参照**：在局部银河参照示意中，太阳系整体向前运动，八大行星继续围绕太阳运行，轨迹显示两种运动的叠加。
-- **太阳参照**：跟随太阳，去除共同的平移，观察行星相对太阳的运行路径。
-- **短／长历史**：切换向过去回看的时间范围，比较局部弯曲与更长的轨迹形状。
-- **暂停与时间流速**：复用主界面的暂停以及 0.25×、1×、5×、20× 演示流速。暂停后仍可旋转、缩放或切换参照系来观察路径。
-- **旋转与缩放**：鼠标拖动、滚轮缩放；触屏单指旋转、双指捏合缩放。
-- **返回太阳系**：退出运动轨迹视图，回到原来的太阳系探索场景。
+- **Hệ quy chiếu Ngân Hà**: Trong minh họa hệ quy chiếu Ngân Hà cục bộ, Hệ Mặt Trời chuyển động tịnh tiến về phía trước như một khối, tám hành tinh tiếp tục quay quanh Mặt Trời; quỹ đạo thể hiện sự chồng chập của hai chuyển động.
+- **Hệ quy chiếu Mặt Trời**: Bám theo Mặt Trời, loại bỏ phần tịnh tiến chung, quan sát đường đi của các hành tinh so với Mặt Trời.
+- **Lịch sử ngắn/dài**: Chuyển đổi khoảng thời gian nhìn ngược về quá khứ, so sánh độ cong cục bộ với hình dạng quỹ đạo dài hơn.
+- **Tạm dừng và Tốc độ trôi của thời gian**: Dùng lại nút tạm dừng và các tốc độ minh họa 0.25×, 1×, 5×, 20× của giao diện chính. Khi tạm dừng vẫn có thể xoay, thu phóng hoặc đổi hệ quy chiếu để quan sát đường đi.
+- **Xoay và thu phóng**: Kéo chuột để xoay, cuộn chuột để phóng to/thu nhỏ; trên màn hình cảm ứng, một ngón để xoay, chụm hai ngón để thu phóng.
+- **Quay về Hệ Mặt Trời**: Thoát chế độ xem Quỹ đạo chuyển động, trở về cảnh khám phá Hệ Mặt Trời ban đầu.
 
-## 画面依据
+## Cơ sở của hình ảnh
 
-太阳系包含太阳和八颗行星；太阳绕银河中心运动，整个太阳系也随之运动。NASA 的科普资料给出绕银河中心一周约 **2.3 亿年**的量级。[NASA — Sun Facts](https://science.nasa.gov/sun/facts/)，[NASA — Solar System Facts](https://science.nasa.gov/solar-system/solar-system-facts/)。
+Hệ Mặt Trời gồm Mặt Trời và tám hành tinh; Mặt Trời chuyển động quanh tâm Ngân Hà, cả Hệ Mặt Trời cũng chuyển động theo. Tài liệu phổ biến khoa học của NASA cho biết một vòng quanh tâm Ngân Hà mất cỡ **230 triệu năm**. [NASA — Sun Facts](https://science.nasa.gov/sun/facts/), [NASA — Solar System Facts](https://science.nasa.gov/solar-system/solar-system-facts/).
 
-本视图用简化模型表达这种叠加。在同一个局部坐标系里：
+Chế độ xem này dùng mô hình giản lược để biểu đạt sự chồng chập đó. Trong cùng một hệ tọa độ cục bộ:
 
 ```text
-行星的展示位置 = 太阳的展示位置 + 行星相对太阳的展示位置
+Vị trí hiển thị của hành tinh = Vị trí hiển thị của Mặt Trời + Vị trí hiển thị của hành tinh so với Mặt Trời
 ```
 
-切换到太阳参照时，从所有路径中减去同一时刻太阳的位移。因此，两种视图可以呈现不同的轨迹外形；它们是在不同参照系下表达同一组演示运动。
+Khi chuyển sang hệ quy chiếu Mặt Trời, độ dịch chuyển của Mặt Trời tại cùng thời điểm được trừ khỏi mọi đường đi. Vì vậy, hai chế độ xem có thể cho ra hình dạng quỹ đạo khác nhau; đó là cách biểu đạt cùng một tập chuyển động minh họa trong các hệ quy chiếu khác nhau.
 
-## 模型边界
+## Giới hạn của mô hình
 
-- **银河参照为局部示意**：画面采用一段整体平移来表达太阳系在银河中的运动，不计算完整的银河公转，也不代表相对于所有天体都静止的绝对参照系。
-- **历史轨迹由模型回算**：进入视图时看到的过去路径根据演示模型生成，并非真实观测记录、浏览器打开之后积累的记录或可用于指定日期定位天体的星历。
-- **时间、尺寸与周期经过压缩**：太阳与行星的大小、轨道间距、公转周期及共同平移的比例均为可视化调整。短／长历史和时间流速操作对应演示时间，不能直接换算为实际经历的年月或速度。
-- **平移方向经过构图调整**：太阳系整体前进方向、轨道平面的摆放和镜头方向用于让多条轨迹可读，不是由太阳当前的银河速度向量或观测姿态拟合得到。
-- **螺旋外形不是唯一真实路线**：线条的形状取决于参照系、前进方向与轨道平面的夹角，以及显示比例。不能根据轴向对齐的视频或某个视角，断言所有行星在宇宙中都沿那种固定螺旋运动，也不能把太阳画面中的前进方向理解为始终垂直于行星轨道平面。
-- **不做精密轨道预报**：此视图用于比较运动与参照系，没有求解完整的多体引力、太阳系质心运动、长期摄动和银河引力场。
+- **Hệ quy chiếu Ngân Hà là minh họa cục bộ**: Hình ảnh dùng một đoạn tịnh tiến tổng thể để biểu đạt chuyển động của Hệ Mặt Trời trong Ngân Hà, không tính toàn bộ chuyển động quay quanh Ngân Hà, cũng không đại diện cho một hệ quy chiếu tuyệt đối đứng yên so với mọi thiên thể.
+- **Quỹ đạo lịch sử do mô hình tính ngược**: Đường đi quá khứ thấy khi vào chế độ xem được sinh theo mô hình minh họa, không phải bản ghi quan trắc thực, không phải bản ghi tích lũy sau khi mở trình duyệt, cũng không phải lịch thiên văn có thể dùng để định vị thiên thể vào một ngày cụ thể.
+- **Thời gian, kích thước và chu kỳ đã được nén**: Kích thước Mặt Trời và hành tinh, khoảng cách quỹ đạo, chu kỳ quỹ đạo và tỷ lệ tịnh tiến chung đều là điều chỉnh để trực quan hóa. Lịch sử ngắn/dài và thao tác Tốc độ trôi của thời gian tương ứng với thời gian minh họa, không thể quy đổi trực tiếp thành năm tháng hay tốc độ thực tế.
+- **Hướng tịnh tiến đã được điều chỉnh bố cục**: Hướng tiến tổng thể của Hệ Mặt Trời, cách đặt mặt phẳng quỹ đạo và hướng camera dùng để giúp nhiều quỹ đạo dễ đọc, không được khớp từ vectơ vận tốc hiện tại của Mặt Trời trong Ngân Hà hay tư thế quan sát.
+- **Hình xoắn ốc không phải tuyến đường thật duy nhất**: Hình dạng đường phụ thuộc vào hệ quy chiếu, góc giữa hướng tiến và mặt phẳng quỹ đạo, cùng tỷ lệ hiển thị. Không thể dựa vào một video căn theo trục hay một góc nhìn nào đó để khẳng định mọi hành tinh trong vũ trụ đều chuyển động theo hình xoắn ốc cố định đó, cũng không thể hiểu hướng tiến trong hình ảnh Mặt Trời là luôn vuông góc với mặt phẳng quỹ đạo hành tinh.
+- **Không dự báo quỹ đạo chính xác**: Chế độ xem này dùng để so sánh chuyển động và hệ quy chiếu, không giải bài toán hấp dẫn nhiều vật đầy đủ, chuyển động khối tâm Hệ Mặt Trời, nhiễu loạn dài hạn hay trường hấp dẫn Ngân Hà.
 
-## 来源与实现
+## Nguồn và triển khai
 
-资料核对日期：2026-09-07。
+Ngày đối chiếu tư liệu: 2026-09-07.
 
-| 来源 | 本功能采用的内容 |
+| Nguồn | Nội dung tính năng này sử dụng |
 | --- | --- |
-| [NASA — Sun Facts，Orbit and Rotation](https://science.nasa.gov/sun/facts/) | 太阳位于银河中，绕银河中心运动，太阳系中的其他天体随之运动；银河公转周期约 2.3 亿年 |
-| [NASA — Solar System Facts](https://science.nasa.gov/solar-system/solar-system-facts/) | 太阳系有八颗行星；太阳系整体绕银河中心运动及其周期量级 |
+| [NASA — Sun Facts, Orbit and Rotation](https://science.nasa.gov/sun/facts/) | Mặt Trời nằm trong Ngân Hà, chuyển động quanh tâm Ngân Hà, các thiên thể khác trong Hệ Mặt Trời chuyển động theo; chu kỳ quay quanh Ngân Hà khoảng 230 triệu năm |
+| [NASA — Solar System Facts](https://science.nasa.gov/solar-system/solar-system-facts/) | Hệ Mặt Trời có tám hành tinh; Hệ Mặt Trời chuyển động tổng thể quanh tâm Ngân Hà và cấp độ chu kỳ của nó |
 
-以上来源支持太阳系组成与整体银河运动的事实，不为画面的具体螺旋形状、比例、平移方向或回算轨迹提供观测验证。
+Các nguồn trên hỗ trợ sự thật về thành phần Hệ Mặt Trời và chuyển động tổng thể trong Ngân Hà, không cung cấp kiểm chứng quan trắc cho hình xoắn ốc cụ thể, tỷ lệ, hướng tịnh tiến hay quỹ đạo tính ngược trong hình ảnh.
 
-- `src/universe/motion-trajectories.js`：独立的轨迹展示模型与渲染。
-- `src/ui/trajectory-panel.js`：参照系、历史长度和返回操作。
-- 相机与应用调度仍由原有导航和主循环管理。
+- `src/universe/motion-trajectories.js`: mô hình hiển thị và kết xuất quỹ đạo độc lập.
+- `src/ui/trajectory-panel.js`: thao tác hệ quy chiếu, độ dài lịch sử và quay lại.
+- Camera và việc điều phối ứng dụng vẫn do hệ thống điều hướng và vòng lặp chính sẵn có quản lý.

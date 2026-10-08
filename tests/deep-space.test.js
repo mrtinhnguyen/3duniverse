@@ -117,10 +117,10 @@ test('deep-space catalog has unique identities, complete parent chains and hones
       planet.orbitRadius, `${planet.id} starts on its host orbit`);
     if (planet.parentGalaxy !== 'galaxy') {
       assert.equal(planet.modelStatus, 'illustration');
-      assert.match(planet.cn, /示意/);
-      assert.match(planet.type, /虚构/);
-      assert.match(planet.desc, /虚构/);
-      assert.match(planet.sourceLabel, /虚构示意/);
+      assert.match(planet.vi, /minh họa/);
+      assert.match(planet.type, /hư cấu/);
+      assert.match(planet.desc, /hư cấu/);
+      assert.match(planet.sourceLabel, /minh họa hư cấu/);
     }
   }
   assert.equal(Number(localGroupDefinition.diameter), galaxies.length);

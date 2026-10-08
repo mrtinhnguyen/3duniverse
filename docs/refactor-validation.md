@@ -1,173 +1,173 @@
-# 重构验证
+# Kiểm chứng tái cấu trúc
 
-当前版本为 **1.4.0**，EarthSense 仍只开放 **天气、闪电、台风** 三层。下文阶段一及 1.1.0–1.3.0 均为历史验收记录，描述当时的行为；当前云系视觉细化与验证进展见文末 1.4.0 小节。
+Phiên bản hiện tại là **1.4.0**, EarthSense vẫn chỉ mở ba lớp **thời tiết, sét, bão nhiệt đới**. Giai đoạn một và các mục 1.1.0–1.3.0 dưới đây đều là biên bản nghiệm thu lịch sử, mô tả hành vi tại thời điểm đó; tiến độ tinh chỉnh hình ảnh hệ mây và kiểm chứng hiện tại xem mục 1.4.0 ở cuối tài liệu.
 
-## 阶段一：保留原始宇宙场景（历史记录）
+## Giai đoạn một: giữ nguyên cảnh vũ trụ gốc (lịch sử)
 
-原 `src/universe.js` 是 327 行、约 36 KB 的密集脚本，包含数据、着色器、所有场景构造、相机、交互与启动流程。现在保留它作为兼容入口；`src/app.js` 仅负责组装模块和逐帧调度。
+`src/universe.js` ban đầu là một script dày đặc 327 dòng, khoảng 36 KB, chứa dữ liệu, shader, toàn bộ phần dựng cảnh, camera, tương tác và quy trình khởi động. Hiện tệp này được giữ lại làm điểm vào tương thích; `src/app.js` chỉ đảm nhận việc lắp ráp các module và điều phối từng khung hình.
 
-- `core/`：渲染管线、纹理、相机导航和场景组装。
-- `universe/`：天体目录、行星、轨道、卫星、银河及模拟运动。
-- `earth/`：地球昼夜光照、云层、大气。
-- `ui/`：原始控件、说明面板、标签和拾取。
+- `core/`: pipeline kết xuất, texture, điều hướng camera và lắp ráp cảnh.
+- `universe/`: danh mục thiên thể, hành tinh, quỹ đạo, vệ tinh, Ngân Hà và chuyển động mô phỏng.
+- `earth/`: chiếu sáng ngày đêm, lớp mây và khí quyển của Trái Đất.
+- `ui/`: các điều khiển gốc, bảng giải thích, nhãn và chọn đối tượng (picking).
 
-原始纹理、着色器、种子、运动速度、缩放阈值、镜头偏移和泛光参数均保留。原页面 shell/CSS 在阶段一未改动。
+Texture, shader, seed, tốc độ chuyển động, ngưỡng thu phóng, độ lệch ống kính và tham số bloom gốc đều được giữ nguyên. Shell/CSS của trang gốc không thay đổi trong giai đoạn một.
 
-### 自动对照
+### Đối chiếu tự động
 
-将重构前脚本和新模块分别构造场景，在相同纹理、随机种子、1440 像素桌面宽度下依次执行初始化、1× 运动、20× 运动、暂停四个步骤。下列结果完全一致：
+Dựng cảnh riêng bằng script trước tái cấu trúc và bằng các module mới, với cùng texture, cùng seed ngẫu nhiên, chiều rộng desktop 1440 pixel, lần lượt thực hiện bốn bước: khởi tạo, chuyển động 1×, chuyển động 20×, tạm dừng. Các kết quả sau hoàn toàn trùng khớp:
 
-- 十个天体的位置、旋转、缩放、片元着色器及子物体数量。
-- 云层旋转；空间站位置、旋转及模型子物体数量。
-- 全部 32 颗卫星的轨道半径、相位、速度、位置、四元数。
-- 银河与背景星的所有缓冲区，以及八条行星轨道顶点缓冲区的 SHA-256。
+- Vị trí, góc quay, tỉ lệ, fragment shader và số đối tượng con của mười thiên thể.
+- Góc quay lớp mây; vị trí, góc quay và số đối tượng con của mô hình trạm vũ trụ.
+- Bán kính quỹ đạo, pha, tốc độ, vị trí và quaternion của toàn bộ 32 vệ tinh.
+- SHA-256 của mọi buffer Ngân Hà và sao nền, cùng buffer đỉnh của tám quỹ đạo hành tinh.
 
-第一次重构构建通过：13 张嵌入纹理，自包含 HTML 约 8.81 MB。
+Bản build sau lần tái cấu trúc đầu tiên thành công: 13 texture nhúng, HTML tự chứa khoảng 8,81 MB.
 
-### 浏览器验收门槛
+### Ngưỡng nghiệm thu trên trình duyệt
 
-在开始 EarthSense 开发前，Chrome 对重构版本进行了以下验收，全部通过。桌面内容视口为 1440 × 799（浏览器窗口 1440 × 900）。
+Trước khi bắt đầu phát triển EarthSense, bản tái cấu trúc đã được nghiệm thu trên Chrome với các hạng mục dưới đây, tất cả đều đạt. Viewport nội dung desktop là 1440 × 799 (cửa sổ trình duyệt 1440 × 900).
 
-- 地球、地球夜侧、国际空间站、月球、土星、太阳系、银河系的导航目标、尺度与到达距离正确；其余七颗行星的原始 DOM 目的地按钮可用。
-- 场景诊断保持八颗行星、32 颗卫星、65,000 个银河星点；页面错误遮罩隐藏。
-- 原轨道与标记开关、四档演示流速 `5 → 20 → 0.25 → 1` 正常；缩放距离验证为 `4.65 → 3.72`。
-- `I` 沉浸模式、`?` 帮助、素材来源弹窗、`H` 回到地球、空格暂停与恢复均正常。
-- 独立页面验证 reduced-motion 初始暂停：初始化和一秒后均为地球视角、距离约 `4.65`、`paused: true`、无飞行。
-- 原版与重构版控制台各有同一条 `file://` unique-origin 安全提示，没有 JavaScript 或 WebGL 错误。
+- Mục tiêu điều hướng, tỉ lệ và khoảng cách đến nơi của Trái Đất, phía đêm Trái Đất, Trạm Vũ trụ Quốc tế, Mặt Trăng, Sao Thổ, Hệ Mặt Trời, Ngân Hà đều đúng; các nút điểm đến DOM gốc của bảy hành tinh còn lại hoạt động bình thường.
+- Chẩn đoán cảnh vẫn giữ tám hành tinh, 32 vệ tinh, 65.000 điểm sao Ngân Hà; lớp phủ báo lỗi của trang được ẩn.
+- Công tắc quỹ đạo và đánh dấu gốc, bốn mức tốc độ trình diễn `5 → 20 → 0.25 → 1` hoạt động bình thường; khoảng cách thu phóng được kiểm chứng là `4.65 → 3.72`.
+- Chế độ đắm chìm `I`, trợ giúp `?`, hộp thoại nguồn tư liệu, `H` quay về Trái Đất, phím cách để tạm dừng và tiếp tục đều hoạt động bình thường.
+- Trang độc lập kiểm chứng việc tạm dừng ban đầu khi bật reduced-motion: lúc khởi tạo và sau một giây đều ở góc nhìn Trái Đất, khoảng cách khoảng `4.65`, `paused: true`, không có chuyến bay.
+- Console của bản gốc và bản tái cấu trúc đều có cùng một cảnh báo bảo mật unique-origin của `file://`, không có lỗi JavaScript hay WebGL.
 
-阶段截图保存在 `/private/tmp/orbit-baseline-earth.png`、`/private/tmp/orbit-refactor-earth.png` 及对应的 `-paused-earth.png`。这些截图用于场景与视觉检查，因采样时刻不同，不作为像素级对照。
+Ảnh chụp từng giai đoạn được lưu tại `/private/tmp/orbit-baseline-earth.png`, `/private/tmp/orbit-refactor-earth.png` và các tệp `-paused-earth.png` tương ứng. Những ảnh này dùng để kiểm tra cảnh và hình ảnh; do thời điểm lấy mẫu khác nhau nên không dùng để đối chiếu từng pixel.
 
-### 导航自动测试
+### Kiểm thử tự động điều hướng
 
-阶段一先完成 18 项原行为测试，全部通过后才开始 EarthSense：13 个原目的地的到达距离与选中状态、精确轨道跟随、暂停位置、缩放上下限、飞行中断和无效目的地处理。
+Giai đoạn một hoàn thành 18 kiểm thử hành vi gốc trước, tất cả đạt rồi mới bắt đầu EarthSense: khoảng cách đến nơi và trạng thái được chọn của 13 điểm đến gốc, bám quỹ đạo chính xác, vị trí khi tạm dừng, giới hạn trên dưới của thu phóng, ngắt chuyến bay và xử lý điểm đến không hợp lệ.
 
-阶段二相机状态功能完成后运行：
+Sau khi hoàn thành chức năng trạng thái camera ở giai đoạn hai, chạy:
 
 ```sh
 node --test tests/navigation.test.js tests/picking.test.js
 ```
 
-共 29 项通过，其中导航 26 项、拾取 3 项。新增验证包括：
+Tổng cộng 29 kiểm thử đạt, gồm 26 kiểm thử điều hướng và 3 kiểm thử chọn đối tượng. Các kiểm chứng mới bao gồm:
 
-- 保存及立即恢复相机、观察目标、选中天体和控制范围。
-- 飞行尚余 1,950 毫秒时切换模式，经过 10 秒后恢复，仍按剩余 1,950 毫秒继续完成原飞行。
-- 格林尼治、东经 90°、北极及已自转地球上的地理定位方向，与现有球体纹理坐标一致；近看距离不低于原 `1.13` 安全距离。
-- 灾害拾取处理后不会再次触发底层地球导航；未处理的点击保留原天体拾取；拖动和双指手势不误触发事件。
+- Lưu và khôi phục ngay camera, mục tiêu quan sát, thiên thể được chọn và phạm vi điều khiển.
+- Chuyển chế độ khi chuyến bay còn 1.950 mili giây, khôi phục sau 10 giây, vẫn tiếp tục hoàn thành chuyến bay gốc theo đúng 1.950 mili giây còn lại.
+- Hướng định vị địa lý tại Greenwich, kinh độ 90° Đông, Bắc Cực và trên Trái Đất đã tự quay đều khớp với tọa độ texture hình cầu hiện có; khoảng cách nhìn gần không thấp hơn khoảng cách an toàn gốc `1.13`.
+- Sau khi sự kiện thiên tai được chọn và xử lý, điều hướng Trái Đất bên dưới không bị kích hoạt thêm lần nữa; các cú nhấp chưa được xử lý vẫn giữ cơ chế chọn thiên thể gốc; thao tác kéo và cử chỉ hai ngón không kích hoạt nhầm sự kiện.
 
-### EarthSense 业务与几何验证
+### Kiểm chứng nghiệp vụ và hình học EarthSense
 
-`node --test tests/navigation.test.js tests/picking.test.js tests/earthsense.test.js` 共 39 项通过，新增的 10 项 EarthSense 测试使用真实 Three.js 几何和可控数据源，覆盖：
+`node --test tests/navigation.test.js tests/picking.test.js tests/earthsense.test.js` có tổng cộng 39 kiểm thử đạt; 10 kiểm thử EarthSense mới dùng hình học Three.js thực và nguồn dữ liệu có thể điều khiển, bao quát:
 
-- 退出模式时没有请求；反复开启图层和模式复用新鲜缓存，过期后才刷新。
-- 禁用图层、退出模式会取消请求，迟到的旧响应不能覆盖新会话结果。
-- 刷新失败保留上次成功事件与更新时间，首次失败、空结果、部分成功分别显示不同状态。
-- 模式会话恢复完整导航快照、飞行剩余时长、暂停状态、流速及原轨道/标签开关。
-- 图层挂在现有地球网格下，进入地球近景且数据就绪后才创建渲染对象；银河视角或模式关闭时立即隐藏。
-- 现有地球几何作为遮挡体，正面事件可以点击，背面事件不能穿透球体被点击。
+- Không có yêu cầu nào khi thoát chế độ; bật lớp và chế độ nhiều lần sẽ tái sử dụng bộ nhớ đệm còn mới, chỉ làm mới khi đã hết hạn.
+- Tắt lớp hoặc thoát chế độ sẽ hủy yêu cầu; phản hồi cũ đến muộn không thể ghi đè kết quả của phiên mới.
+- Khi làm mới thất bại vẫn giữ sự kiện và thời gian cập nhật của lần thành công gần nhất; thất bại lần đầu, kết quả rỗng và thành công một phần hiển thị các trạng thái khác nhau.
+- Phiên chế độ khôi phục đầy đủ ảnh chụp điều hướng, thời gian bay còn lại, trạng thái tạm dừng, tốc độ và công tắc quỹ đạo/nhãn gốc.
+- Các lớp được gắn dưới lưới Trái Đất hiện có, chỉ tạo đối tượng kết xuất khi đã vào cận cảnh Trái Đất và dữ liệu sẵn sàng; ẩn ngay khi ở góc nhìn Ngân Hà hoặc khi đóng chế độ.
+- Hình học Trái Đất hiện có đóng vai trò vật che khuất: sự kiện ở mặt trước có thể nhấp được, sự kiện ở mặt sau không thể bị nhấp xuyên qua quả cầu.
 
 
-## 1.1.0 集成验收（历史记录）
+## Nghiệm thu tích hợp 1.1.0 (lịch sử)
 
-2026-09-07（Asia/Shanghai）完成 `npm test`，全部 **51 项通过**：数据适配与 HTTP 12 项、EarthSense 10 项、导航 26 项、拾取 3 项。`npm run build` 生成约 **8.86 MB** 的自包含 `index.html`，仍内嵌原有 13 张纹理。
+Ngày 2026-09-07 (UTC+8) hoàn thành `npm test`, tất cả **51 kiểm thử đạt**: 12 kiểm thử thích ứng dữ liệu và HTTP, 10 EarthSense, 26 điều hướng, 3 chọn đối tượng. `npm run build` tạo `index.html` tự chứa khoảng **8,86 MB**, vẫn nhúng 13 texture gốc.
 
-另使用独立无头 Chrome，桌面 1440 × 900 和手机 390 × 844，通过 `file://` 打开实际构建产物，完成以下真实交互检查：
+Ngoài ra dùng Chrome headless độc lập, desktop 1440 × 900 và điện thoại 390 × 844, mở sản phẩm build thực tế qua `file://` và hoàn thành các kiểm tra tương tác thực sau:
 
-- Open-Meteo、USGS、NASA EONET、GDACS 均返回成功结果；天气和风场同时开启时只发出一次 60 点天气请求。
-- 实际鼠标点击地球上的灾害标记打开对应详情，相机保持当前近景，不触发底下地球的默认飞回动作；放大按钮进一步接近事件。
-- 实际点击天气标记显示气温、风速、云量和累计降水，风场线段也可点击查看来源。
-- 事件搜索不会触发 H / I / F 快捷键，中文灾害类别可检索。
-- 切到木星收起地球图层与详情；退出感知模式恢复此前的土星视角、距离、暂停、20× 流速及轨道/标记开关。
-- 手机首次进入时事件列表折叠，无横向溢出；地球视图向上留出面板空间，退出后恢复原镜头偏移。
-- 模拟数据源全部返回 HTTP 503 时显示明确错误，不出现假灾害，宇宙漫游仍能正常初始化与恢复。
-- 实际公开数据访问时没有 JavaScript、WebGL 或公开数据请求错误；额外失败场景也没有 JavaScript 异常。
+- Open-Meteo, USGS, NASA EONET, GDACS đều trả về kết quả thành công; khi bật đồng thời thời tiết và trường gió chỉ phát một yêu cầu thời tiết 60 điểm.
+- Nhấp chuột thực lên đánh dấu thiên tai trên Trái Đất mở đúng chi tiết tương ứng, camera giữ nguyên cận cảnh hiện tại, không kích hoạt hành động bay về mặc định của Trái Đất bên dưới; nút phóng to tiếp cận sự kiện gần hơn.
+- Nhấp thực lên đánh dấu thời tiết hiển thị nhiệt độ, tốc độ gió, lượng mây và lượng mưa tích lũy; các đoạn đường trường gió cũng có thể nhấp để xem nguồn.
+- Ô tìm kiếm sự kiện không kích hoạt phím tắt H / I / F; có thể tìm theo tên loại thiên tai bằng ngôn ngữ giao diện.
+- Chuyển sang Sao Mộc sẽ thu gọn lớp Trái Đất và chi tiết; thoát chế độ cảm nhận khôi phục góc nhìn Sao Thổ, khoảng cách, trạng thái tạm dừng, tốc độ 20× và công tắc quỹ đạo/đánh dấu trước đó.
+- Lần đầu vào trên điện thoại, danh sách sự kiện được thu gọn, không tràn ngang; góc nhìn Trái Đất chừa không gian phía trên cho bảng, thoát ra thì khôi phục độ lệch ống kính gốc.
+- Khi toàn bộ nguồn dữ liệu mô phỏng trả về HTTP 503 sẽ hiển thị lỗi rõ ràng, không xuất hiện thiên tai giả, chế độ du hành vũ trụ vẫn khởi tạo và khôi phục bình thường.
+- Khi truy cập dữ liệu công khai thực tế không có lỗi JavaScript, WebGL hay lỗi yêu cầu dữ liệu công khai; các kịch bản lỗi bổ sung cũng không có ngoại lệ JavaScript.
 
-EarthSense 可见时暂时收起卫星、空间站和轨道线，避免遮挡地表；退出后按原可见性规则恢复。深度放大时缩小事件符号，减少密集区域的重叠。EarthSense 对现有场景的这些显示调整均在模式退出时还原。
+Khi EarthSense hiển thị, vệ tinh, trạm vũ trụ và đường quỹ đạo tạm thời được thu gọn để tránh che bề mặt; sau khi thoát sẽ khôi phục theo quy tắc hiển thị gốc. Khi phóng to sâu, ký hiệu sự kiện được thu nhỏ để giảm chồng lấn ở vùng dày đặc. Các điều chỉnh hiển thị này của EarthSense đối với cảnh hiện có đều được hoàn nguyên khi thoát chế độ.
 
-## 1.2.0 EarthSense 视觉升级（历史记录）
+## Nâng cấp hình ảnh EarthSense 1.2.0 (lịch sử)
 
-本轮按最新范围只注册天气、闪电、台风三个图层，列表支持天气采样点搜索，并优先排列台风、闪电、天气。运行时公开数据来源收窄为 Open-Meteo、EONET `severeStorms`、GDACS `TC`；其余图层与适配器的历史源码暂存，当前不注册或请求。
+Đợt này, theo phạm vi mới nhất, chỉ đăng ký ba lớp thời tiết, sét, bão nhiệt đới; danh sách hỗ trợ tìm kiếm điểm lấy mẫu thời tiết và ưu tiên sắp xếp bão, sét, thời tiết. Nguồn dữ liệu công khai lúc chạy được thu hẹp còn Open-Meteo, EONET `severeStorms`, GDACS `TC`; mã nguồn lịch sử của các lớp và adapter khác được giữ tạm, hiện không đăng ký hay gửi yêu cầu.
 
-在现有地球和图层结构上新增以下呈现：
+Trên cấu trúc Trái Đất và lớp hiện có, bổ sung các cách thể hiện sau:
 
-- 天气采样的天气代码、云量与降雨数据驱动局部云团和雨线；真实天气的闪电效果仅由代码 `95 / 96 / 99` 触发。独立闪电图层仍是 6 个明确标注的模拟雷暴点。
-- 台风使用真实事件中心与来源预警分级，生成带有风眼、眼墙、旋转云带和粒子的示意云系，继续显示来源轨迹；云形与半径不表示实况卫星图或官方风圈。
-- 同源 8K 日夜纹理按需用于感知模式。桌面优先 8192 × 4096，手机布局／低内存设备优先 4096 × 2048，受 GPU 纹理上限约束；能力不足或加载失败保留原 2K。退出感知模式恢复原有贴图、几何和呈现参数。
+- Mã thời tiết, lượng mây và dữ liệu mưa của điểm lấy mẫu thời tiết điều khiển các cụm mây cục bộ và vệt mưa; hiệu ứng sét của thời tiết thực chỉ được kích hoạt bởi mã `95 / 96 / 99`. Lớp sét độc lập vẫn là 6 điểm dông mô phỏng được ghi chú rõ ràng.
+- Bão dùng tâm sự kiện thực và cấp cảnh báo của nguồn, tạo hệ mây minh họa có mắt bão, thành mắt bão, dải mây xoáy và hạt, tiếp tục hiển thị quỹ đạo từ nguồn; hình dạng và bán kính mây không thể hiện ảnh vệ tinh thực hay vùng gió chính thức.
+- Texture ngày đêm 8K cùng nguồn được dùng theo nhu cầu cho chế độ cảm nhận. Desktop ưu tiên 8192 × 4096, bố cục điện thoại / thiết bị ít bộ nhớ ưu tiên 4096 × 2048, chịu ràng buộc bởi giới hạn texture GPU; khi năng lực không đủ hoặc tải thất bại thì giữ bản 2K gốc. Thoát chế độ cảm nhận khôi phục texture, hình học và tham số thể hiện gốc.
 
-资源检查已完成：官方原始 8K 日图为 4,565,076 字节，夜图为 3,144,468 字节，均为 8192 × 4096 JPEG；下载未编辑、放大或重压缩。新增两条 manifest 记录后，全部 16 个源纹理文件的字节数与 SHA-256 校验通过，原 2K 文件保持一致。构建配置现在内嵌 15 张纹理。
+Đã hoàn tất kiểm tra tài nguyên: ảnh ngày 8K gốc chính thức nặng 4.565.076 byte, ảnh đêm 3.144.468 byte, đều là JPEG 8192 × 4096; tải về không chỉnh sửa, phóng to hay nén lại. Sau khi thêm hai bản ghi manifest, số byte và SHA-256 của toàn bộ 16 tệp texture nguồn đều khớp, các tệp 2K gốc giữ nguyên. Cấu hình build hiện nhúng 15 texture.
 
-### 已完成的集成检查
+### Các kiểm tra tích hợp đã hoàn thành
 
-2026-09-07（Asia/Shanghai）最终运行 `npm test`，**69 项通过**，覆盖原有行为以及天气效果、台风几何／拾取、高清纹理能力选择、原地球恢复和加载失败回退。最终 `npm run build` 通过，生成约 **18.69 MB**、内嵌 **15 张纹理**的自包含 HTML。
+Ngày 2026-09-07 (UTC+8) chạy `npm test` lần cuối, **69 kiểm thử đạt**, bao quát hành vi gốc cùng hiệu ứng thời tiết, hình học / chọn đối tượng bão, lựa chọn năng lực texture độ phân giải cao, khôi phục Trái Đất gốc và dự phòng khi tải thất bại. `npm run build` cuối cùng thành công, tạo HTML tự chứa khoảng **18,69 MB**, nhúng **15 texture**.
 
-独立无头 Chrome 的本轮集成记录包含 **9 项通过、0 个错误**，结果保存在 `/private/tmp/orbit-three-layer-results.json`：
+Biên bản tích hợp đợt này trên Chrome headless độc lập gồm **9 hạng mục đạt, 0 lỗi**, kết quả lưu tại `/private/tmp/orbit-three-layer-results.json`:
 
-- 页面只出现天气、闪电、台风三个图层按钮；真实 Open-Meteo 的 60 个采样点及 GDACS / EONET 聚合台风均进入 `ready`。
-- 请求记录中的 EarthSense 数据接口仅为 Open-Meteo、GDACS `TC`、EONET `severeStorms`；地震、火山、山火、洪水来源没有请求。
-- 桌面实际加载 8192 像素宽的地球日夜贴图，感知模式渲染采样比为 1.5；实际点击台风云系的 canvas 打开来源事件。
-- 离开地球收起效果；退出感知后恢复原土星目标、相机距离、暂停状态、5× 流速、轨道和标签设置，同时恢复 2K 贴图与原渲染采样比 1。
-- 在 390 × 844 手机尺寸视口、模拟设备 DPR 为 3 时，实际使用 4096 像素宽贴图与渲染采样比 2；三个开关同一行排列，页面没有横向溢出。
-- 定向天气检查使用**测试 fixture**分别设置天气代码 `95` 和 `61`，验证雷暴、降雨效果及来源指标显示；这些测试点不代表当时当地的真实天气。独立模拟闪电在 reduced-motion 下保留可见的静态闪电弧。
-- 将公开数据请求模拟为 HTTP 503 时显示明确不可用状态，宇宙漫游仍可使用；真实来源访问与故障场景均没有 JavaScript 或着色器错误。
+- Trang chỉ có ba nút lớp thời tiết, sét, bão; 60 điểm lấy mẫu Open-Meteo thực và bão tổng hợp từ GDACS / EONET đều vào trạng thái `ready`.
+- Trong nhật ký yêu cầu, các endpoint dữ liệu EarthSense chỉ gồm Open-Meteo, GDACS `TC`, EONET `severeStorms`; các nguồn động đất, núi lửa, cháy rừng, lũ lụt không có yêu cầu nào.
+- Desktop thực sự tải texture ngày đêm Trái Đất rộng 8192 pixel, tỉ lệ lấy mẫu kết xuất ở chế độ cảm nhận là 1,5; nhấp thực lên canvas hệ mây bão mở đúng sự kiện nguồn.
+- Rời Trái Đất thì thu gọn hiệu ứng; thoát chế độ cảm nhận khôi phục mục tiêu Sao Thổ, khoảng cách camera, trạng thái tạm dừng, tốc độ 5×, thiết lập quỹ đạo và nhãn gốc, đồng thời khôi phục texture 2K và tỉ lệ lấy mẫu kết xuất gốc 1.
+- Ở viewport kích thước điện thoại 390 × 844, DPR thiết bị mô phỏng là 3, thực tế dùng texture rộng 4096 pixel và tỉ lệ lấy mẫu kết xuất 2; ba công tắc nằm trên cùng một hàng, trang không tràn ngang.
+- Kiểm tra thời tiết có định hướng dùng **fixture kiểm thử** đặt lần lượt mã thời tiết `95` và `61`, kiểm chứng hiệu ứng dông, mưa và hiển thị chỉ số nguồn; các điểm kiểm thử này không đại diện cho thời tiết thực tại địa phương lúc đó. Sét mô phỏng độc lập vẫn giữ cung sét tĩnh nhìn thấy được khi bật reduced-motion.
+- Khi mô phỏng yêu cầu dữ liệu công khai trả về HTTP 503 sẽ hiển thị rõ trạng thái không khả dụng, chế độ du hành vũ trụ vẫn dùng được; cả truy cập nguồn thực lẫn kịch bản sự cố đều không có lỗi JavaScript hay shader.
 
-本机无头 Chrome 的 `requestAnimationFrame` 采样在桌面与手机尺寸视口均约为 60 fps。两种视口运行在同一台桌面主机上，这项结果不代表真实手机硬件的性能。
+Lấy mẫu `requestAnimationFrame` của Chrome headless trên máy này ở cả viewport desktop và kích thước điện thoại đều khoảng 60 fps. Hai viewport chạy trên cùng một máy desktop, kết quả này không đại diện cho hiệu năng phần cứng điện thoại thực.
 
-云团与台风最终微调后的定向 Chrome 复验已完成，`/private/tmp/orbit-final-effects-results.json` 中 `errors` 为空。台风云系及闪电闪现／间歇／静态截图已完成视觉复核：云顶电弧可见，闪现与间歇状态能够区分，reduced-motion 保留静态电弧，云团 canvas 点击仍可打开事件详情。
+Đã hoàn thành kiểm tra lại có định hướng trên Chrome sau lần tinh chỉnh cuối cho cụm mây và bão, `errors` trong `/private/tmp/orbit-final-effects-results.json` rỗng. Ảnh chụp hệ mây bão và các trạng thái sét lóe / nghỉ / tĩnh đã được rà soát hình ảnh: cung điện trên đỉnh mây nhìn thấy được, trạng thái lóe và nghỉ phân biệt được, reduced-motion giữ cung điện tĩnh, nhấp canvas cụm mây vẫn mở được chi tiết sự kiện.
 
-## 1.3.0 共享高清地球与官方台风路径（历史记录）
+## 1.3.0 Trái Đất độ phân giải cao dùng chung và đường đi bão chính thức (lịch sử)
 
-本轮保持三个图层、原 Three.js 地球和公开数据来源，在现有功能上完成以下调整：
+Đợt này giữ ba lớp, Trái Đất Three.js gốc và các nguồn dữ liệu công khai, hoàn thành các điều chỉnh sau trên chức năng hiện có:
 
-- 宇宙漫游与感知模式共用高清日夜底图和细分地球几何，启动后异步准备 8K 桌面／4K 手机布局纹理，能力不足或加载失败保留 2K。模式切换不再降级底图，保持原昼夜着色与原泛光参数 `.42 / .65 / 1.18`，两模式使用同一渲染采样策略。
-- 感知地球近景关闭固定装饰云层；晴／大致晴朗代码 `0 / 1` 不生成局部云、雨或雷电，其他天气按来源云量与天气代码呈现。
-- 以来源累计 mm 与秒数间隔换算 mm/h，连续控制雨线密度、速度、长度与范围；缺少有效间隔不补造雨率。只有雷暴代码 `95 / 96 / 99` 触发闪电，雨率增强时示意循环由约 18 秒缩短至 4 秒。这是视觉映射，并非来源观测的闪电频率；独立闪电图层仍是明确标注的 6 个模拟点。
-- 台风示意云系的视觉半径、旋转速度按来源 km/h 连续变化。GDACS 列表最大值标明 `event-maximum`；选中后只用 timeline 明确当前观测点的风力更新。EONET `kts` 乘 1.852，GDACS timeline `m/s` 乘 3.6，未知单位与缺测值不当作有效风速。
-- 选中 GDACS 台风后才请求所选公告及其公开 timeline；历史实线、预测虚线与可点击时间点保留来源、公告时间、坐标、风速及有效时间。只展示当前公告明确给出的预测，缺少当前观测锚点／公告编号时隐藏预测并说明，旧公告与当前公告相同位置的记录不会互相覆盖。不按本机当前时间把预测改为历史，不外推任何缺失路径。
-- EONET 仅显示来源历史位置，明确说明没有官方预测。无路径、仅历史、加载中与网络错误分别处理。
-- 关闭详情、关闭对应图层、选中其他事件、离开地球近景或切换模式，均取消所选路径请求并清除路线；迟到响应不能重新打开已关闭详情。事件／公告／事件时间共同决定路径缓存键。
+- Chế độ du hành vũ trụ và chế độ cảm nhận dùng chung bản đồ nền ngày đêm độ phân giải cao và hình học Trái Đất chia mịn; sau khi khởi động sẽ chuẩn bị bất đồng bộ texture 8K cho desktop / 4K cho bố cục điện thoại, khi năng lực không đủ hoặc tải thất bại thì giữ 2K. Chuyển chế độ không còn hạ cấp bản đồ nền, giữ shading ngày đêm gốc và tham số bloom gốc `.42 / .65 / 1.18`, hai chế độ dùng cùng chiến lược lấy mẫu kết xuất.
+- Cận cảnh Trái Đất ở chế độ cảm nhận tắt lớp mây trang trí cố định; mã trời quang / gần như quang `0 / 1` không tạo mây, mưa hay sấm sét cục bộ, các kiểu thời tiết khác được thể hiện theo lượng mây và mã thời tiết của nguồn.
+- Quy đổi mm/h từ lượng mm tích lũy và khoảng thời gian tính bằng giây của nguồn, điều khiển liên tục mật độ, tốc độ, độ dài và phạm vi vệt mưa; thiếu khoảng thời gian hợp lệ thì không tự tạo cường độ mưa. Chỉ mã dông `95 / 96 / 99` kích hoạt sét; khi cường độ mưa tăng, chu kỳ minh họa rút ngắn từ khoảng 18 giây xuống 4 giây. Đây là ánh xạ hình ảnh, không phải tần suất sét do nguồn quan trắc; lớp sét độc lập vẫn là 6 điểm mô phỏng được ghi chú rõ ràng.
+- Bán kính hình ảnh và tốc độ xoay của hệ mây bão minh họa thay đổi liên tục theo km/h của nguồn. Giá trị lớn nhất trong danh sách GDACS được ghi rõ là `event-maximum`; sau khi chọn chỉ dùng timeline để cập nhật sức gió tại điểm quan trắc hiện tại được xác định rõ. `kts` của EONET nhân 1,852, `m/s` của timeline GDACS nhân 3,6; đơn vị không rõ và giá trị thiếu không được coi là tốc độ gió hợp lệ.
+- Chỉ sau khi chọn một cơn bão GDACS mới yêu cầu bản tin được chọn và timeline công khai của nó; đường liền lịch sử, đường nét đứt dự báo và các mốc thời gian có thể nhấp đều giữ nguồn, thời gian bản tin, tọa độ, tốc độ gió và thời gian hiệu lực. Chỉ hiển thị dự báo mà bản tin hiện tại nêu rõ; khi thiếu mốc quan trắc hiện tại / số hiệu bản tin thì ẩn dự báo và giải thích, bản ghi ở cùng vị trí giữa bản tin cũ và bản tin hiện tại không ghi đè lẫn nhau. Không chuyển dự báo thành lịch sử theo giờ hiện tại của máy, không ngoại suy bất kỳ đoạn đường đi nào bị thiếu.
+- EONET chỉ hiển thị các vị trí lịch sử từ nguồn, nói rõ không có dự báo chính thức. Các trường hợp không có đường đi, chỉ có lịch sử, đang tải và lỗi mạng được xử lý riêng.
+- Đóng chi tiết, tắt lớp tương ứng, chọn sự kiện khác, rời cận cảnh Trái Đất hoặc chuyển chế độ đều hủy yêu cầu đường đi đã chọn và xóa tuyến; phản hồi đến muộn không thể mở lại chi tiết đã đóng. Sự kiện / bản tin / thời gian sự kiện cùng quyết định khóa bộ nhớ đệm của đường đi.
 
-### 数据契约定向检查
+### Kiểm tra định hướng hợp đồng dữ liệu
 
-2026-09-06 UTC 从 GDACS 官方接口取得的真实 NOAA MARIE 与 JTWC KROVANH 样本分别含 **18 个历史 + 8 个预测**、**18 个历史 + 7 个预测**；公告及 timeline 接口均返回 HTTP 200 与 `Access-Control-Allow-Origin: *`。MARIE 的 timeline 风速乘 3.6 后，与官方公告 km/h 图表逐点一致。样本只用于测试，不作为运行时回退数据，溯源见 `tests/fixtures/README.md`。
+Các mẫu NOAA MARIE và JTWC KROVANH thực lấy từ endpoint chính thức của GDACS ngày 2026-09-06 UTC lần lượt chứa **18 điểm lịch sử + 8 điểm dự báo** và **18 điểm lịch sử + 7 điểm dự báo**; endpoint bản tin và timeline đều trả về HTTP 200 kèm `Access-Control-Allow-Origin: *`. Tốc độ gió timeline của MARIE sau khi nhân 3,6 khớp từng điểm với biểu đồ km/h của bản tin chính thức. Các mẫu chỉ dùng cho kiểm thử, không làm dữ liệu dự phòng lúc chạy; nguồn gốc xem `tests/fixtures/README.md`.
 
-`node --test tests/cyclone-data.test.js` 的 **9 项定向检查通过**，覆盖单位、UTC 时间、真实历史／预测分离、多公告匹配、缺少当前观测、无预测不外推、官方 URL 与公告校验、缓存刷新、取消及传输错误。
+**9 kiểm tra định hướng** của `node --test tests/cyclone-data.test.js` đều đạt, bao quát đơn vị, thời gian UTC, tách lịch sử / dự báo thực, khớp nhiều bản tin, thiếu quan trắc hiện tại, không ngoại suy khi không có dự báo, kiểm tra URL chính thức và bản tin, làm mới bộ nhớ đệm, hủy yêu cầu và lỗi truyền tải.
 
-### 已完成的集成验证
+### Kiểm chứng tích hợp đã hoàn thành
 
-2026-09-07（Asia/Shanghai）运行 `npm test`，**92 项通过**；`npm run build` 生成约 **18.70 MB**、内嵌 **15 张纹理**的自包含 `index.html`。上方 1.2.0 的 69 项与 18.69 MB 为历史结果。
+Ngày 2026-09-07 (UTC+8) chạy `npm test`, **92 kiểm thử đạt**; `npm run build` tạo `index.html` tự chứa khoảng **18,70 MB**, nhúng **15 texture**. Con số 69 kiểm thử và 18,69 MB của mục 1.2.0 phía trên là kết quả lịch sử.
 
-桌面 Chrome 集成检查 **9 项通过**，`/private/tmp/orbit-v13-results.json` 的 `errors` 为空；手机视口与动态闪电定向复验 **5 项通过**，`/private/tmp/orbit-v13-final-results.json` 的 `errors` 也为空。检查覆盖：
+Kiểm tra tích hợp Chrome desktop **9 hạng mục đạt**, `errors` trong `/private/tmp/orbit-v13-results.json` rỗng; kiểm tra lại có định hướng cho viewport điện thoại và sét động **5 hạng mục đạt**, `errors` trong `/private/tmp/orbit-v13-final-results.json` cũng rỗng. Phạm vi kiểm tra:
 
-- 桌面两模式共用 8192 像素宽的地球日夜贴图及 1.5 渲染采样比，保留原夜侧光照；切回宇宙仍保持高清并恢复装饰云层。手机视口使用共用 4K 贴图。
-- 感知地球近景隐藏装饰云层，晴／大致晴朗代码 `0 / 1` 的程序云、雨线、闪电均为零。
-- 天气定向检查使用**测试 fixture**：32 mm/h 雷暴比 0.6 mm/h 雷暴有更多雨线和更短的示意闪电周期，约为 4.80 秒与 13.16 秒；不同累计时长但相同雨率产生相同强度，普通降雨不产生闪电。这些测试值不代表当时当地的实况。独立闪电图层的 6 个模拟雨率对应 6 种不同周期，并保留模拟标识。
-- 在线读取的 GDACS 台风具有不同来源风速与云系半径。选择 MARIE 后才请求该次官方公告和 timeline，显示 18 个历史点、8 个预测点、真实预报时次与来源；当前风力从事件最大值更新为公告当前观测值。
-- 桌面和手机均通过实际 canvas 点击预测时间点，显示该点来源有效时间与风速。最后的手机定向复验还确认顶部坐标对应所点击的预测点，放大操作使用该点位置，且没有 JavaScript 错误。关闭详情清除路径，重新选择复用缓存；手机展开事件列表后可正常选择台风，详情保留风力和路线图例，并为地球观察位置留出空间。
-- 新雨率时序在 GPU 上分别渲染出闪电亮帧与间歇暗帧，最终定向场景没有 JavaScript 或着色器错误。
+- Trên desktop, hai chế độ dùng chung texture ngày đêm Trái Đất rộng 8192 pixel và tỉ lệ lấy mẫu kết xuất 1,5, giữ ánh sáng phía đêm gốc; chuyển về vũ trụ vẫn giữ độ phân giải cao và khôi phục lớp mây trang trí. Viewport điện thoại dùng texture 4K chung.
+- Cận cảnh Trái Đất ở chế độ cảm nhận ẩn lớp mây trang trí; với mã trời quang / gần như quang `0 / 1`, mây thủ tục, vệt mưa và sét đều bằng không.
+- Kiểm tra thời tiết có định hướng dùng **fixture kiểm thử**: dông 32 mm/h có nhiều vệt mưa hơn và chu kỳ sét minh họa ngắn hơn so với dông 0,6 mm/h, lần lượt khoảng 4,80 giây và 13,16 giây; cùng cường độ mưa nhưng thời gian tích lũy khác nhau cho cùng cường độ hiệu ứng, mưa thường không sinh sét. Các giá trị kiểm thử này không đại diện cho thực tế tại địa phương lúc đó. 6 cường độ mưa mô phỏng của lớp sét độc lập tương ứng 6 chu kỳ khác nhau, vẫn giữ nhãn mô phỏng.
+- Các cơn bão GDACS đọc trực tuyến có tốc độ gió nguồn và bán kính hệ mây khác nhau. Chỉ sau khi chọn MARIE mới yêu cầu bản tin chính thức và timeline của lần đó, hiển thị 18 điểm lịch sử, 8 điểm dự báo, các thời điểm dự báo thực và nguồn; sức gió hiện tại được cập nhật từ giá trị lớn nhất của sự kiện sang giá trị quan trắc hiện tại của bản tin.
+- Cả desktop và điện thoại đều nhấp canvas thực lên điểm thời gian dự báo, hiển thị thời gian hiệu lực và tốc độ gió từ nguồn của điểm đó. Lần kiểm tra lại cuối trên điện thoại còn xác nhận tọa độ phía trên ứng với đúng điểm dự báo được nhấp, thao tác phóng to dùng vị trí của điểm đó và không có lỗi JavaScript. Đóng chi tiết thì xóa đường đi, chọn lại thì tái sử dụng bộ nhớ đệm; trên điện thoại sau khi mở danh sách sự kiện vẫn chọn bão bình thường, chi tiết giữ sức gió và chú giải tuyến, đồng thời chừa không gian cho vị trí quan sát Trái Đất.
+- Trình tự thời gian theo cường độ mưa mới kết xuất trên GPU lần lượt ra khung sáng khi sét và khung tối khi nghỉ; cảnh định hướng cuối cùng không có lỗi JavaScript hay shader.
 
-手机布局检查运行于桌面主机的手机尺寸视口，不代表真实手机硬件性能；本轮没有据此给出手机帧率结论。
+Kiểm tra bố cục điện thoại chạy trên viewport kích thước điện thoại của máy desktop, không đại diện cho hiệu năng phần cứng điện thoại thực; đợt này không đưa ra kết luận về tốc độ khung hình trên điện thoại.
 
-## 1.4.0 云系视觉细化
+## 1.4.0 Tinh chỉnh hình ảnh hệ mây
 
-天气效果进一步改为每个有云采样点三片合并的曲面薄云，加入连续流动的扭曲噪声、不规则渐散轮廓、太阳方向照明与雷暴云内亮光。晴天、雨率、雷暴代码、模拟标识与 60 点采样范围保持一致，不将云片拼接为未经观测的连续全球云场。
+Hiệu ứng thời tiết tiếp tục được đổi thành mây mỏng dạng mặt cong, mỗi điểm lấy mẫu có mây gộp ba mảnh, bổ sung nhiễu méo chuyển động liên tục, đường viền tan dần không đều, chiếu sáng theo hướng Mặt Trời và ánh sáng bên trong mây dông. Trời quang, cường độ mưa, mã dông, nhãn mô phỏng và phạm vi lấy mẫu 60 điểm giữ nguyên; không ghép các mảnh mây thành một trường mây toàn cầu liên tục chưa được quan trắc.
 
-台风改为两层薄云与低起伏眼墙，保留开放风眼；螺旋云带采用不同宽度、长度与事件结构，内部细丝流动独立于整体旋转，并加入稀疏的局部演示电光。来源风速仍只驱动视觉尺度与旋速，云形、云系视觉半径和电光频率不声明为实际观测。官方历史／预测路径及其时间、风力、取消与缓存契约保持不变。
+Bão được đổi thành hai lớp mây mỏng và thành mắt bão nhấp nhô thấp, giữ mắt bão mở; các dải mây xoắn ốc có độ rộng, độ dài và cấu trúc sự kiện khác nhau, các sợi mây bên trong chuyển động độc lập với chuyển động xoay tổng thể, kèm tia điện minh họa cục bộ thưa thớt. Tốc độ gió từ nguồn vẫn chỉ điều khiển tỉ lệ hình ảnh và tốc độ xoay; hình dạng mây, bán kính hình ảnh của hệ mây và tần suất tia điện không được khẳng định là quan trắc thực. Đường đi lịch sử / dự báo chính thức cùng thời gian, sức gió, cơ chế hủy và hợp đồng bộ nhớ đệm giữ nguyên.
 
-天气渲染器使用初始化时生成的 256 × 256 单通道噪声纹理（64 KiB），供云片共享采样，减少逐片元重复的哈希计算，同时保留云层流动。这项实现调整不等于已经证明帧率提升。
+Bộ kết xuất thời tiết dùng một texture nhiễu đơn kênh 256 × 256 (64 KiB) được tạo lúc khởi tạo để các mảnh mây lấy mẫu dùng chung, giảm tính hash lặp lại trên từng fragment mà vẫn giữ chuyển động của lớp mây. Điều chỉnh triển khai này không có nghĩa là đã chứng minh tốc độ khung hình tăng.
 
-### 本轮验证
+### Kiểm chứng đợt này
 
-2026-09-07（Asia/Shanghai）运行 `npm test`，**93 项通过**；`npm run build` 生成约 **18.71 MB**、内嵌 **15 张纹理**的自包含 HTML。程序噪声在运行时生成，不增加嵌入源图片数量。
+Ngày 2026-09-07 (UTC+8) chạy `npm test`, **93 kiểm thử đạt**; `npm run build` tạo HTML tự chứa khoảng **18,71 MB**, nhúng **15 texture**. Nhiễu thủ tục được tạo lúc chạy, không làm tăng số ảnh nguồn được nhúng.
 
-最终渲染复验记录 `/private/tmp/orbit-v14-final-results.json` 包含 **9 项通过**，`errors` 为空。为使视觉状态可重复，检查使用**测试天气与先前保存的公开台风记录**；它验证渲染和交互，不表示本轮取得了新的实时气象值。检查包括：
+Biên bản kiểm tra lại kết xuất cuối cùng `/private/tmp/orbit-v14-final-results.json` gồm **9 hạng mục đạt**, `errors` rỗng. Để trạng thái hình ảnh có thể tái lập, kiểm tra dùng **thời tiết kiểm thử và bản ghi bão công khai đã lưu trước đó**; nó kiểm chứng kết xuất và tương tác, không có nghĩa đợt này đã lấy được giá trị khí tượng thời gian thực mới. Các kiểm tra gồm:
 
-- 天气薄云与台风云系的动态画面均产生帧间像素变化；开启 reduced-motion 后，相同场景的两帧云层像素保持一致。
-- 实际 canvas 点击仍能选中曲面天气云；台风保留公开记录中的 18 个历史点与 8 个预测点。
-- 雨线与闪电在新的浅层云下正确显示，分别检查了亮帧和间歇暗帧。
-- 手机视口使用 4K 地球，天气、台风及预测点 canvas 点击可用，无横向溢出。
-- 最终集成场景没有 JavaScript 或着色器错误。
+- Hình ảnh động của mây mỏng thời tiết và hệ mây bão đều tạo ra thay đổi pixel giữa các khung; khi bật reduced-motion, pixel lớp mây giữa hai khung của cùng cảnh giữ nguyên.
+- Nhấp canvas thực vẫn chọn được mây thời tiết dạng mặt cong; bão giữ 18 điểm lịch sử và 8 điểm dự báo từ bản ghi công khai.
+- Vệt mưa và sét hiển thị đúng dưới lớp mây nông mới, đã kiểm tra riêng khung sáng và khung tối khi nghỉ.
+- Viewport điện thoại dùng Trái Đất 4K, nhấp canvas vào thời tiết, bão và điểm dự báo đều dùng được, không tràn ngang.
+- Cảnh tích hợp cuối cùng không có lỗi JavaScript hay shader.
 
-另以 `/private/tmp/orbit-browser/cloud-v14-arm-pick.mjs` 完成独立定向检查：实际点击避开中心标记的北侧台风云带，可选中正确的 GDACS 事件，错误列表为空；此项不计入上述 JSON 的 9 项。
+Ngoài ra đã hoàn thành một kiểm tra định hướng độc lập bằng `/private/tmp/orbit-browser/cloud-v14-arm-pick.mjs`: nhấp thực lên dải mây bão phía bắc, tránh đánh dấu ở tâm, chọn đúng sự kiện GDACS, danh sách lỗi rỗng; hạng mục này không tính vào 9 hạng mục của tệp JSON nói trên.
 
-桌面与手机台风截图 `/private/tmp/orbit-v14-cyclone.png`、`/private/tmp/orbit-v14-mobile-cyclone.png` 已进行视觉复核：云系不再呈现原有的厚白眼墙环或放射针刺，保留开放风眼、半透明云带和不同宽度的旋绕结构。天气远近景及夜侧图也已复核，未见矩形裁边或三角网格纹。
+Ảnh chụp bão trên desktop và điện thoại `/private/tmp/orbit-v14-cyclone.png`, `/private/tmp/orbit-v14-mobile-cyclone.png` đã được rà soát hình ảnh: hệ mây không còn vòng thành mắt bão trắng dày hay các gai tỏa tia như trước, giữ mắt bão mở, dải mây bán trong suốt và cấu trúc xoắn với độ rộng khác nhau. Ảnh thời tiết cận cảnh, toàn cảnh và phía đêm cũng đã được rà soát, không thấy viền cắt hình chữ nhật hay vân lưới tam giác.
 
-同机无头 Chrome 的 A/B 检查 `/private/tmp/orbit-v14-performance.json` 使用同一测试场景，天气云层开启／关闭时，近景与全景均约为 30 fps，未测到开启新天气云层造成帧率下降。本轮不据此宣称性能提升；手机布局验证仍运行在桌面主机的手机尺寸视口，不能推断真实手机硬件性能。
+Kiểm tra A/B trên Chrome headless cùng máy `/private/tmp/orbit-v14-performance.json` dùng cùng một cảnh kiểm thử: khi bật / tắt lớp mây thời tiết, cả cận cảnh và toàn cảnh đều khoảng 30 fps, không đo được sụt giảm tốc độ khung hình do bật lớp mây thời tiết mới. Đợt này không dựa vào đó để tuyên bố cải thiện hiệu năng; kiểm chứng bố cục điện thoại vẫn chạy trên viewport kích thước điện thoại của máy desktop, không thể suy ra hiệu năng phần cứng điện thoại thực.

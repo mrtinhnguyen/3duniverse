@@ -1,17 +1,17 @@
 import * as THREE from 'three';
 
 export const voyagerDefinition = {
-  id: 'voyager-1', cn: '旅行者 1 号', en: 'VOYAGER 1', index: 'V1', kind: 'spacecraft',
+  id: 'voyager-1', vi: 'Tàu Voyager 1', en: 'VOYAGER 1', index: 'V1', kind: 'spacecraft',
   parentGalaxy: 'galaxy', parentId: 'solar', parentSystemId: 'solar',
-  type: '星际空间 / 深空探测器', r: 1.5, visualRadius: 1.5, color: 0xe3c58b,
+  type: 'Không gian liên sao / Tàu thăm dò không gian sâu', r: 1.5, visualRadius: 1.5, color: 0xe3c58b,
   viewDistance: 8.8, viewDirection: [1.3, 0.55, 1.6],
-  stat1: '发射日期', diameter: '1977', unit1: '09.05',
-  stat2: '越过日球层顶', value2: '2012', unit2: '08.25',
-  desc: '白色天线遥望地球，金唱片保存着地球的声音。旅行者 1 号在 1977 年启程，飞掠木星与土星后，于 2012 年 8 月 25 日越过日球层顶，进入星际空间。',
+  stat1: 'Ngày phóng', diameter: '1977', unit1: '05.09',
+  stat2: 'Vượt qua ranh giới nhật quyển', value2: '2012', unit2: '25.08',
+  desc: 'Ăng-ten màu trắng hướng về Trái Đất, đĩa ghi vàng lưu giữ âm thanh của hành tinh chúng ta. Tàu Voyager 1 khởi hành năm 1977, bay ngang Sao Mộc và Sao Thổ, rồi ngày 25 tháng 8 năm 2012 vượt qua ranh giới nhật quyển để tiến vào không gian liên sao.',
   sourceUrl: 'https://science.nasa.gov/mission/voyager/voyager-1/',
-  sourceLabel: 'NASA · 旅行者 1 号',
+  sourceLabel: 'NASA · Voyager 1',
   modelStatus: 'confirmed',
-  modelNote: '结构与位置为展示示意；淡色弧线为简化出发路径，不代表实时星历、距离或姿态。',
+  modelNote: 'Cấu trúc và vị trí chỉ mang tính minh họa; cung màu nhạt là đường bay xuất phát đã được đơn giản hóa, không thể hiện lịch thiên văn, khoảng cách hay tư thế theo thời gian thực.',
 };
 
 // Paraboloid opens along +Z, with a recessed center and a shallow raised rim.

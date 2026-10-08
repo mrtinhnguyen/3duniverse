@@ -1,4 +1,4 @@
-import { readFile,writeFile } from 'node:fs/promises';
+import { cp,mkdir,readFile,rm,writeFile } from 'node:fs/promises';
 import * as esbuild from 'esbuild';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
@@ -10,4 +10,10 @@ const [shell,...styles]=await Promise.all(['src/shell.html','src/style.css','src
 const css=styles.join('\n');
 const html=shell.replace('/* INLINE_CSS */',()=>css).replace('/* INLINE_ASSETS */',()=>`window.ORBIT_ASSETS=${JSON.stringify(assets)};`).replace('/* INLINE_JS */',()=>result.outputFiles[0].text.replaceAll('</script','<\/script'));
 await writeFile(path.join(root,'index.html'),html);
+// dist/ is the deploy output (Vercel): the page plus share images, icons, robots and sitemap.
+const dist=path.join(root,'dist');
+await rm(dist,{recursive:true,force:true});
+await mkdir(dist,{recursive:true});
+await cp(path.join(root,'public'),dist,{recursive:true});
+await writeFile(path.join(dist,'index.html'),html);
 console.log(`Built self-contained HTML: ${(Buffer.byteLength(html)/1024/1024).toFixed(2)} MB; ${names.length} embedded textures; Three.js r185.`);

@@ -2,7 +2,7 @@
 const clients = new WeakMap();
 
 function abortError() {
-  return new DOMException('数据请求已取消', 'AbortError');
+  return new DOMException('Yêu cầu dữ liệu đã bị hủy', 'AbortError');
 }
 
 function clientState(fetchImpl) {
@@ -28,7 +28,7 @@ function request(url, { fetchImpl, timeoutMs, ttl, validate }, state) {
         headers: { Accept: 'application/json' },
       });
       if (!response.ok) {
-        const error = new Error(`数据源返回 HTTP ${response.status}`);
+        const error = new Error(`Nguồn dữ liệu trả về HTTP ${response.status}`);
         error.name = 'HttpError';
         error.status = response.status;
         throw error;
@@ -40,7 +40,7 @@ function request(url, { fetchImpl, timeoutMs, ttl, validate }, state) {
       return value;
     } catch (error) {
       if (timedOut) {
-        const timeout = new Error('数据源响应超时，请稍后重试');
+        const timeout = new Error('Nguồn dữ liệu phản hồi quá hạn, vui lòng thử lại sau');
         timeout.name = 'TimeoutError';
         throw timeout;
       }
@@ -89,7 +89,7 @@ export function fetchJson(url, {
   signal, ttl = 0, fetchImpl = globalThis.fetch, force = false, timeoutMs = 18000, validate,
 } = {}) {
   if (signal?.aborted) return Promise.reject(abortError());
-  if (typeof fetchImpl !== 'function') return Promise.reject(new Error('浏览器不支持公开数据请求'));
+  if (typeof fetchImpl !== 'function') return Promise.reject(new Error('Trình duyệt không hỗ trợ yêu cầu dữ liệu công khai'));
   const state = clientState(fetchImpl);
   const cached = state.cache.get(url);
   if (!force && cached && cached.expiresAt > Date.now()) {

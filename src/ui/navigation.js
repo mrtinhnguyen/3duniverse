@@ -15,8 +15,8 @@ export function bindNavigationUI({ renderer, camera, world, navigation, assets, 
     $('pause').innerHTML = paused
       ? '<svg viewBox="0 0 24 24"><path d="m9 5 10 7-10 7Z"/></svg>'
       : '<svg viewBox="0 0 24 24"><path d="M9 5v14M15 5v14"/></svg>';
-    $('pause').setAttribute('aria-label', paused ? '继续天体运动' : '暂停天体运动');
-    $('pause').title = paused ? '继续（空格）' : '暂停（空格）';
+    $('pause').setAttribute('aria-label', paused ? 'Tiếp tục chuyển động của thiên thể' : 'Tạm dừng chuyển động của thiên thể');
+    $('pause').title = paused ? 'Tiếp tục (phím cách)' : 'Tạm dừng (phím cách)';
   }
 
   function updateStage(mode) {
@@ -43,50 +43,50 @@ export function bindNavigationUI({ renderer, camera, world, navigation, assets, 
 
   function updateHud() {
     const deployment = world.jwst.getState();
-    $('jwst-deploy').textContent = deployment.targetExpanded ? '收拢模型 ↙' : '展开模型 ↗';
+    $('jwst-deploy').textContent = deployment.targetExpanded ? 'Thu gọn mô hình ↙' : 'Mở rộng mô hình ↗';
     $('jwst-deploy').setAttribute('aria-pressed', String(deployment.targetExpanded));
     $('jwst-deployment-status').textContent = deployment.animating
-      ? `${deployment.targetExpanded ? '正在展开' : '正在收拢'} · ${deployment.phase} · 部署动画为压缩示意`
-      : deployment.progress === 1 ? '十八片曲面镜 · 五层薄膜 · 收拢仅作部署演示' : '模型已收拢 · 简化部署回放，非在轨操作';
+      ? `${deployment.targetExpanded ? 'Đang mở rộng' : 'Đang thu gọn'} · ${deployment.phase} · Hoạt ảnh triển khai được rút gọn để minh họa`
+      : deployment.progress === 1 ? '18 tấm gương cong · 5 lớp màng · Thu gọn chỉ để minh họa quá trình triển khai' : 'Mô hình đã thu gọn · Phát lại triển khai giản lược, không phải thao tác trên quỹ đạo';
 
     const { stage, focusBody, activeGalaxyId, activeSystemId } = navigation.getState();
     updateStage(stage);
     if (stage === 'trajectory') {
-      $('view-caption').textContent = '太阳系运动轨迹';
+      $('view-caption').textContent = 'Quỹ đạo chuyển động của Hệ Mặt Trời';
       $('view-distance').textContent = world.motionTrajectories.getState().referenceFrame === 'solar'
-        ? '太阳参照 · 观察行星公转' : '银河参照 · 观察前进与公转';
+        ? 'Theo Mặt Trời · Quan sát hành tinh quay quanh' : 'Theo Ngân Hà · Quan sát chuyển động tiến và quay quanh';
     } else if (stage === 'local-group') {
-      $('view-caption').textContent = world.getData('local-group').cn;
-      $('view-distance').textContent = `${world.galaxyDefinitions.length} 座星系 · 点击开始星际航行`;
+      $('view-caption').textContent = world.getData('local-group').vi;
+      $('view-distance').textContent = `${world.galaxyDefinitions.length} thiên hà · Nhấp để bắt đầu hành trình liên sao`;
     } else if (stage === 'galaxy') {
-      $('view-caption').textContent = world.getData(activeGalaxyId).cn + '全景';
-      $('view-distance').textContent = '探索天体 · 继续缩小打开星系图鉴';
+      $('view-caption').textContent = 'Toàn cảnh ' + world.getData(activeGalaxyId).vi;
+      $('view-distance').textContent = 'Khám phá thiên thể · Tiếp tục thu nhỏ để mở Danh mục thiên hà';
     } else if (stage === 'solar') {
       const hasPlanets = [...world.bodies.values()].some(body => body.parentStarId === activeSystemId);
-      $('view-caption').textContent = activeSystemId === 'solar' ? '太阳系全景'
-        : world.getData(activeSystemId).cn + (hasPlanets ? '系统' : '周边');
-      $('view-distance').textContent = activeSystemId === 'solar' ? '八大行星运行轨道'
-        : hasPlanets ? '母星与行星 · 轨道为示意' : '恒星周边 · 继续缩小前往星系';
+      $('view-caption').textContent = activeSystemId === 'solar' ? 'Toàn cảnh Hệ Mặt Trời'
+        : (hasPlanets ? 'Hệ ' : 'Vùng quanh ') + world.getData(activeSystemId).vi;
+      $('view-distance').textContent = activeSystemId === 'solar' ? 'Quỹ đạo của tám hành tinh'
+        : hasPlanets ? 'Sao chủ và các hành tinh · Quỹ đạo mang tính minh họa' : 'Vùng quanh ngôi sao · Tiếp tục thu nhỏ để đến thiên hà';
     } else {
       const body = world.getData(focusBody);
-      $('view-caption').textContent = focusBody === 'earth' ? '地球近轨' : body.cn + (focusBody === 'iss' ? '近景' : '观测');
+      $('view-caption').textContent = focusBody === 'earth' ? 'Trái Đất · Quỹ đạo gần' : (focusBody === 'iss' ? 'Cận cảnh ' : 'Quan sát ') + body.vi;
       if (focusBody === 'jwst') {
-        $('view-distance').textContent = '日地 L2 附近 · 姿态、轨道与比例示意';
+        $('view-distance').textContent = 'Gần điểm L2 Mặt Trời–Trái Đất · Tư thế, quỹ đạo và tỷ lệ mang tính minh họa';
         return;
       }
       if (body.kind === 'spacecraft') {
-        $('view-distance').textContent = '星际空间探测器 · 位置与航迹示意';
+        $('view-distance').textContent = 'Tàu thăm dò không gian liên sao · Vị trí và đường bay mang tính minh họa';
         return;
       }
       if (body.parentGalaxy) {
-        $('view-distance').textContent = body.kind === 'black-hole' ? '黑洞阴影与吸积盘 · 艺术示意'
-          : body.kind === 'star' ? '恒星表面与日冕示意'
-          : body.modelStatus === 'illustration' ? '创作示意 · 未确认存在' : '已确认行星 · 表面示意';
+        $('view-distance').textContent = body.kind === 'black-hole' ? 'Bóng hố đen và đĩa bồi tụ · Minh họa nghệ thuật'
+          : body.kind === 'star' ? 'Bề mặt sao và vành nhật hoa mang tính minh họa'
+          : body.modelStatus === 'illustration' ? 'Minh họa sáng tạo · Chưa xác nhận tồn tại' : 'Hành tinh đã xác nhận · Bề mặt minh họa';
         return;
       }
       const surface = Math.max(0, camera.position.distanceTo(world.getPosition(focusBody)) - (body.r || 1));
       const kilometers = Math.round(surface / Math.max(.001, body.r) * Number((body.diameter || '12742').replaceAll(',', '')) / 2);
-      $('view-distance').textContent = focusBody === 'iss' ? '地球低轨道' : `距表面约 ${kilometers.toLocaleString('zh-CN')} km`;
+      $('view-distance').textContent = focusBody === 'iss' ? 'Quỹ đạo thấp của Trái Đất' : `Cách bề mặt khoảng ${kilometers.toLocaleString('vi-VN')} km`;
     }
   }
 
@@ -94,9 +94,9 @@ export function bindNavigationUI({ renderer, camera, world, navigation, assets, 
     try {
       if (document.fullscreenElement) await document.exitFullscreen();
       else if (document.documentElement.requestFullscreen) await document.documentElement.requestFullscreen();
-      else toast('此浏览器暂不支持全屏，可使用浏览器的全屏模式');
+      else toast('Trình duyệt này chưa hỗ trợ toàn màn hình, hãy dùng chế độ toàn màn hình của trình duyệt');
     } catch {
-      toast('全屏未开启，可使用浏览器的全屏模式');
+      toast('Chưa bật được toàn màn hình, hãy dùng chế độ toàn màn hình của trình duyệt');
     }
   }
 
@@ -116,7 +116,7 @@ export function bindNavigationUI({ renderer, camera, world, navigation, assets, 
     const speeds = [.25, 1, 5, 20];
     speed = speeds[(speeds.indexOf(speed) + 1) % speeds.length];
     $('speed').firstChild.textContent = speed + '×';
-    toast('演示时间流速 ' + speed + '×');
+    toast('Tốc độ thời gian ' + speed + '×');
   };
   function setOrbitsVisible(value) {
     orbitsVisible = value;

@@ -27,7 +27,7 @@ export function gdacsTimelineResource(payload, event) {
   if (payload?.type !== 'Feature' || props?.eventtype !== 'TC'
     || number(props.eventid) !== number(event?.gdacs?.eventId)
     || number(props.episodeid) !== number(event?.gdacs?.episodeId)) {
-    throw new Error('GDACS 返回了不匹配的台风公告');
+    throw new Error('GDACS trả về bản tin bão không khớp');
   }
   const resources = (Array.isArray(props.impacts) ? props.impacts : []).flatMap(item => {
     const safe = safeUrl(item?.resource?.timeline);
@@ -42,7 +42,7 @@ export function gdacsTimelineResource(payload, event) {
 }
 
 export function parseGdacsTimeline(payload, { eventId, source, sourceUrl, dataUrl } = {}) {
-  if (!Array.isArray(payload?.channel?.item)) throw new Error('GDACS 返回了无法识别的台风路径格式');
+  if (!Array.isArray(payload?.channel?.item)) throw new Error('GDACS trả về định dạng đường đi của bão không thể nhận dạng');
   const history = new Map(), forecast = new Map(), currentPoints = [];
   for (const item of payload.channel.item) {
     if (eventId != null && String(item?.storm_id) !== String(eventId)) continue;
@@ -69,7 +69,7 @@ export function parseGdacsTimeline(payload, { eventId, source, sourceUrl, dataUr
   return { history: observations, forecast: predictions, current, source, sourceUrl, dataUrl,
     issuedAt: current?.time || null,
     status: predictions.length ? 'ready' : observations.length ? 'history-only' : 'unavailable',
-    message: predictions.length ? '预测路径来自该次官方公告；有效时间以各预测点标注为准。'
-      : forecast.size && !hasForecastAnchor ? '该次公告缺少明确的当前观测点或公告编号，暂不展示预测路径。'
-      : observations.length ? '该次官方公告未提供预测路径。' : '该次官方公告未提供可用的路径点。' };
+    message: predictions.length ? 'Đường đi dự báo lấy từ bản tin chính thức lần này; thời điểm hiệu lực theo ghi chú tại từng điểm dự báo.'
+      : forecast.size && !hasForecastAnchor ? 'Bản tin lần này thiếu điểm quan sát hiện tại hoặc số hiệu bản tin rõ ràng, tạm thời không hiển thị đường đi dự báo.'
+      : observations.length ? 'Bản tin chính thức lần này không cung cấp đường đi dự báo.' : 'Bản tin chính thức lần này không cung cấp điểm đường đi khả dụng.' };
 }

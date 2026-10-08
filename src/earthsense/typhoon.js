@@ -18,13 +18,13 @@ export async function loadStorms(options) {
     return name.length > 2 && otherName.length > 2 && (name.includes(otherName) || otherName.includes(name));
   }));
   result.events = result.events.map(event => ({ ...event,
-    description: `${event.description || ''} 气旋云带、风眼与动画按事件位置生成，用于示意；不表示卫星实况云图或官方风圈范围。`,
+    description: `${event.description || ''} Dải mây xoáy, mắt bão và hiệu ứng động được tạo theo vị trí sự kiện chỉ để minh họa; không phải ảnh mây vệ tinh thực tế hay vùng gió mạnh chính thức.`,
   }));
   return result;
 }
 
 export const typhoon = {
-  id: 'typhoon', label: '台风', color: '#c2a5fb', enabled: true, ttl: 15 * 60_000,
+  id: 'typhoon', label: 'Bão', color: '#c2a5fb', enabled: true, ttl: 15 * 60_000,
   load: loadStorms,
   createView: createCycloneLayer,
 };

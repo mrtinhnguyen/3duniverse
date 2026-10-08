@@ -41,7 +41,7 @@ test('real Open-Meteo batch retains accumulation interval, units, and nullable m
   assert.equal(events[0].weather.interval, 900);
   assert.equal(events[0].weather.temperature, data[0].current.temperature_2m);
   assert.equal(events[0].time, new Date(data[0].current.time * 1000).toISOString());
-  assert.ok(events[0].metrics.some(item => item.label === '降水（近 15 分钟）' && item.value.endsWith('mm')));
+  assert.ok(events[0].metrics.some(item => item.label === 'Lượng mưa (15 phút gần nhất)' && item.value.endsWith('mm')));
   data[0].current.temperature_2m = null;
   data[0].current.wind_speed_10m = null;
   data[0].current.cloud_cover = 150;
@@ -49,8 +49,8 @@ test('real Open-Meteo batch retains accumulation interval, units, and nullable m
   assert.equal(missing.weather.temperature, null);
   assert.equal(missing.weather.windSpeed, null);
   assert.equal(missing.weather.cloudCover, null);
-  assert.ok(!missing.metrics.some(item => item.label === '气温'));
-  assert.throws(() => parseWeather([], locations), /采样点/);
+  assert.ok(!missing.metrics.some(item => item.label === 'Nhiệt độ'));
+  assert.throws(() => parseWeather([], locations), /lấy mẫu/);
 });
 
 test('weather requests one shared global 60-point batch', async () => {
@@ -84,11 +84,11 @@ test('USGS preserves real source times, drops malformed coordinates, and dedupli
   const events = parseEarthquakes(data), event = events.find(item => item.id === `usgs:${original.id}`);
   assert.equal(events.length, 3);
   assert.equal(event.time, new Date(newer.properties.time).toISOString());
-  assert.ok(!event.metrics.some(item => item.label.startsWith('震级')));
+  assert.ok(!event.metrics.some(item => item.label.startsWith('Độ lớn')));
   assert.equal(event.sourceUrl, 'https://earthquake.usgs.gov/earthquakes/map/');
   // Titles remain inert plain text; UI must render them with textContent.
   assert.equal(event.title, '<img src=x onerror=alert(1)>');
-  assert.throws(() => parseEarthquakes({ features: [] }), /格式/);
+  assert.throws(() => parseEarthquakes({ features: [] }), /định dạng/);
   assert.deepEqual(parseEarthquakes({ type: 'FeatureCollection', features: [] }), []);
 });
 
@@ -98,8 +98,8 @@ test('EONET empty flood feed is valid, and independently requested categories re
     assert.equal(events.length, data.events.length);
     assert.ok(events.every(event => event.source === 'NASA EONET' && event.severity === 'unknown'));
   }
-  assert.throws(() => parseEonet({}, 'floods'), /格式/);
-  assert.throws(() => parseEonet({ events: [] }, 'unknown'), /类别/);
+  assert.throws(() => parseEonet({}, 'floods'), /định dạng/);
+  assert.throws(() => parseEonet({ events: [] }, 'unknown'), /Loại EONET/);
 });
 
 test('EONET storm observations sort chronologically; polygons handle the antimeridian', async () => {
@@ -117,7 +117,7 @@ test('EONET storm observations sort chronologically; polygons handle the antimer
   const flood = parseEonet({ events: [area] }, 'floods')[0];
   assert.ok(Math.abs(flood.lon) > 179.9);
   assert.ok(flood.lat > 10 && flood.lat < 12.1);
-  assert.match(flood.description, /示意中心/);
+  assert.match(flood.description, /tâm minh họa/);
   assert.equal(flood.sourceUrl, area.link);
   area.closed = '2026-09-06T00:00:00Z';
   assert.deepEqual(parseEonet({ events: [area] }, 'floods'), []);
@@ -205,7 +205,7 @@ test('HTTP cache expires and adapter schema failures are retried on the next req
   assert.equal(calls, 2);
   let malformed = true;
   const schemaFetch = async () => response(malformed ? { error: 'invalid feed' } : { type: 'FeatureCollection', features: [] });
-  await assert.rejects(loadEarthquakes({ fetchImpl: schemaFetch }), /格式/);
+  await assert.rejects(loadEarthquakes({ fetchImpl: schemaFetch }), /định dạng/);
   malformed = false;
   assert.deepEqual(await loadEarthquakes({ fetchImpl: schemaFetch }), []);
 });

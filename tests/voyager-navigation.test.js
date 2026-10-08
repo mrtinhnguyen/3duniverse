@@ -23,16 +23,16 @@ function fixture(context, width = 1440, height = 900) {
     [globalThis.innerWidth, globalThis.innerHeight] = previousSize;
   });
   const scene = new THREE.Scene();
-  const earth = { id: 'earth', cn: '地球', r: 1, position: new THREE.Vector3(45, 0, 0) };
+  const earth = { id: 'earth', vi: 'Trái Đất', r: 1, position: new THREE.Vector3(45, 0, 0) };
   const voyager = createVoyager(scene);
   context.after(() => voyager.dispose());
   const milkyWay = { ...specials.galaxy, kind: 'galaxy', radius: 30000, viewDistance: 68000,
     position: [-18000, 0, 0] };
-  const foreignGalaxy = { id: 'foreign-galaxy', cn: '另一星系', kind: 'galaxy', r: 40000,
+  const foreignGalaxy = { id: 'foreign-galaxy', vi: 'Thiên hà khác', kind: 'galaxy', r: 40000,
     radius: 40000, viewDistance: 90000, position: [300000, 0, 0] };
-  const foreignStar = { id: 'foreign-star', cn: '另一恒星', kind: 'star', r: 5,
+  const foreignStar = { id: 'foreign-star', vi: 'Ngôi sao khác', kind: 'star', r: 5,
     parentGalaxy: foreignGalaxy.id, position: new THREE.Vector3(310000, 0, 0) };
-  const jwst = { id: 'jwst', cn: '韦布望远镜', kind: 'observatory', r: 1,
+  const jwst = { id: 'jwst', vi: 'Kính James Webb', kind: 'observatory', r: 1,
     position: new THREE.Vector3(52, 0, 0) };
   const bodies = new Map([earth, voyager.body, jwst, foreignStar].map(body => [body.id, body]));
   const destinations = new Map([...Object.values(specials), milkyWay, foreignGalaxy]
